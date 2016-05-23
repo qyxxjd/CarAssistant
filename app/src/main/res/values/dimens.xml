@@ -11,10 +11,25 @@
     <dimen name="font_normal">15sp</dimen>
     <dimen name="font_small">12sp</dimen>
 
+    <dimen name="margin_larger">24dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+
+    <dimen name="radius_large">8dp</dimen>
+    <dimen name="radius_normal">4dp</dimen>
+    <dimen name="radius_small">2dp</dimen>
+
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">40dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_tiny">4dp</dimen>
+
+    <dimen name="font_item_money">48sp</dimen>
+    <dimen name="layout_height_larger">72dp</dimen>
+    <dimen name="layout_height_large">64dp</dimen>
+    <dimen name="layout_height_normal">56dp</dimen>
+    <dimen name="layout_height_small">48dp</dimen>
 </resources>

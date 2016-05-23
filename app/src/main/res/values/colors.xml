@@ -8,6 +8,7 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="divider">#E6E6E6</color>
+    <color name="divider_dark">#B6B6B6</color>
 
     <!-- basic colors -->
     <color name="green">#27D34D</color>
@@ -15,6 +16,13 @@
     <color name="orange">#FF9D2F</color>
     <color name="red">#FF432F</color>
     <color name="purple">#7B1FA2</color>
+
+    <color name="material_red">#ffF44336</color>
+    <color name="material_green">#ff4CAF50</color>
+    <color name="material_blue">#ff03A9F4</color>
+    <color name="material_yellow">#ffFFEB3B</color>
+    <color name="material_orange">#ffEF6C00</color>
+
 
     <!-- grayscale -->
     <color name="white" >#FFFFFF</color>

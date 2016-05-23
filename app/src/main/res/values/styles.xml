@@ -39,4 +39,59 @@
         <item name="android:background">@color/divider</item>
     </style>
 
+    <style name="ItemText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="ItemText.Black">
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+    <style name="ItemText.Black.Larger">
+        <item name="android:textSize">@dimen/font_larger</item>
+    </style>
+    <style name="ItemText.Black.Large">
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+    <style name="ItemText.Black.Normal">
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="ItemText.Black.Small">
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+    <style name="ItemText.Gray">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+    <style name="ItemText.Gray.Larger">
+        <item name="android:textSize">@dimen/font_larger</item>
+    </style>
+    <style name="ItemText.Gray.Large">
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+    <style name="ItemText.Gray.Normal">
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="ItemText.Gray.Small">
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+
+    <style name="ListItemTitle" parent="ItemText.Black.Large">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="ListItemText" parent="ItemText.Gray.Normal">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="ListItemMoney">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/layout_height_large</item>
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">@dimen/font_item_money</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 </resources>

@@ -23,8 +23,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportDesign
+    compile rootProject.ext.supportRecyclerView
+    compile rootProject.ext.supportCardView
     compile rootProject.ext.basicProject
     compile rootProject.ext.butterknife
     compile rootProject.ext.bottomBar
+    compile rootProject.ext.commonAdapter
 
 }
