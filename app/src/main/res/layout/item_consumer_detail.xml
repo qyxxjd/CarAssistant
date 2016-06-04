@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ConsumerDetail.ItemLayout" >
+
+    <RelativeLayout
+        android:id="@+id/item_consumer_detail_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/consumer_detail_top_layout_height"
+        tools:background="@color/green_light"
+        >
+        <ImageView
+            android:id="@+id/item_consumer_detail_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_large"
+            tools:src="@drawable/ic_parking"
+            />
+
+        <TextView
+            style="@style/ListItemMoney"
+            android:id="@+id/item_consumer_detail_money"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_large"
+            tools:text="$ 600"
+            />
+
+        <ImageView style="@style/ConsumerDetail.Wave" />
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/ItemText.Gray.Normal"
+        android:id="@+id/item_consumer_detail_tag"
+        android:layout_below="@id/item_consumer_detail_top_layout"
+        android:drawableLeft="@drawable/ic_tag"
+        android:drawablePadding="@dimen/margin_normal"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large"
+        tools:textColor="@color/green_light"
+        tools:text="加油费用"
+        />
+    <TextView
+        style="@style/ItemText.Gray.Normal"
+        android:id="@+id/item_consumer_detail_time"
+        android:layout_below="@id/item_consumer_detail_tag"
+        android:drawableLeft="@drawable/ic_time"
+        android:drawablePadding="@dimen/margin_normal"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="2016-05-23"
+        />
+
+    <ImageView
+        android:id="@+id/item_consumer_detail_notes_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_consumer_detail_time"
+        android:src="@drawable/ic_notes"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_normal"
+        />
+    <TextView
+        style="@style/ItemText.Gray.Normal"
+        android:id="@+id/item_consumer_detail_notes"
+        android:layout_below="@id/item_consumer_detail_time"
+        android:layout_toRightOf="@id/item_consumer_detail_notes_icon"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_normal"
+        tools:text="灵感UI设计网是一个致力于设计师UI设计作品分享的网站，提供很多有才华的设计师们的优秀作品，帮助设计师们获得UI方面的设计灵感，提供丰富的设计参考案例，同时还提供收费版的在线设计工具。"
+        />
+</RelativeLayout>

@@ -3,10 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="windowBackground">#F8F8F8</color>
-    <color name="primary_light">#BBDEFB</color>
+    <color name="windowBackground">#EDEDED</color>
     <color name="primary_text">#212121</color>
-    <color name="secondary_text">#727272</color>
+    <color name="primary_light">#727272</color>
+    <color name="secondary_text">#9E9E9E</color>
     <color name="divider">#E6E6E6</color>
     <color name="divider_dark">#B6B6B6</color>
 
@@ -17,12 +17,20 @@
     <color name="red">#FF432F</color>
     <color name="purple">#7B1FA2</color>
 
+    <color name="saffron_light">#F4B63E</color>
+    <color name="sienna_light">#EB6460</color>
+    <color name="green_light">#10B4A5</color>
+    <color name="purple_light">#7C57E4</color>
+    <color name="pink_light">#FF4284</color>
+    <color name="orange_light">#FF8C6A</color>
+    <color name="blue_light">#4FC1E9</color>
+    <color name="pale_red">#EC87C0</color>
+
     <color name="material_red">#ffF44336</color>
     <color name="material_green">#ff4CAF50</color>
     <color name="material_blue">#ff03A9F4</color>
     <color name="material_yellow">#ffFFEB3B</color>
     <color name="material_orange">#ffEF6C00</color>
-
 
     <!-- grayscale -->
     <color name="white" >#FFFFFF</color>

@@ -27,9 +27,11 @@
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_tiny">4dp</dimen>
 
-    <dimen name="font_item_money">48sp</dimen>
+    <dimen name="font_item_money">40sp</dimen>
     <dimen name="layout_height_larger">72dp</dimen>
     <dimen name="layout_height_large">64dp</dimen>
     <dimen name="layout_height_normal">56dp</dimen>
     <dimen name="layout_height_small">48dp</dimen>
+
+    <dimen name="consumer_detail_top_layout_height">96dp</dimen>
 </resources>

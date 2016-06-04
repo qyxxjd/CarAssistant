@@ -6,8 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -86,13 +86,30 @@
         <item name="android:ellipsize">end</item>
     </style>
     <style name="ListItemMoney">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/layout_height_large</item>
-        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_item_money</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:gravity">center</item>
+    </style>
+    <style name="ConsumerDetail"/>
+    <style name="ConsumerDetail.ItemLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_normal</item>
+        <item name="android:layout_marginBottom">@dimen/margin_normal</item>
+        <item name="android:layout_marginLeft">@dimen/margin_large</item>
+        <item name="android:layout_marginRight">@dimen/margin_large</item>
+        <item name="android:paddingBottom">@dimen/margin_large</item>
+        <item name="android:background">@drawable/bg_main_item</item>
+    </style>
+    <style name="ConsumerDetail.Wave">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">-4dp</item>
+        <item name="android:background">@drawable/wave</item>
     </style>
 
 

@@ -9,48 +9,65 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.classic.car.R;
+import com.classic.car.fragment.AboutFragment;
 import com.classic.car.fragment.ChartFragment;
 import com.classic.car.fragment.ListFragment;
+import com.classic.car.fragment.TimelineFragment;
 import com.classic.core.activity.BaseActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends BaseActivity {
-    /*@Bind(R.id.toolbar) */Toolbar              mToolbar;
-    /*@Bind(R.id.fab)     */FloatingActionButton mFab;
-    private             BottomBar            mBottomBar;
+    @BindView(R.id.main_toolbar)
+    Toolbar              mToolbar;
+    @BindView(R.id.main_fab)
+    FloatingActionButton mFab;
+    private                 BottomBar            mBottomBar;
+
+
+    @Override public int getLayoutResId() {
+        return R.layout.activity_main;
+    }
 
     @Override public void initInstanceState(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
         mBottomBar = BottomBar.attach(this, savedInstanceState);
     }
 
     @Override public void initView() {
-        //ButterKnife.bind(this);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        super.initView();
+        if (null != mToolbar) {
+            setSupportActionBar(mToolbar);
+
+            //ActionBar actionBar = getSupportActionBar();
+            //actionBar.setDisplayHomeAsUpEnabled(true);
+            setTitle(R.string.app_name);
+
+        }
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
+                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null)
+                                .show();
             }
         });
         mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
-                    case R.id.bb_menu_list:
-                        changeFragment(R.id.fragment_layout, new ListFragment());
+                    case R.id.bb_menu_main:
+                        changeFragment(R.id.main_fragment_layout, new ListFragment());
                         break;
                     case R.id.bb_menu_chart:
-                        changeFragment(R.id.fragment_layout, new ChartFragment());
+                        changeFragment(R.id.main_fragment_layout, new ChartFragment());
                         break;
                     case R.id.bb_menu_timeline:
-
+                        changeFragment(R.id.main_fragment_layout, new TimelineFragment());
                         break;
                     case R.id.bb_menu_about:
-
+                        changeFragment(R.id.main_fragment_layout, new AboutFragment());
                         break;
                 }
             }
@@ -71,13 +88,5 @@ public class MainActivity extends BaseActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         mBottomBar.onSaveInstanceState(outState);
-    }
-
-    @Override public int getLayoutResId() {
-        return R.layout.activity_main;
-    }
-
-    @Override public void unRegister() {
-        //ButterKnife.unbind(this);
     }
 }

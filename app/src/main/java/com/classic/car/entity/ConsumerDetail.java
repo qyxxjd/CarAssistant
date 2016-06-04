@@ -30,6 +30,13 @@ public class ConsumerDetail implements Serializable {
     private float unitPrice; //单价
     private long  currentMileage;//当前里程
 
+    public ConsumerDetail(){}
+    public ConsumerDetail(long consumptionTime, float money, int type) {
+        this.consumptionTime = consumptionTime;
+        this.money = money;
+        this.type = type;
+    }
+
     public long getId() {
         return id;
     }
