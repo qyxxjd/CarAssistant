@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">汽车助手</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="consumer.money">消费金额(元)</string>
+    <string name="consumer.money.hint">请输入消费金额</string>
+    <string name="consumer.unit.price">单价(元/升)</string>
+    <string name="consumer.unit.price.hint">请输入单价</string>
+    <string name="consumer.current.mileage">当前里程(公里)</string>
+    <string name="consumer.current.mileage.hint">请输入当前里程</string>
+    <string name="consumer.notes.hint">备注信息</string>
+    <string name="consumer.type.hint">消费类型:</string>
 </resources>

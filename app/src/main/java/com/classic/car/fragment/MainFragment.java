@@ -23,7 +23,7 @@ import java.util.List;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午2:21
  */
-public class ListFragment extends BaseFragment {
+public class MainFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
 

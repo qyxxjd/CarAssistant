@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_larger"
+                android:layout_marginRight="@dimen/margin_large"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/ItemText.Gray.Large"
+                    android:text="@string/consumer.type.hint" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/add_consumer_spinner"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    />
+
+            </LinearLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/ConsumerDetail.EditText"
+                android:id="@+id/add_consumer_money"
+                android:hint="@string/consumer.money.hint"
+                android:inputType="numberDecimal"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/consumer.money"
+                app:met_baseColor="@color/primary_light"
+                app:met_maxCharacters="10"
+                app:met_primaryColor="@color/cyan_500"
+                app:met_singleLineEllipsis="true" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/ConsumerDetail.EditText"
+                android:id="@+id/add_consumer_unit_price"
+                android:hint="@string/consumer.unit.price.hint"
+                android:inputType="numberDecimal"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/consumer.unit.price"
+                app:met_baseColor="@color/primary_light"
+                app:met_maxCharacters="4"
+                app:met_primaryColor="@color/cyan_500"
+                app:met_singleLineEllipsis="true" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/ConsumerDetail.EditText"
+                android:id="@+id/add_consumer_current_mileage"
+                android:hint="@string/consumer.current.mileage.hint"
+                android:inputType="number"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/consumer.current.mileage"
+                app:met_baseColor="@color/primary_light"
+                app:met_maxCharacters="10"
+                app:met_primaryColor="@color/cyan_500"
+                app:met_singleLineEllipsis="true" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/ConsumerDetail.EditText"
+                android:id="@+id/add_consumer_notes"
+                android:hint="@string/consumer.notes.hint"
+                android:maxLines="5"
+                app:met_floatingLabel="highlight"
+                app:met_baseColor="@color/primary_light"
+                app:met_maxCharacters="100"
+                app:met_primaryColor="@color/cyan_500" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
