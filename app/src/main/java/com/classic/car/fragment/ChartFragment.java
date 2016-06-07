@@ -1,5 +1,6 @@
 package com.classic.car.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import com.classic.car.R;
 import com.classic.core.fragment.BaseFragment;
@@ -19,7 +20,8 @@ public class ChartFragment extends BaseFragment {
         return R.layout.fragment_chart;
     }
 
-    @Override public void initView(View parentView) {
-        super.initView(parentView);
+    @Override public void initView(View parentView, Bundle savedInstanceState) {
+        super.initView(parentView, savedInstanceState);
     }
+
 }

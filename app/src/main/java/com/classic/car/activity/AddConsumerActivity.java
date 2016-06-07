@@ -27,8 +27,9 @@ public class AddConsumerActivity extends ToolbarActivity {
         return true;
     }
 
-    @Override public void initInstanceState(Bundle savedInstanceState) {
-        super.initInstanceState(savedInstanceState);
+    @Override public void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+        setTitle(R.string.add_consumer_title);
         mSpinner.setItems(Consts.TYPE_MENUS);
         mSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {

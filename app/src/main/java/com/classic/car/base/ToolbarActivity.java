@@ -12,8 +12,7 @@ import com.classic.core.activity.BaseActivity;
 public abstract class ToolbarActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    @Override public void initInstanceState(Bundle savedInstanceState) {
-        super.initInstanceState(savedInstanceState);
+    @Override public void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
         if (mToolbar == null) {

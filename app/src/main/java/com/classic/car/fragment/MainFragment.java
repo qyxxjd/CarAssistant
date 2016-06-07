@@ -1,5 +1,6 @@
 package com.classic.car.fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,8 +32,8 @@ public class MainFragment extends BaseFragment {
         return R.layout.fragment_main;
     }
 
-    @Override public void initView(View parentView) {
-        super.initView(parentView);
+    @Override public void initView(View parentView, Bundle savedInstanceState) {
+        super.initView(parentView, savedInstanceState);
         mRecyclerView = (RecyclerView) parentView.findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
 

@@ -29,7 +29,7 @@ ext {
     supportMultidex = "com.android.support:multidex:1.0.+"
 
     //基础项目
-    basicProject = "com.classic.core:classic:2.0"
+    basicProject = "com.classic.core:classic:2.1"
 
     //动画
     nineoldandroids = "com.nineoldandroids:library:2.4.0"

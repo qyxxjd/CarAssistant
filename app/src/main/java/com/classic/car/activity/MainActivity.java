@@ -6,22 +6,19 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.classic.car.R;
+import com.classic.car.base.ToolbarActivity;
 import com.classic.car.fragment.AboutFragment;
 import com.classic.car.fragment.ChartFragment;
 import com.classic.car.fragment.MainFragment;
 import com.classic.car.fragment.TimelineFragment;
-import com.classic.core.activity.BaseActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
-public class MainActivity extends BaseActivity {
-    @BindView(R.id.toolbar)  Toolbar              mToolbar;
+public class MainActivity extends ToolbarActivity {
     @BindView(R.id.main_fab) FloatingActionButton mFab;
     private                  BottomBar            mBottomBar;
 
@@ -29,13 +26,9 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
-    @Override public void initInstanceState(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+    @Override public void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         mBottomBar = BottomBar.attach(this, savedInstanceState);
-    }
-
-    @Override public void initView() {
-        super.initView();
         setTitle(R.string.app_name);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
