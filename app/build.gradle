@@ -25,12 +25,18 @@ dependencies {
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportDesign
     compile rootProject.ext.supportRecyclerView
+
     compile rootProject.ext.basicProject
-    compile rootProject.ext.butterknife
     compile rootProject.ext.bottomBar
     compile rootProject.ext.commonAdapter
     compile rootProject.ext.materialEditText
     compile rootProject.ext.materialSpinner
+
+    compile rootProject.ext.sqlbrite
+
+    compile rootProject.ext.butterknife
+    compile rootProject.ext.dagger2
     apt butterknifeCompiler
+    apt dagger2Compiler
 
 }
