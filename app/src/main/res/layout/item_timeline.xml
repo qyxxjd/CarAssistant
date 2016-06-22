@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:paddingTop="@dimen/margin_normal"
+    android:paddingLeft="@dimen/margin_large"
+    android:paddingRight="@dimen/margin_large">
+
+    <TextView
+        tools:text="2015-06-08\n09:56"
+        android:id="@+id/timeline_time"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:gravity="right"
+        style="@style/ItemText.Gray.Small"
+        />
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/timeline_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_toRightOf="@id/timeline_time"
+        android:scaleType="fitXY"
+        android:padding="@dimen/margin_normal"
+        android:src="@drawable/ic_maintenance"
+        android:background="@color/material_blue"
+        app:civ_border_width="4dp"
+        app:civ_border_color="@color/light_blue_100"
+        />-->
+    <ImageView
+        android:id="@+id/timeline_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_toRightOf="@id/timeline_time"
+        android:scaleType="fitXY"
+        android:padding="@dimen/margin_normal"
+        tools:src="@drawable/ic_maintenance"
+        />
+
+    <TextView
+        tools:text="汽车保养\n￥300"
+        android:id="@+id/timeline_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/timeline_icon"
+        android:textSize="@dimen/font_large"
+        android:textColor="@color/material_blue"
+        />
+
+    <View
+        android:layout_width="16dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/timeline_icon"
+        android:layout_alignLeft="@id/timeline_icon"
+        android:layout_marginLeft="12dp"
+        android:background="@color/green_a100"
+        />
+
+</RelativeLayout>
