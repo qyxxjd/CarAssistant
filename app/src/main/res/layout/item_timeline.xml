@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:paddingTop="@dimen/margin_normal"
@@ -10,56 +9,61 @@
 
     <TextView
         tools:text="2015-06-08\n09:56"
-        android:id="@+id/timeline_time"
+        android:id="@+id/item_timeline_time"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginTop="18dp"
         android:gravity="right"
         style="@style/ItemText.Gray.Small"
         />
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/timeline_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <RelativeLayout
+        android:id="@+id/item_timeline_icon_layout"
+        android:layout_width="@dimen/icon_larger"
+        android:layout_height="@dimen/icon_larger"
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_marginBottom="@dimen/margin_normal"
-        android:layout_toRightOf="@id/timeline_time"
-        android:scaleType="fitXY"
-        android:padding="@dimen/margin_normal"
-        android:src="@drawable/ic_maintenance"
-        android:background="@color/material_blue"
-        app:civ_border_width="4dp"
-        app:civ_border_color="@color/light_blue_100"
-        />-->
-    <ImageView
-        android:id="@+id/timeline_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_normal"
-        android:layout_toRightOf="@id/timeline_time"
-        android:scaleType="fitXY"
-        android:padding="@dimen/margin_normal"
-        tools:src="@drawable/ic_maintenance"
-        />
+        android:layout_toRightOf="@id/item_timeline_time" >
+
+        <com.classic.car.widget.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/item_timeline_icon_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/transparent"
+            app:civ_border_width="@dimen/border_normal"
+            />
+
+        <ImageView
+            android:id="@+id/item_timeline_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_road_toll"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 
     <TextView
         tools:text="汽车保养\n￥300"
-        android:id="@+id/timeline_content"
+        android:id="@+id/item_timeline_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/timeline_icon"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/item_timeline_icon_layout"
         android:textSize="@dimen/font_large"
         android:textColor="@color/material_blue"
+        android:lineSpacingMultiplier="1.1"
         />
 
     <View
-        android:layout_width="16dp"
+        android:layout_width="@dimen/border_normal"
         android:layout_height="match_parent"
-        android:layout_below="@id/timeline_icon"
-        android:layout_alignLeft="@id/timeline_icon"
-        android:layout_marginLeft="12dp"
+        android:layout_below="@id/item_timeline_icon_layout"
+        android:layout_alignLeft="@id/item_timeline_icon_layout"
+        android:layout_marginLeft="22dp"
         android:background="@color/green_a100"
         />
 

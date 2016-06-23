@@ -33,5 +33,12 @@
     <dimen name="layout_height_normal">56dp</dimen>
     <dimen name="layout_height_small">48dp</dimen>
 
+    <dimen name="icon_larger">48dp</dimen>
+    <dimen name="icon_large">40dp</dimen>
+    <dimen name="icon_normal">32dp</dimen>
+    <dimen name="icon_small">24dp</dimen>
+
+    <dimen name="border_normal">4dp</dimen>
+
     <dimen name="consumer_detail_top_layout_height">96dp</dimen>
 </resources>

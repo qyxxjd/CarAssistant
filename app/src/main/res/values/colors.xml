@@ -10,6 +10,8 @@
     <color name="divider">#E6E6E6</color>
     <color name="divider_dark">#B6B6B6</color>
 
+    <drawable name="transparent">@android:color/transparent</drawable>
+
     <!-- basic colors -->
     <color name="green">#27D34D</color>
     <color name="blue">#2A91BD</color>
