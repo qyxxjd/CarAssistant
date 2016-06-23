@@ -73,7 +73,7 @@ ext {
     sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.6.3"
 
     //通用适配器
-    commonAdapter = "com.classic.adapter:commonadapter:1.1"
+    commonAdapter = "com.classic.adapter:commonadapter:1.2"
     //方便的切换到：加载中视图、错误视图、空数据视图、网络异常视图、内容视图。
     mutipleStatusView = "com.classic.common:multiple-status-view:1.2"
 

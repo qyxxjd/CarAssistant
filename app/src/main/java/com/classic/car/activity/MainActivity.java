@@ -3,12 +3,8 @@ package com.classic.car.activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.widget.Toast;
-import butterknife.BindView;
 import com.classic.car.R;
 import com.classic.car.base.ToolbarActivity;
 import com.classic.car.fragment.AboutFragment;
@@ -19,7 +15,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends ToolbarActivity {
-    @BindView(R.id.main_fab) FloatingActionButton mFab;
+    //@BindView(R.id.main_fab) FloatingActionButton mFab;
     private                  BottomBar            mBottomBar;
 
     @Override public int getLayoutResId() {
@@ -30,14 +26,14 @@ public class MainActivity extends ToolbarActivity {
         super.initView(savedInstanceState);
         mBottomBar = BottomBar.attach(this, savedInstanceState);
         setTitle(R.string.app_name);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                startActivity(activity, AddConsumerActivity.class);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .show();
-            }
-        });
+        //mFab.setOnClickListener(new View.OnClickListener() {
+        //    @Override public void onClick(View view) {
+        //        startActivity(activity, AddConsumerActivity.class);
+        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                .setAction("Action", null)
+        //                .show();
+        //    }
+        //});
         mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
