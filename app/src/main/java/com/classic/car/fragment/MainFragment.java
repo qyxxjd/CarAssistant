@@ -1,7 +1,8 @@
 package com.classic.car.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,15 +12,18 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
+import com.classic.car.activity.AddConsumerActivity;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.interfaces.impl.RecyclerViewScrollListener;
 import com.classic.car.utils.Util;
 import com.classic.core.fragment.BaseFragment;
 import com.classic.core.utils.DateUtil;
+import com.melnykov.fab.FloatingActionButton;
 import java.util.List;
 
 /**
@@ -70,6 +74,15 @@ public class MainFragment extends BaseFragment {
                         .setVisible(R.id.item_consumer_detail_notes_icon, !isNotesEmpty);
             }
         });
+        mFab.attachToRecyclerView(mRecyclerView);
+    }
+
+    @OnClick(R.id.main_fab)
+    public void onFabClick(View view){
+        activity.startActivity(new Intent(activity, AddConsumerActivity.class));
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
     }
 
     private final RecyclerViewScrollListener mScrollListener = new RecyclerViewScrollListener() {

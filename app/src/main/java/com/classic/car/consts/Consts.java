@@ -24,5 +24,5 @@ public final class Consts {
     public static final int TYPE_MAINTENANCE       = 6; //汽车保养费
     public static final int TYPE_TRAFFIC_VIOLATION = 7; //交通违章罚款
 
-    public static final String FORMAT_MONEY = "$%s";
+    public static final String FORMAT_MONEY = "￥%s";
 }

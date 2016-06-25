@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="120dp"
     android:paddingTop="@dimen/margin_normal"
     android:paddingLeft="@dimen/margin_large"
     android:paddingRight="@dimen/margin_large">
@@ -40,8 +40,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_road_toll"
             android:layout_centerInParent="true"
+            tools:src="@drawable/ic_road_toll"
             />
 
     </RelativeLayout>
@@ -54,7 +54,6 @@
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/item_timeline_icon_layout"
         android:textSize="@dimen/font_large"
-        android:textColor="@color/material_blue"
         android:lineSpacingMultiplier="1.1"
         />
 
@@ -64,7 +63,7 @@
         android:layout_below="@id/item_timeline_icon_layout"
         android:layout_alignLeft="@id/item_timeline_icon_layout"
         android:layout_marginLeft="22dp"
-        android:background="@color/green_a100"
+        android:background="@color/timeline_blue"
         />
 
 </RelativeLayout>

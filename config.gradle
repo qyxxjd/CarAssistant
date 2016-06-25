@@ -79,8 +79,6 @@ ext {
 
     //图表控件
     mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v2.2.5"
-    helloCharts = "com.github.lecho:hellocharts-library:1.5.8@aar"
-    williamChart = "com.diogobernardino:williamchart:2.2"
 
     //检测内存泄漏
     leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
@@ -94,6 +92,7 @@ ext {
     bottomBar = "com.roughike:bottom-bar:1.3.9"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.0.9"
+    fab = "com.melnykov:floatingactionbutton:1.3.0"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
     pgyer = "com.pgyersdk:sdk:2.2"

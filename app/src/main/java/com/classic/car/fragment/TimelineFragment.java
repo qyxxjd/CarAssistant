@@ -50,7 +50,7 @@ public class TimelineFragment extends BaseFragment {
                                 )
                               .setImageResource(R.id.item_timeline_icon, Util.getIconByType(item.getType()))
                               .setText(R.id.item_timeline_content,
-                                      Consts.TYPE_MENUS[item.getType()] + "\n" + Util.formatMoney(item.getMoney()))
+                                      Consts.TYPE_MENUS[item.getType()] + "\t" + Util.formatMoney(item.getMoney()))
                               .setTextColorRes(R.id.item_timeline_content, Util.getColorByType(item.getType()));
                     }
                 });

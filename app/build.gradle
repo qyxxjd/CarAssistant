@@ -31,7 +31,8 @@ dependencies {
     compile rootProject.ext.commonAdapter
     compile rootProject.ext.materialEditText
     compile rootProject.ext.materialSpinner
-//    compile rootProject.ext.circleImageView
+    compile rootProject.ext.fab
+    compile rootProject.ext.mpAndroidChart
 
     compile rootProject.ext.sqlbrite
 

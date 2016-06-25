@@ -15,7 +15,6 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends ToolbarActivity {
-    //@BindView(R.id.main_fab) FloatingActionButton mFab;
     private                  BottomBar            mBottomBar;
 
     @Override public int getLayoutResId() {
@@ -26,14 +25,6 @@ public class MainActivity extends ToolbarActivity {
         super.initView(savedInstanceState);
         mBottomBar = BottomBar.attach(this, savedInstanceState);
         setTitle(R.string.app_name);
-        //mFab.setOnClickListener(new View.OnClickListener() {
-        //    @Override public void onClick(View view) {
-        //        startActivity(activity, AddConsumerActivity.class);
-        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //                .setAction("Action", null)
-        //                .show();
-        //    }
-        //});
         mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
@@ -58,9 +49,9 @@ public class MainActivity extends ToolbarActivity {
             }
         });
 
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.purple));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.red));
-        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.green));
+        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));
+        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.green_light));
+        mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.material_blue));
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
     }
 
