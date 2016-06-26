@@ -24,5 +24,14 @@ public final class Consts {
     public static final int TYPE_MAINTENANCE       = 6; //汽车保养费
     public static final int TYPE_TRAFFIC_VIOLATION = 7; //交通违章罚款
 
+    public static final String[] FUEL_MENUS = { "汽油 89/90", "汽油 92/93", "汽油 95/97", "柴油 0#" };
+    //原90号汽油,新标准改为89号汽油
+    public static final int FUEL_GASOLINE_89 = 0;
+    //原93号汽油,新标准改为92号汽油
+    public static final int FUEL_GASOLINE_92 = 1;
+    //原97号汽油,新标准改为95号汽油
+    public static final int FUEL_GASOLINE_95 = 2;
+    public static final int FUEL_DIESEL      = 3; //柴油0#
+
     public static final String FORMAT_MONEY = "￥%s";
 }

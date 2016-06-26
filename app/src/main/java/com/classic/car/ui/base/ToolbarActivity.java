@@ -1,4 +1,4 @@
-package com.classic.car.base;
+package com.classic.car.ui.base;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -11,6 +11,10 @@ import com.classic.core.activity.BaseActivity;
 
 public abstract class ToolbarActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar mToolbar;
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
 
     @Override public void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);

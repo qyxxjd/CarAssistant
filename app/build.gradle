@@ -32,6 +32,7 @@ dependencies {
     compile rootProject.ext.materialEditText
     compile rootProject.ext.materialSpinner
     compile rootProject.ext.fab
+    compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
 
     compile rootProject.ext.sqlbrite

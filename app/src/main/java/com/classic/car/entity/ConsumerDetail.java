@@ -1,8 +1,5 @@
 package com.classic.car.entity;
 
-import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.annotation.Table;
-import com.litesuits.orm.db.enums.AssignType;
 import java.io.Serializable;
 
 /**
@@ -13,11 +10,9 @@ import java.io.Serializable;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 上午10:26
  */
-@Table("t_consumer")
 public class ConsumerDetail implements Serializable {
     private static final long serialVersionUID = 6708495983469206253L;
 
-    @PrimaryKey(AssignType.AUTO_INCREMENT)
     private long   id;
     private long   createTime;
     private long   consumptionTime;
@@ -31,10 +26,6 @@ public class ConsumerDetail implements Serializable {
     private long  currentMileage;//当前里程
 
     public ConsumerDetail(){}
-
-    public ConsumerDetail(long id) {
-        this.id = id;
-    }
 
     public ConsumerDetail(long consumptionTime, float money, int type) {
         this.consumptionTime = consumptionTime;

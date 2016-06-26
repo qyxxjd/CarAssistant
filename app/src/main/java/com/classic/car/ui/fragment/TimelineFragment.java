@@ -1,4 +1,4 @@
-package com.classic.car.fragment;
+package com.classic.car.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.graphics.ColorUtils;
@@ -19,7 +19,7 @@ import com.classic.core.utils.DateUtil;
 
 /**
  * 应用名称: CarAssistant
- * 包 名 称: com.classic.car.fragment
+ * 包 名 称: com.classic.car.ui.fragment
  *
  * 文件描述：时光轴页面
  * 创 建 人：续写经典
@@ -28,6 +28,10 @@ import com.classic.core.utils.DateUtil;
 public class TimelineFragment extends BaseFragment {
 
     @BindView(R.id.timeline_recycler_view) RecyclerView mRecyclerView;
+
+    public static TimelineFragment newInstance() {
+        return new TimelineFragment();
+    }
 
     @Override public int getLayoutResId() {
         return R.layout.fragment_timeline;

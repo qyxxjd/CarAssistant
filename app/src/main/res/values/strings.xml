@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">汽车助手</string>
 
+    <string name="add">添加</string>
     <string name="add.consumer.title">添加消费信息</string>
 
     <string name="consumer.money">消费金额(元)</string>
@@ -11,4 +12,7 @@
     <string name="consumer.current.mileage.hint">请输入当前里程</string>
     <string name="consumer.notes.hint">备注信息</string>
     <string name="consumer.type.hint">消费类型:</string>
+    <string name="consumer.fuel.type.hint">加油类型:</string>
+    <string name="consumer.time.hint">消费时间:</string>
+    <string name="consumer.select.time.hint">点击选择消费时间</string>
 </resources>

@@ -1,21 +1,24 @@
-package com.classic.car.activity;
+package com.classic.car.ui.activity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 import com.classic.car.R;
-import com.classic.car.base.ToolbarActivity;
-import com.classic.car.fragment.AboutFragment;
-import com.classic.car.fragment.ChartFragment;
-import com.classic.car.fragment.MainFragment;
-import com.classic.car.fragment.TimelineFragment;
+import com.classic.car.ui.base.ToolbarActivity;
+import com.classic.car.ui.fragment.AboutFragment;
+import com.classic.car.ui.fragment.ChartFragment;
+import com.classic.car.ui.fragment.MainFragment;
+import com.classic.car.ui.fragment.TimelineFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 public class MainActivity extends ToolbarActivity {
-    private                  BottomBar            mBottomBar;
+    private BottomBar        mBottomBar;
+    private MainFragment     mMainFragment;
+    private ChartFragment    mChartFragment;
+    private TimelineFragment mTimelineFragment;
+    private AboutFragment    mAboutFragment;
 
     @Override public int getLayoutResId() {
         return R.layout.activity_main;
@@ -29,24 +32,33 @@ public class MainActivity extends ToolbarActivity {
             @Override public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
                     case R.id.bb_menu_main:
-                        changeFragment(R.id.main_fragment_layout, new MainFragment());
+                        if(null == mMainFragment){
+                            mMainFragment = MainFragment.newInstance();
+                        }
+                        changeFragment(R.id.main_fragment_layout, mMainFragment);
                         break;
                     case R.id.bb_menu_chart:
-                        changeFragment(R.id.main_fragment_layout, new ChartFragment());
+                        if(null == mChartFragment){
+                            mChartFragment = ChartFragment.newInstance();
+                        }
+                        changeFragment(R.id.main_fragment_layout, mChartFragment);
                         break;
                     case R.id.bb_menu_timeline:
-                        changeFragment(R.id.main_fragment_layout, new TimelineFragment());
+                        if(null == mTimelineFragment){
+                            mTimelineFragment = TimelineFragment.newInstance();
+                        }
+                        changeFragment(R.id.main_fragment_layout, mTimelineFragment);
                         break;
                     case R.id.bb_menu_about:
-                        changeFragment(R.id.main_fragment_layout, new AboutFragment());
+                        if(null == mAboutFragment){
+                            mAboutFragment = AboutFragment.newInstance();
+                        }
+                        changeFragment(R.id.main_fragment_layout, mAboutFragment);
                         break;
                 }
             }
 
-            @Override public void onMenuTabReSelected(@IdRes int menuItemId) {
-                Toast.makeText(getApplicationContext(), "onMenuTabReSelected", Toast.LENGTH_SHORT)
-                     .show();
-            }
+            @Override public void onMenuTabReSelected(@IdRes int menuItemId) { }
         });
 
         mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));

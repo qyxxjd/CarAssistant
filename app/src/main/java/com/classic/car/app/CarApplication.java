@@ -1,9 +1,11 @@
 package com.classic.car.app;
 
 import android.app.Application;
-import com.classic.car.consts.Consts;
+import com.classic.car.di.components.AppComponent;
+import com.classic.car.di.components.DaggerAppComponent;
+import com.classic.car.di.modules.AppModule;
+import com.classic.car.di.modules.DbModule;
 import com.classic.core.BasicConfig;
-import com.litesuits.orm.LiteOrm;
 
 /**
  * 应用名称: CarAssistant
@@ -14,8 +16,7 @@ import com.litesuits.orm.LiteOrm;
  * 创建时间：16/5/29 下午1:53
  */
 public class CarApplication extends Application {
-
-    private static LiteOrm sLiteOrm;
+    private AppComponent mAppComponent;
 
     @Override public void onCreate() {
         super.onCreate();
@@ -23,11 +24,14 @@ public class CarApplication extends Application {
         BasicConfig.getInstance(this)
                 .initDir()
                 .initLog(true);
-        sLiteOrm = LiteOrm.newCascadeInstance(this, Consts.DB_NAME);
-        sLiteOrm.setDebugged(true);
+
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .dbModule(new DbModule())
+                .build();
     }
 
-    public static LiteOrm getLiteOrm() {
-        return sLiteOrm;
+    public AppComponent getAppComponent() {
+        return mAppComponent;
     }
 }

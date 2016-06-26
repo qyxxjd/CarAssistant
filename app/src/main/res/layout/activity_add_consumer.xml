@@ -16,17 +16,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_large"
-                android:layout_marginTop="@dimen/margin_larger"
-                android:layout_marginRight="@dimen/margin_large"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/AddConsumerLayout"
+                android:layout_marginTop="@dimen/margin_larger" >
 
                 <TextView
-                    style="@style/ItemText.Gray.Large"
+                    style="@style/ItemText.Black.Large"
                     android:text="@string/consumer.type.hint" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
@@ -34,8 +28,45 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_large"
+                    android:textSize="@dimen/font_large"
+                    app:ms_background_color="@color/windowBackground"
+                    app:ms_text_color="@color/secondary_text"
                     />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/AddConsumerLayout"
+                android:id="@+id/add_consumer_fuel_layout" >
+
+                <TextView
+                    style="@style/ItemText.Black.Large"
+                    android:text="@string/consumer.fuel.type.hint" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/add_consumer_fuel_spinner"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_large"
+                    app:ms_background_color="@color/windowBackground"
+                    app:ms_text_color="@color/secondary_text"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/AddConsumerLayout" >
+
+                <TextView
+                    style="@style/ItemText.Black.Large"
+                    android:text="@string/consumer.time.hint" />
+
+                <TextView
+                    style="@style/ItemText.Gray.Large"
+                    android:id="@+id/add_consumer_time"
+                    android:layout_marginLeft="@dimen/margin_larger"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:text="@string/consumer.select.time.hint" />
 
             </LinearLayout>
 
@@ -46,7 +77,8 @@
                 android:inputType="numberDecimal"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="@string/consumer.money"
-                app:met_baseColor="@color/primary_light"
+                app:met_textColorHint="@color/secondary_text"
+                app:met_baseColor="@color/primary_text"
                 app:met_maxCharacters="10"
                 app:met_primaryColor="@color/cyan_500"
                 app:met_singleLineEllipsis="true" />
@@ -58,7 +90,8 @@
                 android:inputType="numberDecimal"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="@string/consumer.unit.price"
-                app:met_baseColor="@color/primary_light"
+                app:met_textColorHint="@color/secondary_text"
+                app:met_baseColor="@color/primary_text"
                 app:met_maxCharacters="4"
                 app:met_primaryColor="@color/cyan_500"
                 app:met_singleLineEllipsis="true" />
@@ -70,7 +103,8 @@
                 android:inputType="number"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="@string/consumer.current.mileage"
-                app:met_baseColor="@color/primary_light"
+                app:met_textColorHint="@color/secondary_text"
+                app:met_baseColor="@color/primary_text"
                 app:met_maxCharacters="10"
                 app:met_primaryColor="@color/cyan_500"
                 app:met_singleLineEllipsis="true" />
@@ -81,7 +115,8 @@
                 android:hint="@string/consumer.notes.hint"
                 android:maxLines="5"
                 app:met_floatingLabel="highlight"
-                app:met_baseColor="@color/primary_light"
+                app:met_textColorHint="@color/secondary_text"
+                app:met_baseColor="@color/primary_text"
                 app:met_maxCharacters="100"
                 app:met_primaryColor="@color/cyan_500" />
 
