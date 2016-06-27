@@ -11,7 +11,7 @@ import com.classic.core.BasicConfig;
  * 应用名称: CarAssistant
  * 包 名 称: com.classic.car.app
  *
- * 文件描述：TODO
+ * 文件描述：汽车助手
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午1:53
  */

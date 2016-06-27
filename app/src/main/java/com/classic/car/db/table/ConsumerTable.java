@@ -1,4 +1,4 @@
-package com.classic.car.db;
+package com.classic.car.db.table;
 
 /**
  * 应用名称: CarAssistant

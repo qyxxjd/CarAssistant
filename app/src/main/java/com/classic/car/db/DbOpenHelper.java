@@ -3,6 +3,7 @@ package com.classic.car.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.classic.car.db.table.ConsumerTable;
 
 /**
  * 应用名称: CarAssistant

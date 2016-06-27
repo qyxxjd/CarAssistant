@@ -18,7 +18,7 @@ package com.classic.car.di.modules;
 import android.app.Application;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.classic.car.BuildConfig;
-import com.classic.car.db.ConsumerDao;
+import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.db.DbOpenHelper;
 import com.classic.core.log.Logger;
 import com.squareup.sqlbrite.BriteDatabase;

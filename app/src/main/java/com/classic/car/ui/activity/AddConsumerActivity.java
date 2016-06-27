@@ -13,7 +13,7 @@ import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
-import com.classic.car.db.ConsumerDao;
+import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.base.ToolbarActivity;
 import com.classic.car.ui.fragment.DatePickerFragment;
