@@ -1,12 +1,13 @@
 package com.classic.car.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,6 +18,7 @@ import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.base.ToolbarActivity;
 import com.classic.car.ui.fragment.DatePickerFragment;
+import com.classic.car.utils.Util;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.ToastUtil;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -58,6 +60,15 @@ public class AddConsumerActivity extends ToolbarActivity
     private Integer            mType;
     private ConsumerDetail     mConsumerDetail;
 
+    public static void start(Activity activity, int type, ConsumerDetail consumerDetail){
+        Intent intent = new Intent(activity, AddConsumerActivity.class);
+        intent.putExtra(PARAMS_TYPE, type);
+        if(null != consumerDetail){
+            intent.putExtra(PARAMS_CONSUMER, consumerDetail);
+        }
+        activity.startActivity(intent);
+    }
+
     @Override public int getLayoutResId() {
         return R.layout.activity_add_consumer;
     }
@@ -76,7 +87,7 @@ public class AddConsumerActivity extends ToolbarActivity
         if(getIntent().hasExtra(PARAMS_CONSUMER)){
             mConsumerDetail = (ConsumerDetail) getIntent().getSerializableExtra(PARAMS_CONSUMER);
         }
-        if(null == mType || null == mConsumerDetail){
+        if(null == mType || (mType == TYPE_MODIFY && null == mConsumerDetail)){
             finish();
             return;
         }
@@ -92,73 +103,84 @@ public class AddConsumerActivity extends ToolbarActivity
     private void initValues(){
         if(mType == TYPE_ADD){
             mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
-            mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_89);
+            mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_92);
         }else if(mType == TYPE_MODIFY){
+            mSelectCalendar = Calendar.getInstance();
+            mSelectCalendar.setTimeInMillis(mConsumerDetail.getConsumptionTime());
             mSpinner.setSelectedIndex(mConsumerDetail.getType());
             mConsumerTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, mConsumerDetail.getConsumptionTime()));
-            mAddConsumerMoney.setText(String.valueOf(mConsumerDetail.getMoney()));
+            Util.setText(mAddConsumerMoney, mConsumerDetail.getMoney());
             mAddConsumerNotes.setText(TextUtils.isEmpty(mConsumerDetail.getNotes()) ? EMPTY : mConsumerDetail.getNotes());
+            setFuelViews(mConsumerDetail.getType() == Consts.TYPE_FUEL ? View.VISIBLE : View.GONE);
             if(mConsumerDetail.getType() == Consts.TYPE_FUEL){
-                setFuelViews(View.VISIBLE);
                 mFuelSpinner.setSelectedIndex(mConsumerDetail.getOilType());
-                mAddConsumerUnitPrice.setText(String.valueOf(mConsumerDetail.getUnitPrice()));
-                mAddConsumerCurrentMileage.setText(String.valueOf(mConsumerDetail.getCurrentMileage()));
+                Util.setText(mAddConsumerUnitPrice, mConsumerDetail.getUnitPrice());
+                Util.setText(mAddConsumerCurrentMileage, mConsumerDetail.getCurrentMileage());
             }
         }
     }
 
-    private void reset() {
-        mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
-        mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_89);
-        mAddConsumerMoney.setText(EMPTY);
-        mAddConsumerUnitPrice.setText(EMPTY);
-        mAddConsumerCurrentMileage.setText(EMPTY);
-        mAddConsumerNotes.setText(EMPTY);
-        mConsumerTime.setText(R.string.consumer_select_time_hint);
-        setFuelViews(View.VISIBLE);
-        setFocusable(mAddConsumerMoney);
-        mSelectCalendar = null;
-    }
-
-    private void addConsumer() {
+    private boolean verifyData(){
+        if(mType == TYPE_ADD){
+            mConsumerDetail = new ConsumerDetail();
+        }
+        mConsumerDetail.setType(mSpinner.getSelectedIndex());
         final String money = mAddConsumerMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
-            ToastUtil.showToast(activity, "消费金额不能为空");
-            setFocusable(mAddConsumerMoney);
-            return;
+            ToastUtil.showToast(activity, R.string.consumer_money_hint);
+            Util.setFocusable(mAddConsumerMoney);
+            return false;
         }
+        mConsumerDetail.setMoney(Float.valueOf(money));
         if (null == mSelectCalendar) {
-            ToastUtil.showToast(activity, "请选择消费时间");
-            return;
+            ToastUtil.showToast(activity, R.string.consumer_select_time_hint);
+            return false;
         }
-        final ConsumerDetail consumerDetail = new ConsumerDetail(mSelectCalendar.getTimeInMillis(),
-                Float.valueOf(money), mSpinner.getSelectedIndex());
+        mConsumerDetail.setConsumptionTime(mSelectCalendar.getTimeInMillis());
         if (mSpinner.getSelectedIndex() == Consts.TYPE_FUEL) {
             final String unitPrice = mAddConsumerUnitPrice.getText().toString().trim();
             if (TextUtils.isEmpty(unitPrice)){
-                ToastUtil.showToast(activity, "单价不能为空");
-                setFocusable(mAddConsumerUnitPrice);
-                return;
+                ToastUtil.showToast(activity, R.string.consumer_unit_price_hint);
+                Util.setFocusable(mAddConsumerUnitPrice);
+                return false;
             }
             final String currentMileage = mAddConsumerCurrentMileage.getText().toString().trim();
             if(TextUtils.isEmpty(currentMileage)){
-                ToastUtil.showToast(activity, "当前里程不能为空");
-                setFocusable(mAddConsumerCurrentMileage);
-                return;
+                ToastUtil.showToast(activity, R.string.consumer_current_mileage_hint);
+                Util.setFocusable(mAddConsumerCurrentMileage);
+                return false;
             }
-            consumerDetail.setOilType(mFuelSpinner.getSelectedIndex());
-            consumerDetail.setUnitPrice(Float.valueOf(unitPrice));
-            consumerDetail.setCurrentMileage(Long.valueOf(currentMileage));
+            mConsumerDetail.setOilType(mFuelSpinner.getSelectedIndex());
+            mConsumerDetail.setUnitPrice(Float.valueOf(unitPrice));
+            mConsumerDetail.setCurrentMileage(Long.valueOf(currentMileage));
         }
         final String notes = mAddConsumerNotes.getText().toString().trim();
         if(!TextUtils.isEmpty(notes)){
-            consumerDetail.setNotes(notes);
+            mConsumerDetail.setNotes(notes);
         }
-        if(mConsumerDao.insert(consumerDetail) > 0){
-            ToastUtil.showToast(activity, "添加成功");
+        return true;
+    }
+
+    private void addConsumer() {
+        if(!verifyData()) {
+            return;
+        }
+        if(mConsumerDao.insert(mConsumerDetail) > 0){
+            ToastUtil.showToast(activity, R.string.add_consumer_success);
             reset();
         } else {
-            ToastUtil.showToast(activity, "添加失败");
+            ToastUtil.showToast(activity, R.string.add_consumer_fail);
+        }
+    }
+    private void modifyConsumer() {
+        if(!verifyData()) {
+            return;
+        }
+        if (mConsumerDao.update(mConsumerDetail) > 0){
+            ToastUtil.showToast(activity, R.string.modify_consumer_success);
+            finish();
+        } else {
+            ToastUtil.showToast(activity, R.string.modify_consumer_fail);
         }
     }
 
@@ -171,13 +193,16 @@ public class AddConsumerActivity extends ToolbarActivity
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add_menu, menu);
+        getMenuInflater().inflate(mType == TYPE_ADD ? R.menu.add_menu : R.menu.modify_menu, menu);
         return true;
     }
 
     @Override public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
             addConsumer();
+            return true;
+        }else if(item.getItemId() == R.id.action_modify){
+            modifyConsumer();
             return true;
         }
         return false;
@@ -193,6 +218,19 @@ public class AddConsumerActivity extends ToolbarActivity
         mFuelLayout.setVisibility(visibility);
     }
 
+    private void reset() {
+        mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
+        mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_92);
+        mAddConsumerMoney.setText(EMPTY);
+        mAddConsumerUnitPrice.setText(EMPTY);
+        mAddConsumerCurrentMileage.setText(EMPTY);
+        mAddConsumerNotes.setText(EMPTY);
+        mConsumerTime.setText(R.string.consumer_select_time_hint);
+        setFuelViews(View.VISIBLE);
+        Util.setFocusable(mAddConsumerMoney);
+        mSelectCalendar = null;
+    }
+
     @Override public void onCancel() {
     }
 
@@ -201,8 +239,4 @@ public class AddConsumerActivity extends ToolbarActivity
         mConsumerTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, calendar.getTimeInMillis()));
     }
 
-    private final void setFocusable(EditText editText){
-        editText.setFocusable(true);
-        editText.requestFocus();
-    }
 }

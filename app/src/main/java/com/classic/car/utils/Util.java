@@ -1,5 +1,6 @@
 package com.classic.car.utils;
 
+import android.widget.EditText;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
@@ -17,7 +18,7 @@ import java.util.Locale;
  * 创 建 人：续写经典
  * 创建时间：16/6/4 下午8:51
  */
-public class Util {
+public final class Util {
 
     public static int getColorByType(int type){
         switch (type){
@@ -79,8 +80,20 @@ public class Util {
                 return R.drawable.bg_pale_red;
         }
     }
-    public static final String formatMoney(float money){
+    public static String formatMoney(float money){
         return MoneyUtil.replace(String.format(Locale.CHINA, Consts.FORMAT_MONEY, money));
+    }
+
+    public static void setText(EditText editText, String value){
+        editText.setText(MoneyUtil.replace(value));
+        editText.setSelection(editText.getText().length());
+    }
+    public static void setText(EditText editText, Number value){
+        setText(editText, String.valueOf(value));
+    }
+    public static void setFocusable(EditText editText){
+        editText.setFocusable(true);
+        editText.requestFocus();
     }
 
     private static List<ConsumerDetail> sConsumerDetails;
