@@ -35,8 +35,13 @@ import javax.inject.Inject;
 public class AddConsumerActivity extends ToolbarActivity
         implements Toolbar.OnMenuItemClickListener, MaterialSpinner.OnItemSelectedListener,
                     DatePickerFragment.Callback{
-    private static final String TAG   = "DatePicker";
-    private static final String EMPTY = "";
+    public static final int TYPE_ADD    = 0;
+    public static final int TYPE_MODIFY = 1;
+
+    private static final String TAG             = "datePicker";
+    private static final String PARAMS_TYPE     = "type";
+    private static final String PARAMS_CONSUMER = "consumerDetail";
+    private static final String EMPTY           = "";
 
     @BindView(R.id.add_consumer_fuel_layout)     View             mFuelLayout;
     @BindView(R.id.add_consumer_time)            TextView         mConsumerTime;
@@ -50,6 +55,8 @@ public class AddConsumerActivity extends ToolbarActivity
     @Inject ConsumerDao        mConsumerDao;
     private DatePickerFragment mDatePickerFragment;
     private Calendar           mSelectCalendar;
+    private Integer            mType;
+    private ConsumerDetail     mConsumerDetail;
 
     @Override public int getLayoutResId() {
         return R.layout.activity_add_consumer;
@@ -62,13 +69,42 @@ public class AddConsumerActivity extends ToolbarActivity
     @Override public void initView(Bundle savedInstanceState) {
         ((CarApplication)getApplicationContext()).getAppComponent().inject(this);
         super.initView(savedInstanceState);
+
+        if(getIntent().hasExtra(PARAMS_TYPE)){
+            mType = getIntent().getIntExtra(PARAMS_TYPE, TYPE_ADD);
+        }
+        if(getIntent().hasExtra(PARAMS_CONSUMER)){
+            mConsumerDetail = (ConsumerDetail) getIntent().getSerializableExtra(PARAMS_CONSUMER);
+        }
+        if(null == mType || null == mConsumerDetail){
+            finish();
+            return;
+        }
+
         getToolbar().setOnMenuItemClickListener(this);
-        setTitle(R.string.add_consumer_title);
+        setTitle(mType == TYPE_ADD ? R.string.add_consumer_title : R.string.modify_consumer_title);
         mSpinner.setItems(Consts.TYPE_MENUS);
-        mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
         mFuelSpinner.setItems(Consts.FUEL_MENUS);
-        mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_89);
         mSpinner.setOnItemSelectedListener(this);
+        initValues();
+    }
+
+    private void initValues(){
+        if(mType == TYPE_ADD){
+            mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
+            mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_89);
+        }else if(mType == TYPE_MODIFY){
+            mSpinner.setSelectedIndex(mConsumerDetail.getType());
+            mConsumerTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, mConsumerDetail.getConsumptionTime()));
+            mAddConsumerMoney.setText(String.valueOf(mConsumerDetail.getMoney()));
+            mAddConsumerNotes.setText(TextUtils.isEmpty(mConsumerDetail.getNotes()) ? EMPTY : mConsumerDetail.getNotes());
+            if(mConsumerDetail.getType() == Consts.TYPE_FUEL){
+                setFuelViews(View.VISIBLE);
+                mFuelSpinner.setSelectedIndex(mConsumerDetail.getOilType());
+                mAddConsumerUnitPrice.setText(String.valueOf(mConsumerDetail.getUnitPrice()));
+                mAddConsumerCurrentMileage.setText(String.valueOf(mConsumerDetail.getCurrentMileage()));
+            }
+        }
     }
 
     private void reset() {

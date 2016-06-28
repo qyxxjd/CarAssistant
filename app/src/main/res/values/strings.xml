@@ -2,7 +2,9 @@
     <string name="app_name">汽车助手</string>
 
     <string name="add">添加</string>
+    <string name="modify">修改</string>
     <string name="add.consumer.title">添加消费信息</string>
+    <string name="modify.consumer.title">修改消费信息</string>
 
     <string name="consumer.money">消费金额(元)</string>
     <string name="consumer.money.hint">请输入消费金额</string>
