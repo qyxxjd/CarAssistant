@@ -20,7 +20,7 @@ import rx.functions.Action1;
  * 创 建 人：续写经典
  * 创建时间：16/6/28 下午6:22
  */
-public final class ConsumerDetailAdapter extends CommonRecyclerAdapter<ConsumerDetail>
+public class ConsumerDetailAdapter extends CommonRecyclerAdapter<ConsumerDetail>
         implements Action1<List<ConsumerDetail>> {
 
     public ConsumerDetailAdapter(Context context, int layoutResId) {

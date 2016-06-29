@@ -40,5 +40,5 @@
 
     <dimen name="border_normal">4dp</dimen>
 
-    <dimen name="consumer_detail_top_layout_height">96dp</dimen>
+    <dimen name="consumer_detail_top_layout_height">80dp</dimen>
 </resources>

@@ -1,21 +1,19 @@
 package com.classic.car.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.classic.adapter.BaseAdapterHelper;
-import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
-import com.classic.car.consts.Consts;
-import com.classic.car.entity.ConsumerDetail;
-import com.classic.car.utils.Util;
-import com.classic.car.widget.CircleImageView;
+import com.classic.car.app.CarApplication;
+import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.ui.adapter.TimelineAdapter;
 import com.classic.core.fragment.BaseFragment;
-import com.classic.core.utils.DateUtil;
+import javax.inject.Inject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 应用名称: CarAssistant
@@ -28,6 +26,8 @@ import com.classic.core.utils.DateUtil;
 public class TimelineFragment extends BaseFragment {
 
     @BindView(R.id.timeline_recycler_view) RecyclerView mRecyclerView;
+    @Inject ConsumerDao     mConsumerDao;
+    private TimelineAdapter mAdapter;
 
     public static TimelineFragment newInstance() {
         return new TimelineFragment();
@@ -38,25 +38,18 @@ public class TimelineFragment extends BaseFragment {
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
+        ((CarApplication)activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         ButterKnife.bind(this, parentView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        mRecyclerView.setAdapter(
-                new CommonRecyclerAdapter<ConsumerDetail>(activity, R.layout.item_timeline, Util.getTestData()) {
-                    @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {
-                        CircleImageView civ = helper.getView(R.id.item_timeline_icon_bg);
-                        int color = getResources().getColor(Util.getColorByType(item.getType()));
-                        civ.setFillColor(color);
-                        civ.setBorderColor(ColorUtils.setAlphaComponent(color, 100));
-                        helper.setText(R.id.item_timeline_time,
-                                DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getConsumptionTime()) + "\n" +
-                                        DateUtil.formatDate(DateUtil.FORMAT_TIME, item.getConsumptionTime())
-                                )
-                              .setImageResource(R.id.item_timeline_icon, Util.getIconByType(item.getType()))
-                              .setText(R.id.item_timeline_content,
-                                      Consts.TYPE_MENUS[item.getType()] + "\t" + Util.formatMoney(item.getMoney()))
-                              .setTextColorRes(R.id.item_timeline_content, Util.getColorByType(item.getType()));
-                    }
-                });
+
+        mAdapter = new TimelineAdapter(activity, R.layout.item_timeline);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mConsumerDao.queryAll()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(mAdapter);
     }
 }

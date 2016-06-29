@@ -62,10 +62,6 @@ public class MainFragment extends BaseFragment
                 .subscribe(mAdapter);
     }
 
-    @Override public void onResume() {
-        super.onResume();
-    }
-
     @OnClick(R.id.main_fab) public void onFabClick() {
         AddConsumerActivity.start(activity, AddConsumerActivity.TYPE_ADD, null);
     }

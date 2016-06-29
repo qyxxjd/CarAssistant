@@ -2,7 +2,9 @@ package com.classic.car.di.components;
 
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.ui.activity.AddConsumerActivity;
+import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
+import com.classic.car.ui.fragment.TimelineFragment;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -18,4 +20,6 @@ import javax.inject.Singleton;
 public interface AppComponent {
     void inject(AddConsumerActivity activity);
     void inject(MainFragment fragment);
+    void inject(TimelineFragment fragment);
+    void inject(ChartFragment fragment);
 }
