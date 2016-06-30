@@ -1,9 +1,11 @@
 package com.classic.car.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
+import com.classic.car.ui.test.LineChartActivity2;
 import com.classic.core.fragment.BaseFragment;
 
 /**
@@ -26,6 +28,16 @@ public class ChartFragment extends BaseFragment {
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         ((CarApplication)activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
+
+        parentView.findViewById(R.id.chart_tv).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                //activity.startActivity(new Intent(activity, LineChartActivity1.class));
+                activity.startActivity(new Intent(activity, LineChartActivity2.class));
+                //activity.startActivity(new Intent(activity, PieChartActivity.class));
+            }
+        });
     }
+
+
 
 }
