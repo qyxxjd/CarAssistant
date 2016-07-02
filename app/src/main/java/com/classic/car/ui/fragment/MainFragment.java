@@ -13,6 +13,7 @@ import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
+import com.classic.car.utils.Util;
 import com.classic.core.fragment.BaseFragment;
 import com.melnykov.fab.FloatingActionButton;
 import javax.inject.Inject;
@@ -40,6 +41,12 @@ public class MainFragment extends BaseFragment
         return new MainFragment();
     }
 
+    private boolean isFirsh = false;
+    @Override public void onFirst() {
+        super.onFirst();
+        isFirsh = true;
+    }
+
     @Override public int getLayoutResId() {
         return R.layout.fragment_main;
     }
@@ -54,6 +61,10 @@ public class MainFragment extends BaseFragment
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
+
+        if (isFirsh) {
+            mConsumerDao.insert(Util.getTestData());
+        }
 
         mConsumerDao.queryAll()
                 .subscribeOn(Schedulers.io())

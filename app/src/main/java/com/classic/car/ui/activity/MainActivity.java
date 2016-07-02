@@ -61,10 +61,14 @@ public class MainActivity extends ToolbarActivity {
             @Override public void onMenuTabReSelected(@IdRes int menuItemId) { }
         });
 
-        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));
-        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.green_light));
+        mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorPrimary));
+        mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.colorAccent));
         mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.material_blue));
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
+        //mBottomBar.mapColorForTab(0, ContextCompat.getColor(this, R.color.colorAccent));
+        //mBottomBar.mapColorForTab(1, ContextCompat.getColor(this, R.color.green_light));
+        //mBottomBar.mapColorForTab(2, ContextCompat.getColor(this, R.color.material_blue));
+        //mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
     }
 
     @Override

@@ -22,24 +22,50 @@ public final class Util {
 
     public static int getColorByType(int type){
         switch (type){
-            case Consts.TYPE_FUEL:
-                return R.color.purple_light;
-            case Consts.TYPE_PARKING:
-                return R.color.orange_light;
-            case Consts.TYPE_REPAIR:
-                return R.color.pink_light;
-            case Consts.TYPE_ROAD_TOLL:
-                return R.color.saffron_light;
-            case Consts.TYPE_PREMIUM:
+            case Consts.TYPE_FUEL: //加油费
+                return R.color.chartreuse_light;
+            case Consts.TYPE_PARKING: //停车费
                 return R.color.blue_light;
-            case Consts.TYPE_MAINTENANCE:
-                return R.color.green_light;
-            case Consts.TYPE_TRAFFIC_VIOLATION:
-                return R.color.sienna_light;
-            default:
+            case Consts.TYPE_REPAIR: //维修费
+                return R.color.orange_light;
+            case Consts.TYPE_ROAD_TOLL: //过路费
+                return R.color.saffron_light;
+            case Consts.TYPE_PREMIUM: //保险费
                 return R.color.pale_red;
+            case Consts.TYPE_MAINTENANCE: //汽车保养费
+                return R.color.green_light;
+            case Consts.TYPE_EXAMINATION: //汽车年审费
+                return R.color.purple_light;
+            case Consts.TYPE_TRAFFIC_VIOLATION: //交通违章罚款
+                return R.color.sienna_light;
+            default: //其它
+                return R.color.mediumorchid_light;
         }
     }
+
+    public static int getBackgroundByType(int type){
+        switch (type){
+            case Consts.TYPE_FUEL:
+                return R.drawable.bg_chartreuse_light;
+            case Consts.TYPE_PARKING:
+                return R.drawable.bg_blue_light;
+            case Consts.TYPE_REPAIR:
+                return R.drawable.bg_orange_light;
+            case Consts.TYPE_ROAD_TOLL:
+                return R.drawable.bg_saffron_light;
+            case Consts.TYPE_PREMIUM:
+                return R.drawable.bg_pale_red;
+            case Consts.TYPE_MAINTENANCE:
+                return R.drawable.bg_green_light;
+            case Consts.TYPE_EXAMINATION:
+                return R.drawable.bg_purple_light;
+            case Consts.TYPE_TRAFFIC_VIOLATION:
+                return R.drawable.bg_sienna_light;
+            default:
+                return R.drawable.bg_mediumorchid_light;
+        }
+    }
+
     public static int getIconByType(int type){
         switch (type){
             case Consts.TYPE_FUEL:
@@ -54,32 +80,15 @@ public final class Util {
                 return R.drawable.ic_premium;
             case Consts.TYPE_MAINTENANCE:
                 return R.drawable.ic_maintenance;
+            case Consts.TYPE_EXAMINATION:
+                return R.drawable.ic_examination;
             case Consts.TYPE_TRAFFIC_VIOLATION:
                 return R.drawable.ic_traffic_violation;
             default:
                 return R.drawable.ic_other;
         }
     }
-    public static int getBackgroundByType(int type){
-        switch (type){
-            case Consts.TYPE_FUEL:
-                return R.drawable.bg_purple_light;
-            case Consts.TYPE_PARKING:
-                return R.drawable.bg_orange_light;
-            case Consts.TYPE_REPAIR:
-                return R.drawable.bg_pink_light;
-            case Consts.TYPE_ROAD_TOLL:
-                return R.drawable.bg_saffron_light;
-            case Consts.TYPE_PREMIUM:
-                return R.drawable.bg_blue_light;
-            case Consts.TYPE_MAINTENANCE:
-                return R.drawable.bg_green_light;
-            case Consts.TYPE_TRAFFIC_VIOLATION:
-                return R.drawable.bg_sienna_light;
-            default:
-                return R.drawable.bg_pale_red;
-        }
-    }
+
     public static String formatMoney(float money){
         return MoneyUtil.replace(String.format(Locale.CHINA, Consts.FORMAT_MONEY, money));
     }
@@ -100,7 +109,7 @@ public final class Util {
     public static final List<ConsumerDetail> getTestData(){
         if(DataUtil.isEmpty(sConsumerDetails)){
             sConsumerDetails = new ArrayList<>();
-            for (int i = 0; i<8; i++){
+            for (int i = 0; i<Consts.TYPE_MENUS.length; i++){
                 ConsumerDetail item = new ConsumerDetail(System.currentTimeMillis(), getRandom(5000), i);
                 if(i == 1 || i==7){
                     item.setNotes("天冷了，办公室的门上出现了一张告示，赫然写着，“不关门，有BUG”，然后就见每个出去的程序员，非常虔诚的把门关上了。");

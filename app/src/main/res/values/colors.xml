@@ -19,14 +19,16 @@
     <color name="red">#FF432F</color>
     <color name="purple">#7B1FA2</color>
 
+    <color name="chartreuse_light">#2ECC71</color>
     <color name="saffron_light">#F4B63E</color>
     <color name="sienna_light">#EB6460</color>
     <color name="green_light">#10B4A5</color>
     <color name="purple_light">#7C57E4</color>
-    <color name="pink_light">#FF4284</color>
     <color name="orange_light">#FF8C6A</color>
-    <color name="blue_light">#4FC1E9</color>
+    <color name="blue_light">#00C0E4</color>
     <color name="pale_red">#EC87C0</color>
+    <color name="pink_light">#FF4284</color>
+    <color name="mediumorchid_light">#A976B9</color>
 
     <color name="material_red">#ffF44336</color>
     <color name="material_green">#ff4CAF50</color>

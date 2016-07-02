@@ -42,6 +42,18 @@ public class ConsumerDao {
         return mDatabase.insert(ConsumerTable.NAME, values);
     }
 
+    public void insert(List<ConsumerDetail> list){
+        BriteDatabase.Transaction transaction = mDatabase.newTransaction();
+        try {
+            for (ConsumerDetail item : list) {
+                insert(item);
+            }
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
+    }
+
     public int update(ConsumerDetail detail){
         final ContentValues values = new ContentValues();
         values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
