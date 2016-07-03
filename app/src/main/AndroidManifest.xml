@@ -33,9 +33,6 @@
         </activity>
         <activity android:name=".ui.activity.AddConsumerActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ui.test.PieChartActivity" />
-        <activity android:name=".ui.test.LineChartActivity1" />
-        <activity android:name=".ui.test.LineChartActivity2" />
     </application>
 
 </manifest>

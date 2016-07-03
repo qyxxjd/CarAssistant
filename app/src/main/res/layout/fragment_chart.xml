@@ -31,13 +31,12 @@
                 android:layout_below="@id/chart_fuel_lable"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_width="match_parent"
-                android:layout_height="160dp" />
+                android:layout_height="200dp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="@dimen/margin_large">
 
             <TextView style="@style/Chart.Lable"
@@ -49,12 +48,12 @@
                 android:layout_alignBottom="@id/chart_consumer_lable"
                 />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart_consumer_linechart"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart_consumer_barchart"
                 android:layout_below="@id/chart_consumer_lable"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_width="match_parent"
-                android:layout_height="160dp" />
+                android:layout_height="200dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -77,7 +76,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
-                android:layout_height="280dp" />
+                android:layout_height="240dp" />
         </RelativeLayout>
 
     </LinearLayout>

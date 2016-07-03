@@ -69,7 +69,22 @@ public class ConsumerDao {
     }
 
     public Observable<List<ConsumerDetail>> queryAll(){
-        final String sql = "SELECT * FROM " + ConsumerTable.NAME;
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
+                                                               .append(" ORDER BY ")
+                                                               .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
+                                                               .append(" DESC ");
+        return queryBySql(sql.toString());
+    }
+
+    public Observable<List<ConsumerDetail>> queryByType(Integer type) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME);
+        if (null != type) {
+            sql.append(" WHERE ").append(ConsumerTable.COLUMN_TYPE).append(" = ").append(type);
+        }
+        sql.append(" ORDER BY ").append(ConsumerTable.COLUMN_CONSUMPTION_TIME);
+        return queryBySql(sql.toString());
+    }
+    private Observable<List<ConsumerDetail>> queryBySql(String sql){
         return mDatabase.createQuery(ConsumerTable.NAME, sql)
                         .map(new Func1<SqlBrite.Query, List<ConsumerDetail>>() {
                             @Override public List<ConsumerDetail> call(SqlBrite.Query query) {

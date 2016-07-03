@@ -33,6 +33,24 @@ public class ConsumerDetail implements Serializable {
         this.type = type;
     }
 
+    public ConsumerDetail(int type, float money, long consumptionTime, String notes) {
+        this.type = type;
+        this.money = money;
+        this.consumptionTime = consumptionTime;
+        this.notes = notes;
+        this.createTime = System.currentTimeMillis();
+    }
+    public ConsumerDetail(int type, float money, long consumptionTime, int oilType, float unitPrice, long currentMileage, String notes) {
+        this.type = type;
+        this.money = money;
+        this.consumptionTime = consumptionTime;
+        this.oilType = oilType;
+        this.unitPrice = unitPrice;
+        this.currentMileage = currentMileage;
+        this.notes = notes;
+        this.createTime = System.currentTimeMillis();
+    }
+
     public ConsumerDetail(long id, long createTime, long consumptionTime, float money, int type, String notes,
                           int oilType, float unitPrice, long currentMileage) {
         this.id = id;

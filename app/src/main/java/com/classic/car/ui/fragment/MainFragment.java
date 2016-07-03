@@ -11,13 +11,20 @@ import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.db.table.ConsumerTable;
+import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
-import com.classic.car.utils.Util;
+import com.classic.car.utils.TxtHelper;
 import com.classic.core.fragment.BaseFragment;
+import com.classic.core.utils.DataUtil;
 import com.melnykov.fab.FloatingActionButton;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -41,10 +48,23 @@ public class MainFragment extends BaseFragment
         return new MainFragment();
     }
 
-    private boolean isFirsh = false;
     @Override public void onFirst() {
         super.onFirst();
-        isFirsh = true;
+        Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
+            @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
+                subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
+            }
+        })
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .unsubscribeOn(Schedulers.io())
+                  .subscribe(new Action1<List<ConsumerDetail>>() {
+                      @Override public void call(List<ConsumerDetail> list) {
+                          if (!DataUtil.isEmpty(list)) {
+                              mConsumerDao.insert(list);
+                          }
+                      }
+                  });
     }
 
     @Override public int getLayoutResId() {
@@ -61,10 +81,6 @@ public class MainFragment extends BaseFragment
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
-
-        if (isFirsh) {
-            mConsumerDao.insert(Util.getTestData());
-        }
 
         mConsumerDao.queryAll()
                 .subscribeOn(Schedulers.io())

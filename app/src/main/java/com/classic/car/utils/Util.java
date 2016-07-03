@@ -3,11 +3,7 @@ package com.classic.car.utils;
 import android.widget.EditText;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
-import com.classic.car.entity.ConsumerDetail;
-import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.MoneyUtil;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -105,24 +101,6 @@ public final class Util {
         editText.requestFocus();
     }
 
-    private static List<ConsumerDetail> sConsumerDetails;
-    public static final List<ConsumerDetail> getTestData(){
-        if(DataUtil.isEmpty(sConsumerDetails)){
-            sConsumerDetails = new ArrayList<>();
-            for (int i = 0; i<Consts.TYPE_MENUS.length; i++){
-                ConsumerDetail item = new ConsumerDetail(System.currentTimeMillis(), getRandom(5000), i);
-                if(i == 1 || i==7){
-                    item.setNotes("天冷了，办公室的门上出现了一张告示，赫然写着，“不关门，有BUG”，然后就见每个出去的程序员，非常虔诚的把门关上了。");
-                }
-                if (i == 3 || i == 5) {
-                    item.setNotes(
-                            "如果你的朋友最近没和你联系，要理解！只有三种可能：第一，他死了；第二，他改行当程序猿了；第三，需求又改了！");
-                }
-                sConsumerDetails.add(item);
-            }
-        }
-        return sConsumerDetails;
-    }
     public static final int getRandom(int maxValue){
         return (int)(Math.random()*maxValue);
     }
