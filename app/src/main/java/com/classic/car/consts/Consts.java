@@ -34,5 +34,7 @@ public final class Consts {
     public static final int FUEL_GASOLINE_95 = 2;
     public static final int FUEL_DIESEL      = 3; //柴油0#
 
-    public static final String FORMAT_MONEY = "￥%s";
+    public static final String FORMAT_MONEY    = "￥%s";
+    public static final String FORMAT_RMB      = "%s元";
+    public static final String FORMAT_OIL_MESS = "%s升";
 }

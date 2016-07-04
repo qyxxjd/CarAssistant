@@ -7,17 +7,19 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
-import com.classic.car.db.table.ConsumerTable;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.utils.TxtHelper;
 import com.classic.core.fragment.BaseFragment;
 import com.classic.core.utils.DataUtil;
+import com.classic.core.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.List;
 import javax.inject.Inject;
@@ -97,7 +99,21 @@ public class MainFragment extends BaseFragment
         AddConsumerActivity.start(activity, AddConsumerActivity.TYPE_MODIFY, mAdapter.getItem(position));
     }
 
-    @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-        //TODO 删除
+    @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
+        new MaterialDialog.Builder(activity)
+                //.title(R.string.delete_dialog_title)
+                .backgroundColorRes(R.color.white)
+                .content(R.string.delete_dialog_content)
+                .contentColorRes(R.color.primary_light)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override public void onClick(MaterialDialog dialog, DialogAction which) {
+                        int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
+                        ToastUtil.showToast(activity, rows>0 ? "删除成功" : "删除失败");
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }

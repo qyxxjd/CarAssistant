@@ -3,6 +3,10 @@
 
     <string name="add">添加</string>
     <string name="modify">修改</string>
+    <string name="delete">删除</string>
+    <string name="confirm">确认</string>
+    <string name="delete.dialog.title">友情提示</string>
+    <string name="delete.dialog.content">是否删除本条数据?</string>
     <string name="no.data.hint">暂无数据!</string>
     <string name="add.consumer.title">添加消费信息</string>
     <string name="add.consumer.success">添加成功</string>

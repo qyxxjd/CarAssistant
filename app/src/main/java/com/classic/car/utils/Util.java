@@ -88,6 +88,12 @@ public final class Util {
     public static String formatMoney(float money){
         return MoneyUtil.replace(String.format(Locale.CHINA, Consts.FORMAT_MONEY, money));
     }
+    public static String formatRMB(float money){
+        return MoneyUtil.replace(String.format(Locale.CHINA, Consts.FORMAT_RMB, money));
+    }
+    public static String formatOilMess(float oilMess){
+        return MoneyUtil.replace(String.format(Locale.CHINA, Consts.FORMAT_OIL_MESS, oilMess));
+    }
 
     public static void setText(EditText editText, String value){
         editText.setText(MoneyUtil.replace(value));

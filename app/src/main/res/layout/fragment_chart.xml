@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="none">
 
     <LinearLayout
@@ -33,6 +34,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
         </RelativeLayout>
+
+        <LinearLayout style="@style/Chart.ItemLayout">
+
+            <TextView style="@style/Chart.ItemLable"
+                android:text="最低油耗"/>
+            <TextView style="@style/Chart.ItemLable.Value"
+                android:id="@+id/chart_min_money"
+                tools:text="42元"/>
+            <TextView style="@style/Chart.ItemLable.Value"
+                android:id="@+id/chart_min_oilmess"
+                tools:text="7升"/>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/Chart.ItemLayout">
+
+            <TextView style="@style/Chart.ItemLable"
+                android:text="最高油耗"/>
+            <TextView style="@style/Chart.ItemLable.Value"
+                android:id="@+id/chart_max_money"
+                tools:text="105元"/>
+            <TextView style="@style/Chart.ItemLable.Value"
+                android:id="@+id/chart_max_oilmess"
+                tools:text="17升"/>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
