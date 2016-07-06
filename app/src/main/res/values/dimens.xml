@@ -38,7 +38,7 @@
     <dimen name="icon_normal">32dp</dimen>
     <dimen name="icon_small">24dp</dimen>
 
-    <dimen name="border_normal">4dp</dimen>
+    <dimen name="border_normal">2dp</dimen>
 
     <dimen name="consumer_detail_top_layout_height">80dp</dimen>
 </resources>

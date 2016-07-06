@@ -47,14 +47,23 @@
     </RelativeLayout>
 
     <TextView
-        tools:text="汽车保养\n￥300"
+        tools:text="汽车保养"
         android:id="@+id/item_timeline_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/item_timeline_icon_layout"
-        android:textSize="@dimen/font_large"
-        android:lineSpacingMultiplier="1.1"
+        android:textSize="@dimen/font_normal"
+        />
+    <TextView
+        tools:text="￥300"
+        android:id="@+id/item_timeline_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_below="@id/item_timeline_content"
+        android:layout_toRightOf="@id/item_timeline_icon_layout"
+        android:textSize="@dimen/font_item_money"
         />
 
     <View

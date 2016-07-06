@@ -46,7 +46,7 @@ public final class ChartUtil {
     }
 
     public static void initLineChart(Context context, LineChart lineChart){
-        lineChart.setNoDataTextDescription(getString(context, R.string.no_data_hint));
+        lineChart.setNoDataText(getString(context, R.string.no_data_hint));
         lineChart.setDescription("");
         lineChart.setDescriptionColor(getColor(context, R.color.secondary_text));
         // enable touch gestures
@@ -122,6 +122,7 @@ public final class ChartUtil {
 
         pieChart.setHoleRadius(48f);
         pieChart.setTransparentCircleRadius(52f);
+        pieChart.setHoleColor(Color.TRANSPARENT);
 
         pieChart.setRotationAngle(0);
         // enable rotation of the chart by touch

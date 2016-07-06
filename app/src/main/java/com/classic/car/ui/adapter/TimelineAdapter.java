@@ -39,9 +39,10 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
                 DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getConsumptionTime()) + "\n" +
                         DateUtil.formatDate(DateUtil.FORMAT_TIME, item.getConsumptionTime()))
               .setImageResource(R.id.item_timeline_icon, Util.getIconByType(item.getType()))
-              .setText(R.id.item_timeline_content,
-                      Consts.TYPE_MENUS[item.getType()] + "\t" + Util.formatMoney(item.getMoney()))
-              .setTextColorRes(R.id.item_timeline_content, Util.getColorByType(item.getType()));
+              .setText(R.id.item_timeline_content, Consts.TYPE_MENUS[item.getType()])
+              .setText(R.id.item_timeline_money, Util.formatMoney(item.getMoney()))
+              .setTextColorRes(R.id.item_timeline_content, Util.getColorByType(item.getType()))
+              .setTextColorRes(R.id.item_timeline_money, Util.getColorByType(item.getType()));
     }
 
     @Override public void call(List<ConsumerDetail> list) {
