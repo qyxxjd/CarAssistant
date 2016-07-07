@@ -22,7 +22,7 @@
                 android:id="@+id/chart_fuel_lable"
                 android:text="油耗曲线图"/>
 
-            <View style="@style/Chart.Divider"
+            <View style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_fuel_lable"
                 android:layout_alignBottom="@id/chart_fuel_lable"
                 />
@@ -35,31 +35,38 @@
                 android:layout_height="200dp" />
         </RelativeLayout>
 
-        <LinearLayout style="@style/Chart.ItemLayout">
-
+        <View style="@style/Chart.HorizontalDivider"
+            android:layout_marginTop="@dimen/margin_normal"/>
+        <LinearLayout style="@style/Chart.ItemLayout" >
+            <View style="@style/Chart.VerticalDivider" />
             <TextView style="@style/Chart.ItemLable"
                 android:text="最低油耗"/>
+            <View style="@style/Chart.VerticalDivider" />
+            <TextView style="@style/Chart.ItemLable"
+                android:text="最高油耗"/>
+            <View style="@style/Chart.VerticalDivider" />
+        </LinearLayout>
+        <View style="@style/Chart.HorizontalDivider" />
+        <LinearLayout style="@style/Chart.ItemLayout" >
+            <View style="@style/Chart.VerticalDivider" />
             <TextView style="@style/Chart.ItemLable.Value"
                 android:id="@+id/chart_min_money"
                 tools:text="42元"/>
+            <View style="@style/Chart.VerticalDivider" />
             <TextView style="@style/Chart.ItemLable.Value"
                 android:id="@+id/chart_min_oilmess"
                 tools:text="7升"/>
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/Chart.ItemLayout">
-
-            <TextView style="@style/Chart.ItemLable"
-                android:text="最高油耗"/>
+            <View style="@style/Chart.VerticalDivider" />
             <TextView style="@style/Chart.ItemLable.Value"
                 android:id="@+id/chart_max_money"
                 tools:text="105元"/>
+            <View style="@style/Chart.VerticalDivider" />
             <TextView style="@style/Chart.ItemLable.Value"
                 android:id="@+id/chart_max_oilmess"
                 tools:text="17升"/>
-
+            <View style="@style/Chart.VerticalDivider" />
         </LinearLayout>
+        <View style="@style/Chart.HorizontalDivider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,7 +77,7 @@
                 android:id="@+id/chart_consumer_lable"
                 android:text="消费统计图"/>
 
-            <View style="@style/Chart.Divider"
+            <View style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_consumer_lable"
                 android:layout_alignBottom="@id/chart_consumer_lable"
                 />
@@ -92,7 +99,7 @@
                 android:id="@+id/chart_percentage_lable"
                 android:text="消费百分比"/>
 
-            <View style="@style/Chart.Divider"
+            <View style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_percentage_lable"
                 android:layout_alignBottom="@id/chart_percentage_lable"
                 />

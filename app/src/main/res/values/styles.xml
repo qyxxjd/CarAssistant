@@ -152,24 +152,39 @@
     </style>
     <style name="Chart.ItemLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginLeft">@dimen/margin_normal</item>
-        <item name="android:layout_marginRight">@dimen/margin_normal</item>
-        <item name="android:layout_marginTop">@dimen/margin_normal</item>
+        <item name="android:layout_marginLeft">@dimen/margin_large</item>
+        <item name="android:layout_marginRight">@dimen/margin_large</item>
+    </style>
+    <style name="Chart.HorizontalDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin_large</item>
+        <item name="android:layout_marginRight">@dimen/margin_large</item>
+        <item name="android:background">@color/divider_dark</item>
+    </style>
+    <style name="Chart.VerticalDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/divider_dark</item>
     </style>
     <style name="Chart.ItemLable">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:textColor">@color/primary_text</item>
-        <item name="android:gravity">left</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="Chart.ItemLable.Value">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/primary_light</item>
     </style>
-    <style name="Chart.Divider">
+    <style name="Chart.TagDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@color/colorAccent</item>

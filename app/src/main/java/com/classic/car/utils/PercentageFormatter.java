@@ -20,11 +20,11 @@ public class PercentageFormatter implements ValueFormatter, YAxisValueFormatter 
     // ValueFormatter
     @Override
     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-        return MoneyUtil.replace(value) + "%";
+        return MoneyUtil.replace(MoneyUtil.newInstance(value).round(2).create()) + "%";
     }
 
     // YAxisValueFormatter
     @Override public String getFormattedValue(float value, YAxis yAxis) {
-        return MoneyUtil.replace(value) + "%";
+        return MoneyUtil.replace(MoneyUtil.newInstance(value).round(2).create()) + "%";
     }
 }
