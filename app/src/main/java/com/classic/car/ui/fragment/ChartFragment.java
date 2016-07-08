@@ -2,7 +2,9 @@ package com.classic.car.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,19 +48,20 @@ import rx.schedulers.Schedulers;
  */
 public class ChartFragment extends BaseFragment implements View.OnLongClickListener {
     private static final int ANIMATE_DURATION = 1500;
-    @BindView(R.id.chart_fuel_linechart)      LineChart mFuelLinechart;
-    @BindView(R.id.chart_consumer_barchart)   BarChart  mConsumerBarchart;
-    @BindView(R.id.chart_percentage_piechart) PieChart  mPercentagePiechart;
-    @BindView(R.id.chart_min_money)           TextView  mMinMoney;
-    @BindView(R.id.chart_max_money)           TextView  mMaxMoney;
-    @BindView(R.id.chart_min_oilmess)         TextView  mMinOilMess;
-    @BindView(R.id.chart_max_oilmess)         TextView  mMaxOilMess;
-    @Inject ConsumerDao mConsumerDao;
+    @BindView(R.id.chart_fuel_linechart)      LineChart    mFuelLinechart;
+    @BindView(R.id.chart_consumer_barchart)   BarChart     mConsumerBarchart;
+    @BindView(R.id.chart_percentage_piechart) PieChart     mPercentagePiechart;
+    @BindView(R.id.chart_min_money)           TextView     mMinMoney;
+    @BindView(R.id.chart_max_money)           TextView     mMaxMoney;
+    @BindView(R.id.chart_min_oilmess)         TextView     mMinOilMess;
+    @BindView(R.id.chart_max_oilmess)         TextView     mMaxOilMess;
+    @BindView(R.id.chart_percentage_detail)   LinearLayout mPercentageDetail;
+    @Inject                                   ConsumerDao  mConsumerDao;
     private float mTotalMoney = 0f;
-    private Map<Integer, Float> mValuesMap;
+    private Map<Integer, Float>              mValuesMap;
     private Observable<List<ConsumerDetail>> mAllData;
 
-    private Context mAppContext;
+    private Context         mAppContext;
     private FuelConsumption mMinFuelConsumption;
     private FuelConsumption mMaxFuelConsumption;
 
@@ -89,31 +92,29 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         processPieChartData();
     }
 
-    private void processBarChartData(){
-        mAllData
-            .flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
-                @Override public Observable<BarData> call(List<ConsumerDetail> list) {
-                    return Observable.just(ChartUtil.convertBarData(mAppContext, list));
-                }
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .unsubscribeOn(Schedulers.io())
-            .subscribe(new Action1<BarData>() {
-                @Override public void call(BarData barData) {
-                    if (null != barData) {
-                        mConsumerBarchart.setData(barData);
-                        mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+    private void processBarChartData() {
+        mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
+            @Override public Observable<BarData> call(List<ConsumerDetail> list) {
+                return Observable.just(ChartUtil.convertBarData(mAppContext, list));
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new Action1<BarData>() {
+                    @Override public void call(BarData barData) {
+                        if (null != barData) {
+                            mConsumerBarchart.setData(barData);
+                            mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                        }
                     }
-                }
-            });
+                });
     }
 
-    private void processPieChartData(){
-        mAllData
-                .flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
-                    @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
-                        mValuesMap = new HashMap<>();
+    private void processPieChartData() {
+        mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
+            @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
+                mValuesMap = new HashMap<>();
                         for (int i = 0; i < list.size(); i++) {
                             final int type = list.get(i).getType();
                             if (!mValuesMap.containsKey(type)) {
@@ -141,8 +142,21 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                             mPercentagePiechart.setData(pieData);
                             mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
                         }
+                        processPercentageDetail();
                     }
                 });
+    }
+
+    private void processPercentageDetail(){
+        mPercentageDetail.removeAllViews();
+        for (Integer key : mValuesMap.keySet()) {
+            View itemView = LayoutInflater.from(activity).inflate(R.layout.item_table, null);
+            //TODO
+
+            mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
+
     }
 
     private void processLineChartData(){

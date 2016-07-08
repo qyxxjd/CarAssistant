@@ -70,7 +70,7 @@ ext {
     stethoJsRhino = "com.facebook.stetho:stetho-js-rhino:${stethoVersion}"
 
     //数据库
-    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.6.3"
+    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.7.0"
 
     //通用适配器
     commonAdapter = "com.classic.adapter:commonadapter:1.2"
