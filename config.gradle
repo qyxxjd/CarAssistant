@@ -95,5 +95,5 @@ ext {
     fab = "com.melnykov:floatingactionbutton:1.3.0"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
-    pgyer = "com.pgyersdk:sdk:2.2"
+    pgyer = "com.pgyersdk:sdk:2.3.7"
 }

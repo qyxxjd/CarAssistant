@@ -45,4 +45,7 @@ dependencies {
     apt butterknifeCompiler
     apt dagger2Compiler
 
+    compile rootProject.ext.umeng
+    compile rootProject.ext.pgyer
+
 }

@@ -42,7 +42,7 @@ import rx.schedulers.Schedulers;
  * 应用名称: CarAssistant
  * 包 名 称: com.classic.car.ui.fragment
  *
- * 文件描述：TODO
+ * 文件描述：图表统计页面
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午2:21
  */
@@ -82,14 +82,22 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarchart);
         ChartUtil.initPieChart(mAppContext, mPercentagePiechart);
-        mFuelLinechart.setOnLongClickListener(this);
-        mConsumerBarchart.setOnLongClickListener(this);
-        mPercentagePiechart.setOnLongClickListener(this);
+        //mFuelLinechart.setOnLongClickListener(this);
+        //mConsumerBarchart.setOnLongClickListener(this);
+        //mPercentagePiechart.setOnLongClickListener(this);
 
         mAllData = mConsumerDao.queryByType(null);
         processLineChartData();
         processBarChartData();
         processPieChartData();
+    }
+
+    @Override public void onChange() {
+        super.onChange();
+
+        mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
     }
 
     private void processBarChartData() {
@@ -115,19 +123,18 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
             @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
                 mValuesMap = new HashMap<>();
-                        for (int i = 0; i < list.size(); i++) {
-                            final int type = list.get(i).getType();
-                            if (!mValuesMap.containsKey(type)) {
-                                mValuesMap.put(type, 0f);
-                            }
-                            final float money = list.get(i).getMoney();
-                            mTotalMoney = MoneyUtil.newInstance(mTotalMoney).add(money).create().floatValue();
-                            mValuesMap.put(type,
-                                    MoneyUtil.newInstance(mValuesMap.get(type)).add(money).create().floatValue());
-                        }
-                        return Observable.just(mValuesMap);
+                for (int i = 0; i < list.size(); i++) {
+                    final int type = list.get(i).getType();
+                    if (!mValuesMap.containsKey(type)) {
+                        mValuesMap.put(type, 0f);
                     }
-                })
+                    final float money = list.get(i).getMoney();
+                    mTotalMoney = MoneyUtil.newInstance(mTotalMoney).add(money).create().floatValue();
+                    mValuesMap.put(type, MoneyUtil.newInstance(mValuesMap.get(type)).add(money).create().floatValue());
+                }
+                return Observable.just(mValuesMap);
+            }
+        })
                 .flatMap(new Func1<Map<Integer, Float>, Observable<PieData>>() {
                     @Override public Observable<PieData> call(Map<Integer, Float> map) {
                         return Observable.just(ChartUtil.convertPieData(mAppContext, mTotalMoney, map));
@@ -147,19 +154,27 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                 });
     }
 
-    private void processPercentageDetail(){
-        mPercentageDetail.removeAllViews();
+    private void processPercentageDetail() {
+        if(mPercentageDetail.getChildCount() > 0){
+            mPercentageDetail.removeAllViews();
+        }
+        int rows = 1;
         for (Integer key : mValuesMap.keySet()) {
             View itemView = LayoutInflater.from(activity).inflate(R.layout.item_table, null);
-            //TODO
-
+            ((TextView)itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
+            ((TextView)itemView.findViewById(R.id.item_table_total_money)).setText(
+                    Util.formatRMB(mValuesMap.get(key)));
+            ((TextView)itemView.findViewById(R.id.item_table_percentage)).setText(
+                    Util.formatPercentage(mValuesMap.get(key), mTotalMoney));
+            itemView.findViewById(R.id.item_table_bottom_divider).setVisibility(rows==mValuesMap.size() ?
+            View.VISIBLE:View.GONE);
             mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
+            rows++;
         }
-
     }
 
-    private void processLineChartData(){
+    private void processLineChartData() {
         mConsumerDao.queryByType(Consts.TYPE_FUEL)
                     .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                         @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
@@ -169,9 +184,10 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                                 ConsumerDetail endItem = list.get(i + 1);
                                 final long mileage = endItem.getCurrentMileage() - startItem.getCurrentMileage();
                                 final float money = MoneyUtil.newInstance(startItem.getMoney())
-                                                              .divide(mileage)
-                                                              .multiply(100).create()
-                                                              .floatValue();
+                                                             .divide(mileage)
+                                                             .multiply(100)
+                                                             .create()
+                                                             .floatValue();
                                 final float oilMass = MoneyUtil.newInstance(money)
                                                                .divide(startItem.getUnitPrice())
                                                                .create()
@@ -181,10 +197,16 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                                         Float.valueOf(MoneyUtil.replace(money)),
                                         Float.valueOf(MoneyUtil.replace(oilMass)));
                                 result.add(item);
-                                mMinFuelConsumption = null==mMinFuelConsumption ? item :
-                                    (item.getMoney()<mMinFuelConsumption.getMoney() ? item : mMinFuelConsumption);
-                                mMaxFuelConsumption = null==mMaxFuelConsumption ? item :
-                                    (item.getMoney()>mMaxFuelConsumption.getMoney() ? item : mMaxFuelConsumption);
+                                mMinFuelConsumption = null == mMinFuelConsumption
+                                                      ? item
+                                                      : (item.getMoney() < mMinFuelConsumption.getMoney()
+                                                         ? item
+                                                         : mMinFuelConsumption);
+                                mMaxFuelConsumption = null == mMaxFuelConsumption
+                                                      ? item
+                                                      : (item.getMoney() > mMaxFuelConsumption.getMoney()
+                                                         ? item
+                                                         : mMaxFuelConsumption);
                             }
                             return Observable.just(result);
                         }
@@ -203,11 +225,11 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                                 mFuelLinechart.setData(lineData);
                                 mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
                             }
-                            if(null != mMinFuelConsumption){
+                            if (null != mMinFuelConsumption) {
                                 mMinMoney.setText(Util.formatRMB(mMinFuelConsumption.getMoney()));
                                 mMinOilMess.setText(Util.formatOilMess(mMinFuelConsumption.getOilMass()));
                             }
-                            if(null != mMaxFuelConsumption){
+                            if (null != mMaxFuelConsumption) {
                                 mMaxMoney.setText(Util.formatRMB(mMaxFuelConsumption.getMoney()));
                                 mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
                             }
@@ -218,13 +240,12 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
     @Override public boolean onLongClick(View v) {
         final String fileName = String.valueOf(System.currentTimeMillis());
         final String path = new StringBuilder().append(File.separator)
-                                               .append(AppInfoUtil.getPackageName(activity
-                                                       .getApplicationContext()))
+                                               .append(AppInfoUtil.getPackageName(activity.getApplicationContext()))
                                                .append(File.separator)
                                                .append("images")
                                                .append(File.separator)
                                                .toString();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.chart_fuel_linechart:
                 mFuelLinechart.saveToPath(fileName, path);
                 break;
@@ -238,4 +259,5 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         ToastUtil.showToast(activity, "图片保存成功");
         return true;
     }
+
 }

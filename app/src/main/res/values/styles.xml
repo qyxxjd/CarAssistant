@@ -32,6 +32,13 @@
     <style name="AppTheme.PopupOverlay"
         parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="Dialog"
+        parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="ListView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -47,8 +54,6 @@
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.1dp</item>
-    </style>
-    <style name="Divider.Common">
         <item name="android:background">@color/divider</item>
     </style>
 
@@ -188,6 +193,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@color/colorAccent</item>
+    </style>
+    <style name="About" />
+    <style name="About.ItemLable">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/primary_light</item>
+        <item name="android:drawableRight">@drawable/about_item_icon</item>
+        <item name="android:background">@drawable/about_item_selector</item>
     </style>
 
 </resources>

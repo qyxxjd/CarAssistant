@@ -45,7 +45,26 @@ public final class ChartUtil {
         return context.getResources().getColor(resId);
     }
 
-    public static void initLineChart(Context context, LineChart lineChart){
+    private static int[] sColorTemplate;
+    public static int[] getColorTemplate(Context context){
+        if(null == sColorTemplate){
+            sColorTemplate = new int[]{
+                    getColor(context,R.color.blue_light),
+                    getColor(context,R.color.pale_red),
+                    getColor(context,R.color.chartreuse_light),
+                    getColor(context,R.color.saffron_light),
+                    getColor(context,R.color.mediumorchid_light),
+                    getColor(context,R.color.green_light),
+                    getColor(context,R.color.orange_light),
+                    getColor(context,R.color.sienna_light),
+                    getColor(context,R.color.purple_light),
+                    getColor(context,R.color.pink_light)
+            };
+        }
+        return sColorTemplate;
+    }
+
+    public static void initLineChart(Context context, LineChart lineChart) {
         lineChart.setNoDataText(getString(context, R.string.no_data_hint));
         lineChart.setDescription("");
         lineChart.setDescriptionColor(getColor(context, R.color.secondary_text));
@@ -90,6 +109,9 @@ public final class ChartUtil {
 
         barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
+        //barChart.setTouchEnabled(false);
+        //barChart.setDragEnabled(true);
+        //barChart.setScaleEnabled(true);
 
         barChart.setDescription("单位:元");
         barChart.setDescriptionColor(getColor(context, R.color.gray_dark));
@@ -129,12 +151,6 @@ public final class ChartUtil {
         pieChart.setRotationEnabled(true);
         pieChart.setHighlightPerTapEnabled(true);
 
-        // pieChart.setUnit(" €");
-        // pieChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        //pieChart.setOnChartValueSelectedListener(this);
-
         Legend l = pieChart.getLegend();
         l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
         l.setXEntrySpace(4f);
@@ -168,8 +184,8 @@ public final class ChartUtil {
         //moneySet.setHighlightEnabled(true); //选中高亮
 
         LineDataSet oilMessSet = new LineDataSet(oilMessValues, "百公里耗油曲线(升)");
-        oilMessSet.setColor(getColor(context, R.color.colorPrimary));
-        oilMessSet.setCircleColor(getColor(context, R.color.colorPrimary));
+        oilMessSet.setColor(getColor(context, R.color.blue));
+        oilMessSet.setCircleColor(getColor(context, R.color.blue));
         oilMessSet.setValueTextSize(8f);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -186,17 +202,11 @@ public final class ChartUtil {
         ArrayList<BarEntry> entries = new ArrayList<>();
         ArrayList<String> xVals = new ArrayList<>();
         BarDataSet ds = new BarDataSet(entries, "");
-        ArrayList<Integer> colors = new ArrayList<>();
+        ds.setColors(getColorTemplate(context));
         for (int i = 0; i < list.size(); i++) {
             xVals.add("");
             entries.add(new BarEntry(list.get(i).getMoney(), i));
-            final int type = list.get(i).getType();
-            if (!colors.contains(type)) {
-                colors.add(type);
-                ds.addColor(getColor(context, Util.getColorByType(type)));
-            }
         }
-        colors.clear();
         sets.add(ds);
         return new BarData(xVals, sets);
     }
@@ -210,12 +220,12 @@ public final class ChartUtil {
         PieDataSet dataSet = new PieDataSet(yVals1, "");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
+        dataSet.setColors(getColorTemplate(context));
         int i = 0;
         for (Integer key : map.keySet()) {
             yVals1.add(new Entry(
                     MoneyUtil.newInstance(map.get(key)).divide(totalMoney).create().floatValue(), i));
             xVals.add(Consts.TYPE_MENUS[key]);
-            dataSet.addColor(getColor(context, Util.getColorByType(key)));
             i++;
         }
 

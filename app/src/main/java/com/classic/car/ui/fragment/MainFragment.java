@@ -101,7 +101,6 @@ public class MainFragment extends BaseFragment
 
     @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
         new MaterialDialog.Builder(activity)
-                //.title(R.string.delete_dialog_title)
                 .backgroundColorRes(R.color.white)
                 .content(R.string.delete_dialog_content)
                 .contentColorRes(R.color.primary_light)
@@ -110,7 +109,7 @@ public class MainFragment extends BaseFragment
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override public void onClick(MaterialDialog dialog, DialogAction which) {
                         int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
-                        ToastUtil.showToast(activity, rows>0 ? "删除成功" : "删除失败");
+                        ToastUtil.showToast(activity, rows>0 ? R.string.delete_success : R.string.delete_fail);
                         dialog.dismiss();
                     }
                 })

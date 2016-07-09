@@ -1,6 +1,5 @@
 package com.classic.car.utils;
 
-import com.classic.core.utils.MoneyUtil;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -20,11 +19,11 @@ public class PercentageFormatter implements ValueFormatter, YAxisValueFormatter 
     // ValueFormatter
     @Override
     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-        return MoneyUtil.replace(MoneyUtil.newInstance(value).round(2).create()) + "%";
+        return Util.formatPercentage(value);
     }
 
     // YAxisValueFormatter
     @Override public String getFormattedValue(float value, YAxis yAxis) {
-        return MoneyUtil.replace(MoneyUtil.newInstance(value).round(2).create()) + "%";
+        return Util.formatPercentage(value);
     }
 }

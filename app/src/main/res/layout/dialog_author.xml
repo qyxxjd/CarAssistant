@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/margin_larger"
+    android:paddingBottom="@dimen/margin_larger"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/qrcode_width"
+            android:layout_height="@dimen/qrcode_width"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_qq_qrcode"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textColor="@color/primary_text"
+            android:text="@string/author.qq"
+            android:textSize="@dimen/font_normal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/qrcode_width"
+            android:layout_height="@dimen/qrcode_width"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_wx_qrcode"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textColor="@color/primary_text"
+            android:text="@string/author.wx"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/font_normal"/>
+
+    </LinearLayout>
+</LinearLayout>

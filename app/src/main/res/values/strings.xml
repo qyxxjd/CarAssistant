@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">汽车助手</string>
 
+    <string name="network.error">网络异常,请检查网络连接</string>
+
     <string name="add">添加</string>
+    <string name="update">更新</string>
+    <string name="update.dialog.title">版本更新</string>
+    <string name="no.update">当前已是最新版本</string>
     <string name="modify">修改</string>
     <string name="delete">删除</string>
+    <string name="delete.success">删除成功</string>
+    <string name="delete.fail">删除失败</string>
     <string name="confirm">确认</string>
     <string name="delete.dialog.title">友情提示</string>
     <string name="delete.dialog.content">是否删除本条数据?</string>
@@ -26,4 +33,34 @@
     <string name="consumer.fuel.type.hint">加油类型:</string>
     <string name="consumer.time.hint">消费时间:</string>
     <string name="consumer.select.time.hint">点击选择消费时间</string>
+
+    <string name="chart.consumer.title">消费统计图</string>
+    <string name="chart.percentage.title">消费百分比</string>
+    <string name="chart.fuel.title">油耗曲线图</string>
+    <string name="chart.fuel.min.lable">最低油耗</string>
+    <string name="chart.fuel.max.lable">最高油耗</string>
+
+    <string name="about.update">检查更新</string>
+    <string name="about.feedback">问题反馈</string>
+    <string name="about.author">联系作者</string>
+    <string name="about.thanks">感恩鸣谢</string>
+
+    <string name="about.version">v %s</string>
+    <string name="author.qq">QQ:630404403</string>
+    <string name="author.wx">微信:630404403</string>
+    <string name="opensource.detail">
+        感谢以下开源库和作者，排名不分先后：\n
+        RxJava \n
+        RxAndroid \n
+        Sqlbrite \n
+        Dagger2 \n
+        BottomBar \n
+        Butterknife \n
+        SublimePicker \n
+        MPAndroidChart \n
+        MaterialDialog \n
+        MaterialSpinner \n
+        MaterialEditText \n
+        FloatingActionButton \n
+    </string>
 </resources>

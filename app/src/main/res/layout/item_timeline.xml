@@ -67,7 +67,7 @@
         />
 
     <View
-        android:layout_width="@dimen/border_normal"
+        android:layout_width="@dimen/border_small"
         android:layout_height="match_parent"
         android:layout_below="@id/item_timeline_icon_layout"
         android:layout_alignLeft="@id/item_timeline_icon_layout"
