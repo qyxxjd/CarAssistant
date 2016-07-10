@@ -12,13 +12,20 @@ import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
+import com.classic.car.utils.TxtHelper;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -44,21 +51,21 @@ public class MainFragment extends AppBaseFragment
 
     @Override public void onFirst() {
         super.onFirst();
-        //Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
-        //    @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
-        //        subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
-        //    }
-        //})
-        //          .subscribeOn(Schedulers.io())
-        //          .observeOn(AndroidSchedulers.mainThread())
-        //          .unsubscribeOn(Schedulers.io())
-        //          .subscribe(new Action1<List<ConsumerDetail>>() {
-        //              @Override public void call(List<ConsumerDetail> list) {
-        //                  if (!DataUtil.isEmpty(list)) {
-        //                      mConsumerDao.insert(list);
-        //                  }
-        //              }
-        //          });
+        Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
+            @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
+                subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
+            }
+        })
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .unsubscribeOn(Schedulers.io())
+                  .subscribe(new Action1<List<ConsumerDetail>>() {
+                      @Override public void call(List<ConsumerDetail> list) {
+                          if (!DataUtil.isEmpty(list)) {
+                              mConsumerDao.insert(list);
+                          }
+                      }
+                  });
     }
 
     @Override public int getLayoutResId() {

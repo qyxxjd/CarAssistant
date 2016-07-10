@@ -57,12 +57,12 @@ public class ChartFragment extends AppBaseFragment {
     @BindView(R.id.chart_percentage_save)     TextView     mSavePercentage;
     @BindView(R.id.chart_percentage_detail)   LinearLayout mPercentageDetail;
     @Inject                                   ConsumerDao  mConsumerDao;
+
     private float mTotalMoney = 0f;
     private Map<Integer, Float>              mValuesMap;
     private Observable<List<ConsumerDetail>> mAllData;
-
-    private FuelConsumption mMinFuelConsumption;
-    private FuelConsumption mMaxFuelConsumption;
+    private FuelConsumption                  mMinFuelConsumption;
+    private FuelConsumption                  mMaxFuelConsumption;
 
     public static ChartFragment newInstance() {
         return new ChartFragment();
@@ -79,9 +79,6 @@ public class ChartFragment extends AppBaseFragment {
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarchart);
         ChartUtil.initPieChart(mAppContext, mPercentagePiechart);
-        //mFuelLinechart.setOnLongClickListener(this);
-        //mConsumerBarchart.setOnLongClickListener(this);
-        //mPercentagePiechart.setOnLongClickListener(this);
 
         mAllData = mConsumerDao.queryByType(null);
         addSubscription(processLineChartData());

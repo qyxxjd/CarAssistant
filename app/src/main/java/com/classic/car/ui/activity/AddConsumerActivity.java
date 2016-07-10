@@ -200,12 +200,10 @@ public class AddConsumerActivity extends AppBaseActivity
     @Override public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
             addConsumer();
-            return true;
         }else if(item.getItemId() == R.id.action_modify){
             modifyConsumer();
-            return true;
         }
-        return false;
+        return true;
     }
 
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {

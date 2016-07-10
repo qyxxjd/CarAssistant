@@ -22,9 +22,6 @@ public class CarApplication extends Application {
         super.onCreate();
 
         BasicConfig.getInstance(this).init();
-        //BasicConfig.getInstance(this)
-        //        .initDir()
-        //        .initLog(true);
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))

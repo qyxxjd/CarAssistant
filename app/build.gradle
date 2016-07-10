@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -11,6 +14,10 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        manifestPlaceholders = [PGYER_APPID: properties.getProperty("PGYER_APPID"),
+                                UMENG_APPKEY: properties.getProperty("UMENG_APPKEY"),
+                                UMENG_CHANNEL: "pgyer"]
     }
     buildTypes {
         release {
@@ -18,6 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -47,6 +55,5 @@ dependencies {
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
-    compile rootProject.ext.leakCanaryDebug
 
 }

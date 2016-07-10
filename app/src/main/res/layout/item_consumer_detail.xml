@@ -71,6 +71,5 @@
         android:layout_toRightOf="@id/item_consumer_detail_notes_icon"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_normal"
-        tools:text="灵感UI设计网是一个致力于设计师UI设计作品分享的网站，提供很多有才华的设计师们的优秀作品，帮助设计师们获得UI方面的设计灵感，提供丰富的设计参考案例，同时还提供收费版的在线设计工具。"
         />
 </RelativeLayout>

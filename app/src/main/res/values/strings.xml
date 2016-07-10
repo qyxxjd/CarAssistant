@@ -63,6 +63,7 @@
         Sqlbrite \n
         Dagger2 \n
         BottomBar \n
+        LeakCanary \n
         Butterknife \n
         SublimePicker \n
         MPAndroidChart \n

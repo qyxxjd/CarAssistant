@@ -34,10 +34,8 @@
         <activity android:name=".ui.activity.ThanksActivity"
             android:launchMode="singleTop" />
 
-        <meta-data
-            android:name="PGYER_APPID"
-            android:value="a9d325e54bd63da7df817f4e7a2790d6" />
-        <meta-data android:value="5780b5cde0f55a2e7f001086" android:name="UMENG_APPKEY" />
-        <meta-data android:value="pgyer" android:name="UMENG_CHANNEL"/>
+        <meta-data android:name="PGYER_APPID" android:value="${PGYER_APPID}" />
+        <meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY}" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="${UMENG_CHANNEL}" />
     </application>
 </manifest>
