@@ -44,6 +44,7 @@ public class MainFragment extends AppBaseFragment
 
     //@Override public void onFirst() {
     //    super.onFirst();
+    //    //导入文本数据,自用
     //    Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
     //        @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
     //            subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
