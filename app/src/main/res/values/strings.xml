@@ -60,6 +60,7 @@
         感谢以下开源库和作者，排名不分先后：\n
         RxJava \n
         RxAndroid \n
+        RxPermissions \n
         Sqlbrite \n
         Dagger2 \n
         BottomBar \n

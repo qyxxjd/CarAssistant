@@ -1,5 +1,6 @@
 package com.classic.car.ui.fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.IntentUtil;
 import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.views.PgyerDialog;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import rx.functions.Action1;
 
 /**
  * 应用名称: CarAssistant
@@ -52,7 +55,7 @@ public class AboutFragment extends AppBaseFragment {
                 PgyerUtil.checkUpdate(activity, true);
                 break;
             case R.id.about_feedback:
-                PgyFeedback.getInstance().showDialog(activity);
+                feedback();
                 break;
             case R.id.about_author:
                 if (null == mAuthorDialog) {
@@ -68,6 +71,16 @@ public class AboutFragment extends AppBaseFragment {
                 ThanksActivity.start(activity);
                 break;
         }
+    }
+
+    private void feedback(){
+        RxPermissions.getInstance(mAppContext)
+                     .request(Manifest.permission.RECORD_AUDIO)
+                     .subscribe(new Action1<Boolean>() {
+                         @Override public void call(Boolean granted) {
+                             PgyFeedback.getInstance().showDialog(activity);
+                         }
+                     });
     }
 
     @Override public void onPause() {

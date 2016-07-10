@@ -1,5 +1,6 @@
 package com.classic.car.ui.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
@@ -12,12 +13,15 @@ import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
 import com.classic.car.utils.PgyerUtil;
+import com.classic.core.BasicConfig;
 import com.classic.core.utils.DeviceUtil;
 import com.classic.core.utils.DoubleClickExitHelper;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
+import rx.functions.Action1;
 
 public class MainActivity extends AppBaseActivity {
     private BottomBar        mBottomBar;
@@ -75,9 +79,24 @@ public class MainActivity extends AppBaseActivity {
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
 
         mDoubleClickExitHelper = new DoubleClickExitHelper(activity);
+
+        RxPermissions.getInstance(mAppContext)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override public void call(Boolean granted) {
+                        if (granted) {
+                            BasicConfig.getInstance(mAppContext).init();
+                            MobclickAgent.onProfileSignIn(DeviceUtil.getInstance(mAppContext).getID());
+                        } else {
+                            activity.finish();
+                        }
+                    }
+                });
         PgyCrashManager.register(this);
         PgyerUtil.checkUpdate(activity, false);
-        MobclickAgent.onProfileSignIn(DeviceUtil.getInstance(mAppContext).getID());
+
     }
 
     @Override public void unRegister() {

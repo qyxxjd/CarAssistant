@@ -5,7 +5,6 @@ import com.classic.car.di.components.AppComponent;
 import com.classic.car.di.components.DaggerAppComponent;
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.di.modules.DbModule;
-import com.classic.core.BasicConfig;
 
 /**
  * 应用名称: CarAssistant
@@ -20,8 +19,6 @@ public class CarApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
-
-        BasicConfig.getInstance(this).init();
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
