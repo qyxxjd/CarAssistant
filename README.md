@@ -1,4 +1,4 @@
-## 汽车助手 V0.2
+## 汽车助手 V0.3
 
 - 消费信息的增删改查
 - 消费记录统计表
@@ -6,10 +6,7 @@
 - 百公里油耗曲线图,最低油耗/最高油耗信息
 
 
-[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.2_beta.apk?raw=true)
-
-已知问题:
-> Android6.0正在等待手机适配,近期修复
+[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.3_beta.apk?raw=true)
 
 
 ## 截图
@@ -24,6 +21,7 @@
 ```xml
 RxJava 
 RxAndroid 
+RxPermissions
 Sqlbrite 
 Dagger2 
 BottomBar 
