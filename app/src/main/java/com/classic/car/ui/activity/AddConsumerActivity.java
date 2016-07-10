@@ -16,7 +16,7 @@ import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
-import com.classic.car.ui.base.ToolbarActivity;
+import com.classic.car.ui.base.AppBaseActivity;
 import com.classic.car.ui.fragment.DatePickerFragment;
 import com.classic.car.utils.Util;
 import com.classic.core.utils.DateUtil;
@@ -34,7 +34,7 @@ import javax.inject.Inject;
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
  */
-public class AddConsumerActivity extends ToolbarActivity
+public class AddConsumerActivity extends AppBaseActivity
         implements Toolbar.OnMenuItemClickListener, MaterialSpinner.OnItemSelectedListener,
                     DatePickerFragment.Callback{
     public static final int TYPE_ADD    = 0;
@@ -166,10 +166,10 @@ public class AddConsumerActivity extends ToolbarActivity
             return;
         }
         if(mConsumerDao.insert(mConsumerDetail) > 0){
-            ToastUtil.showToast(activity, R.string.add_consumer_success);
+            ToastUtil.showToast(mAppContext, R.string.add_consumer_success);
             reset();
         } else {
-            ToastUtil.showToast(activity, R.string.add_consumer_fail);
+            ToastUtil.showToast(mAppContext, R.string.add_consumer_fail);
         }
     }
     private void modifyConsumer() {
@@ -177,10 +177,10 @@ public class AddConsumerActivity extends ToolbarActivity
             return;
         }
         if (mConsumerDao.update(mConsumerDetail) > 0){
-            ToastUtil.showToast(activity, R.string.modify_consumer_success);
+            ToastUtil.showToast(mAppContext, R.string.modify_consumer_success);
             finish();
         } else {
-            ToastUtil.showToast(activity, R.string.modify_consumer_fail);
+            ToastUtil.showToast(mAppContext, R.string.modify_consumer_fail);
         }
     }
 

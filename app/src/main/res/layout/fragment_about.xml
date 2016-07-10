@@ -13,7 +13,7 @@
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
-        style="@style/ItemText.Gray.Large"
+        style="@style/ItemText.Gray.Normal"
         android:id="@+id/about_version"
         android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginBottom="@dimen/margin_larger"
@@ -48,6 +48,13 @@
             style="@style/About.ItemLable"
             android:id="@+id/about_author"
             android:text="@string/about.author"/>
+
+        <View style="@style/Divider"/>
+
+        <TextView
+            style="@style/About.ItemLable"
+            android:id="@+id/about_share"
+            android:text="@string/about.share"/>
 
         <View style="@style/Divider"/>
 

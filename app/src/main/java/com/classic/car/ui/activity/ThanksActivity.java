@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.classic.car.R;
-import com.classic.car.ui.base.ToolbarActivity;
+import com.classic.car.ui.base.AppBaseActivity;
 
 /**
  * 应用名称: CarAssistant
@@ -14,7 +14,7 @@ import com.classic.car.ui.base.ToolbarActivity;
  * 创 建 人：续写经典
  * 创建时间：16/7/9 下午2:07
  */
-public class ThanksActivity extends ToolbarActivity {
+public class ThanksActivity extends AppBaseActivity {
 
     public static void start(Activity activity){
         activity.startActivity(new Intent(activity, ThanksActivity.class));

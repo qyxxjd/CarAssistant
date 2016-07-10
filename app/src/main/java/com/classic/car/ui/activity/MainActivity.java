@@ -6,16 +6,20 @@ import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import com.classic.car.R;
-import com.classic.car.ui.base.ToolbarActivity;
+import com.classic.car.ui.base.AppBaseActivity;
 import com.classic.car.ui.fragment.AboutFragment;
 import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
+import com.classic.car.utils.PgyerUtil;
+import com.classic.core.utils.DeviceUtil;
 import com.classic.core.utils.DoubleClickExitHelper;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends ToolbarActivity {
+public class MainActivity extends AppBaseActivity {
     private BottomBar        mBottomBar;
     private MainFragment     mMainFragment;
     private ChartFragment    mChartFragment;
@@ -71,7 +75,14 @@ public class MainActivity extends ToolbarActivity {
         mBottomBar.mapColorForTab(3, ContextCompat.getColor(this, R.color.orange));
 
         mDoubleClickExitHelper = new DoubleClickExitHelper(activity);
-        //PgyerUtil.checkUpdate(activity, false);
+        PgyCrashManager.register(this);
+        PgyerUtil.checkUpdate(activity, false);
+        MobclickAgent.onProfileSignIn(DeviceUtil.getInstance(mAppContext).getID());
+    }
+
+    @Override public void unRegister() {
+        super.unRegister();
+        PgyCrashManager.unregister();
     }
 
     @Override

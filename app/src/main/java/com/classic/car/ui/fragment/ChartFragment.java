@@ -1,38 +1,35 @@
 package com.classic.car.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
+import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.ChartUtil;
 import com.classic.car.utils.Util;
-import com.classic.core.fragment.BaseFragment;
-import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -46,7 +43,7 @@ import rx.schedulers.Schedulers;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午2:21
  */
-public class ChartFragment extends BaseFragment implements View.OnLongClickListener {
+public class ChartFragment extends AppBaseFragment {
     private static final int ANIMATE_DURATION = 1500;
     @BindView(R.id.chart_fuel_linechart)      LineChart    mFuelLinechart;
     @BindView(R.id.chart_consumer_barchart)   BarChart     mConsumerBarchart;
@@ -55,13 +52,15 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
     @BindView(R.id.chart_max_money)           TextView     mMaxMoney;
     @BindView(R.id.chart_min_oilmess)         TextView     mMinOilMess;
     @BindView(R.id.chart_max_oilmess)         TextView     mMaxOilMess;
+    @BindView(R.id.chart_consumer_save)       TextView     mSaveConsumer;
+    @BindView(R.id.chart_fuel_save)           TextView     mSaveFuel;
+    @BindView(R.id.chart_percentage_save)     TextView     mSavePercentage;
     @BindView(R.id.chart_percentage_detail)   LinearLayout mPercentageDetail;
     @Inject                                   ConsumerDao  mConsumerDao;
     private float mTotalMoney = 0f;
     private Map<Integer, Float>              mValuesMap;
     private Observable<List<ConsumerDetail>> mAllData;
 
-    private Context         mAppContext;
     private FuelConsumption mMinFuelConsumption;
     private FuelConsumption mMaxFuelConsumption;
 
@@ -76,8 +75,6 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         ((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
-        ButterKnife.bind(this, parentView);
-        mAppContext = activity.getApplicationContext();
 
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarchart);
@@ -87,9 +84,9 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         //mPercentagePiechart.setOnLongClickListener(this);
 
         mAllData = mConsumerDao.queryByType(null);
-        processLineChartData();
-        processBarChartData();
-        processPieChartData();
+        addSubscription(processLineChartData());
+        addSubscription(processBarChartData());
+        addSubscription(processPieChartData());
     }
 
     @Override public void onChange() {
@@ -100,8 +97,8 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
     }
 
-    private void processBarChartData() {
-        mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
+    private Subscription processBarChartData() {
+        return mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
             @Override public Observable<BarData> call(List<ConsumerDetail> list) {
                 return Observable.just(ChartUtil.convertBarData(mAppContext, list));
             }
@@ -115,12 +112,13 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                             mConsumerBarchart.setData(barData);
                             mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
                         }
+                        mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
                     }
                 });
     }
 
-    private void processPieChartData() {
-        mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
+    private Subscription processPieChartData() {
+        return mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
             @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
                 mValuesMap = new HashMap<>();
                 for (int i = 0; i < list.size(); i++) {
@@ -149,6 +147,7 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                             mPercentagePiechart.setData(pieData);
                             mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
                         }
+                        mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
                         processPercentageDetail();
                     }
                 });
@@ -174,8 +173,8 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
         }
     }
 
-    private void processLineChartData() {
-        mConsumerDao.queryByType(Consts.TYPE_FUEL)
+    private Subscription processLineChartData() {
+        return mConsumerDao.queryByType(Consts.TYPE_FUEL)
                     .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                         @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
                             List<FuelConsumption> result = new ArrayList<>();
@@ -233,31 +232,24 @@ public class ChartFragment extends BaseFragment implements View.OnLongClickListe
                                 mMaxMoney.setText(Util.formatRMB(mMaxFuelConsumption.getMoney()));
                                 mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
                             }
+                            mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
                         }
                     });
     }
 
-    @Override public boolean onLongClick(View v) {
-        final String fileName = String.valueOf(System.currentTimeMillis());
-        final String path = new StringBuilder().append(File.separator)
-                                               .append(AppInfoUtil.getPackageName(activity.getApplicationContext()))
-                                               .append(File.separator)
-                                               .append("images")
-                                               .append(File.separator)
-                                               .toString();
-        switch (v.getId()) {
-            case R.id.chart_fuel_linechart:
-                mFuelLinechart.saveToPath(fileName, path);
+    @OnClick({R.id.chart_consumer_save, R.id.chart_fuel_save, R.id.chart_percentage_save})
+    public void onSaveCharts(View view){
+        switch (view.getId()){
+            case R.id.chart_consumer_save:
+                ChartUtil.saveCharts(activity, mConsumerBarchart);
                 break;
-            case R.id.chart_consumer_barchart:
-                mConsumerBarchart.saveToPath(fileName, path);
+            case R.id.chart_fuel_save:
+                ChartUtil.saveCharts(activity, mFuelLinechart);
                 break;
-            case R.id.chart_percentage_piechart:
-                mPercentagePiechart.saveToPath(fileName, path);
+            case R.id.chart_percentage_save:
+                ChartUtil.saveCharts(activity, mPercentagePiechart);
                 break;
         }
-        ToastUtil.showToast(activity, "图片保存成功");
-        return true;
     }
 
 }

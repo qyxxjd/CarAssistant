@@ -27,6 +27,10 @@
                 android:layout_toRightOf="@id/chart_consumer_lable"
                 android:layout_alignBottom="@id/chart_consumer_lable"/>
 
+            <TextView
+                style="@style/Chart.Save"
+                android:id="@+id/chart_consumer_save" />
+
         </RelativeLayout>
 
         <com.github.mikephil.charting.charts.BarChart
@@ -49,6 +53,10 @@
                 style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_percentage_lable"
                 android:layout_alignBottom="@id/chart_percentage_lable"/>
+
+            <TextView
+                style="@style/Chart.Save"
+                android:id="@+id/chart_percentage_save" />
 
         </RelativeLayout>
 
@@ -81,6 +89,9 @@
                 android:layout_toRightOf="@id/chart_fuel_lable"
                 android:layout_alignBottom="@id/chart_fuel_lable"/>
 
+            <TextView
+                style="@style/Chart.Save"
+                android:id="@+id/chart_fuel_save" />
         </RelativeLayout>
 
         <com.github.mikephil.charting.charts.LineChart

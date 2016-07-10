@@ -5,12 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.adapter.TimelineAdapter;
-import com.classic.core.fragment.BaseFragment;
+import com.classic.car.ui.base.AppBaseFragment;
 import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,7 +22,7 @@ import rx.schedulers.Schedulers;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午2:21
  */
-public class TimelineFragment extends BaseFragment {
+public class TimelineFragment extends AppBaseFragment {
 
     @BindView(R.id.timeline_recycler_view) RecyclerView mRecyclerView;
     @Inject ConsumerDao     mConsumerDao;
@@ -40,16 +39,15 @@ public class TimelineFragment extends BaseFragment {
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         ((CarApplication)activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
-        ButterKnife.bind(this, parentView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
 
-        mAdapter = new TimelineAdapter(activity, R.layout.item_timeline);
+        mAdapter = new TimelineAdapter(mAppContext, R.layout.item_timeline);
         mRecyclerView.setAdapter(mAdapter);
 
-        mConsumerDao.queryAll()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe(mAdapter);
+        addSubscription(mConsumerDao.queryAll()
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .unsubscribeOn(Schedulers.io())
+                                    .subscribe(mAdapter));
     }
 }

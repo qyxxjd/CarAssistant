@@ -155,6 +155,16 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@color/colorAccent</item>
     </style>
+    <style name="Chart.Save">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:text">@string/chart.save</item>
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
     <style name="Chart.ItemLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>

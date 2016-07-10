@@ -10,10 +10,8 @@
     <!-- 存储卡 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!-- 闪光灯、震动 -->
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 录制音频 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".app.CarApplication"
@@ -35,12 +33,11 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".ui.activity.ThanksActivity"
             android:launchMode="singleTop" />
+
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="a9d325e54bd63da7df817f4e7a2790d6" />
+        <meta-data android:value="5780b5cde0f55a2e7f001086" android:name="UMENG_APPKEY" />
+        <meta-data android:value="pgyer" android:name="UMENG_CHANNEL"/>
     </application>
-
-    <meta-data
-        android:name="PGYER_APPID"
-        android:value="" />
-    <meta-data android:value="5780b5cde0f55a2e7f001086" android:name="UMENG_APPKEY" />
-    <meta-data android:value="pgyer" android:name="UMENG_CHANNEL"/>
-
 </manifest>

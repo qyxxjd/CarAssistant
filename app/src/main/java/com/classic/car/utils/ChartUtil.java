@@ -1,14 +1,19 @@
 package com.classic.car.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
+import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.DataUtil;
+import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
+import com.classic.core.utils.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -24,6 +29,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -234,5 +240,30 @@ public final class ChartUtil {
         data.setValueTextSize(8f);
         data.setValueTextColor(Color.WHITE);
         return data;
+    }
+
+    public static void saveCharts(Activity context, Chart chart){
+        //generates chart name
+        final String fileName = new StringBuilder("charts_")
+                .append(DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis())).toString();
+        final String path = new StringBuilder().append(File.separator)
+                                               .append(AppInfoUtil.getPackageName(context.getApplicationContext()))
+                                               .append(File.separator)
+                                               .append("images")
+                                               .append(File.separator)
+                                               .toString();
+        ToastUtil.showToast(context,
+                chart.saveToPath(fileName, path) ? R.string.chart_save_success : R.string.chart_save_fail);
+
+        //final String fullName = new StringBuilder(SDcardUtil.getImageDirPath())
+        //        .append(File.separator).append(fileName).append(".png").toString();
+        //File file = new File(fullName);
+        //if(file.exists()){
+        //    Intent intent = new Intent();
+        //    intent.setAction(android.content.Intent.ACTION_VIEW);
+        //    intent.setDataAndType(Uri.fromFile(file), "image/*");
+        //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //    context.startActivity(intent);
+        //}
     }
 }

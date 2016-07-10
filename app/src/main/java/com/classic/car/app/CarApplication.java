@@ -21,14 +21,16 @@ public class CarApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
 
-        BasicConfig.getInstance(this)
-                .initDir()
-                .initLog(true);
+        BasicConfig.getInstance(this).init();
+        //BasicConfig.getInstance(this)
+        //        .initDir()
+        //        .initLog(true);
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .dbModule(new DbModule())
                 .build();
+
     }
 
     public AppComponent getAppComponent() {
