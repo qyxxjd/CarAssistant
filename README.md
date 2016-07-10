@@ -8,6 +8,10 @@
 
 [apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.2_beta.apk?raw=true)
 
+已知问题:
+> Android6.0正在等待手机适配,近期修复
+
+
 ## 截图
 ![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot001.png?raw=true)
 ![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot002.png?raw=true)
