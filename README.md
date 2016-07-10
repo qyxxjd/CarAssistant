@@ -1,15 +1,17 @@
 ## 汽车助手 V0.2
-> 消费信息的增删改查
-> 消费记录统计表
-> 消费百分比统计表
-> 百公里油耗曲线图,最低油耗/最高油耗信息
+
+- 消费信息的增删改查
+- 消费记录统计表
+- 消费百分比统计表
+- 百公里油耗曲线图,最低油耗/最高油耗信息
+
 
 ## 截图
-![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots001.png)
-![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots002.png)
-![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots003.png)
-![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots004.png)
-![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots005.png)
+![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots001.png?raw=true)
+![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots002.png?raw=true)
+![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots003.png?raw=true)
+![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots004.png?raw=true)
+![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshots005.png?raw=true)
 
 ## 感谢
 感谢以下开源库和作者，排名不分先后：
