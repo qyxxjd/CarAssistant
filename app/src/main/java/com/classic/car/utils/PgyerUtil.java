@@ -34,6 +34,7 @@ public final class PgyerUtil {
 
                 new MaterialDialog.Builder(activity)
                         .title(R.string.update_dialog_title)
+                        .titleColorRes(R.color.primary_text)
                         .backgroundColorRes(R.color.white)
                         .content(appBean.getReleaseNote())
                         .contentColorRes(R.color.primary_light)

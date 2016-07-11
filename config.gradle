@@ -14,8 +14,8 @@ ext {
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 23,
-            versionCode      : 3,
-            versionName      : "0.3"
+            versionCode      : 4,
+            versionName      : "0.4"
     ]
 
     //官方库
@@ -48,8 +48,8 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.1.6"
-    rxAndroid = "io.reactivex:rxandroid:1.2.0"
+    rxJava = "io.reactivex:rxjava:1.1.7"
+    rxAndroid = "io.reactivex:rxandroid:1.2.1"
     rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     rxBindingSupportV4 = "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
     rxBindingSupportAppcompatV7 = "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
