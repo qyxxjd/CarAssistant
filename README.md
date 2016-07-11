@@ -1,4 +1,4 @@
-## 汽车助手 V0.3
+## 汽车助手
 
 - 消费信息的增删改查
 - 消费记录统计表
@@ -6,7 +6,19 @@
 - 百公里油耗曲线图,最低油耗/最高油耗信息
 
 
-[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.3_beta.apk?raw=true)
+[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.4_beta.apk?raw=true)
+
+###### v0.4
+
+> 添加应用logo
+> 修复首页Fragment重叠问题
+
+
+下载项目后编译会报错，需要在`local.properties`文件里添加两个变量
+```
+PGYER_APPID=fce67a1c46ac92a1d22d58c0fdf94811  //蒲公英测试APPID
+UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
+```
 
 
 ## 截图
