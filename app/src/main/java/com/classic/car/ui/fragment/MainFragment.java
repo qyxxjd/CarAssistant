@@ -18,8 +18,6 @@ import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.core.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
 import javax.inject.Inject;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * 应用名称: CarAssistant
@@ -34,7 +32,7 @@ public class MainFragment extends AppBaseFragment
 
     @BindView(R.id.main_recycler_view) RecyclerView         mRecyclerView;
     @BindView(R.id.main_fab)           FloatingActionButton mFab;
-    @Inject ConsumerDao mConsumerDao;
+    @Inject                            ConsumerDao          mConsumerDao;
 
     private ConsumerDetailAdapter mAdapter;
 
@@ -45,21 +43,17 @@ public class MainFragment extends AppBaseFragment
     //@Override public void onFirst() {
     //    super.onFirst();
     //    //导入文本数据,自用
-    //    Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
+    //    addSubscription(ui(Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
     //        @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
     //            subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
     //        }
-    //    })
-    //              .subscribeOn(Schedulers.io())
-    //              .observeOn(AndroidSchedulers.mainThread())
-    //              .unsubscribeOn(Schedulers.io())
-    //              .subscribe(new Action1<List<ConsumerDetail>>() {
-    //                  @Override public void call(List<ConsumerDetail> list) {
-    //                      if (!DataUtil.isEmpty(list)) {
-    //                          mConsumerDao.insert(list);
-    //                      }
-    //                  }
-    //              });
+    //    })).subscribe(new Action1<List<ConsumerDetail>>() {
+    //        @Override public void call(List<ConsumerDetail> list) {
+    //            if (!DataUtil.isEmpty(list)) {
+    //                mConsumerDao.insert(list);
+    //            }
+    //        }
+    //    }));
     //}
 
     @Override public int getLayoutResId() {
@@ -67,7 +61,7 @@ public class MainFragment extends AppBaseFragment
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication)activity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
         mAdapter = new ConsumerDetailAdapter(mAppContext, R.layout.item_consumer_detail);
@@ -76,11 +70,7 @@ public class MainFragment extends AppBaseFragment
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
 
-        addSubscription(mConsumerDao.queryAll()
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .subscribe(mAdapter));
+        addSubscription(ui(mConsumerDao.queryAll()).subscribe(mAdapter));
     }
 
     @OnClick(R.id.main_fab) public void onFabClick() {
@@ -92,19 +82,20 @@ public class MainFragment extends AppBaseFragment
     }
 
     @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
-        new MaterialDialog.Builder(activity)
-                .backgroundColorRes(R.color.white)
-                .content(R.string.delete_dialog_content)
-                .contentColorRes(R.color.primary_light)
-                .positiveText(R.string.confirm)
-                .negativeText(R.string.cancel)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override public void onClick(MaterialDialog dialog, DialogAction which) {
-                        int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
-                        ToastUtil.showToast(mAppContext, rows>0 ? R.string.delete_success : R.string.delete_fail);
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+        new MaterialDialog.Builder(activity).backgroundColorRes(R.color.white)
+                                            .content(R.string.delete_dialog_content)
+                                            .contentColorRes(R.color.primary_light)
+                                            .positiveText(R.string.confirm)
+                                            .negativeText(R.string.cancel)
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                    int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
+                                                    ToastUtil.showToast(mAppContext,
+                                                            rows > 0 ? R.string.delete_success : R.string.delete_fail);
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
     }
 }

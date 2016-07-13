@@ -7,7 +7,6 @@ import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
-import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
@@ -29,7 +28,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -224,8 +222,8 @@ public final class ChartUtil {
         ArrayList<Entry> yVals1 = new ArrayList<>();
 
         PieDataSet dataSet = new PieDataSet(yVals1, "");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
+        dataSet.setSliceSpace(2f);
+        //dataSet.setSelectionShift(5f);
         dataSet.setColors(getColorTemplate(context));
         int i = 0;
         for (Integer key : map.keySet()) {
@@ -244,26 +242,12 @@ public final class ChartUtil {
 
     public static void saveCharts(Activity context, Chart chart){
         //generates chart name
-        final String fileName = new StringBuilder("charts_")
-                .append(DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis())).toString();
-        final String path = new StringBuilder().append(File.separator)
-                                               .append(AppInfoUtil.getPackageName(context.getApplicationContext()))
-                                               .append(File.separator)
-                                               .append("images")
-                                               .append(File.separator)
-                                               .toString();
-        ToastUtil.showToast(context,
-                chart.saveToPath(fileName, path) ? R.string.chart_save_success : R.string.chart_save_fail);
+        final String fileName = new StringBuilder("CarAssistant_")
+                .append(DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis()))
+                .append(".png")
+                .toString();
 
-        //final String fullName = new StringBuilder(SDcardUtil.getImageDirPath())
-        //        .append(File.separator).append(fileName).append(".png").toString();
-        //File file = new File(fullName);
-        //if(file.exists()){
-        //    Intent intent = new Intent();
-        //    intent.setAction(android.content.Intent.ACTION_VIEW);
-        //    intent.setDataAndType(Uri.fromFile(file), "image/*");
-        //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //    context.startActivity(intent);
-        //}
+        ToastUtil.showToast(context,
+                chart.saveToGallery(fileName, 100) ? R.string.chart_save_success : R.string.chart_save_fail);
     }
 }

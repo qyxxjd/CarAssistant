@@ -53,7 +53,7 @@ public abstract class AppBaseActivity extends BaseActivity {
         }
     }
 
-    public void addSubscription(Subscription subscription) {
+    protected void addSubscription(Subscription subscription) {
         if (null == mCompositeSubscription) {
             mCompositeSubscription = new CompositeSubscription();
         }

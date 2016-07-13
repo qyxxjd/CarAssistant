@@ -11,8 +11,6 @@ import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.adapter.TimelineAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
 import javax.inject.Inject;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * 应用名称: CarAssistant
@@ -44,10 +42,6 @@ public class TimelineFragment extends AppBaseFragment {
         mAdapter = new TimelineAdapter(mAppContext, R.layout.item_timeline);
         mRecyclerView.setAdapter(mAdapter);
 
-        addSubscription(mConsumerDao.queryAll()
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .unsubscribeOn(Schedulers.io())
-                                    .subscribe(mAdapter));
+        addSubscription(ui(mConsumerDao.queryAll()).subscribe(mAdapter));
     }
 }
