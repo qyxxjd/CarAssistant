@@ -113,9 +113,15 @@ public final class ChartUtil {
 
         barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
+        //打开或者关闭与图表的所有触摸交互
         //barChart.setTouchEnabled(false);
-        //barChart.setDragEnabled(true);
+        barChart.setDragEnabled(true);
+        //打开或关闭对图表所有轴的的缩放
         //barChart.setScaleEnabled(true);
+        barChart.setPinchZoom(true);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setHighlightFullBarEnabled(false);
+        barChart.setDrawHighlightArrow(false);
 
         barChart.setDescription("单位:元");
         barChart.setDescriptionColor(getColor(context, R.color.gray_dark));

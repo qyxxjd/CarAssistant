@@ -22,6 +22,8 @@
     <string name="modify.consumer.success">修改成功</string>
     <string name="modify.consumer.fail">修改失败</string>
 
+    <string name="total.money">总金额</string>
+
     <string name="consumer.money">消费金额(元)</string>
     <string name="consumer.money.hint">请输入消费金额</string>
     <string name="consumer.unit.price">单价(元/升)</string>

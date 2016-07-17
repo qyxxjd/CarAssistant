@@ -30,10 +30,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * 应用名称: CarAssistant
@@ -63,6 +61,7 @@ public class ChartFragment extends AppBaseFragment {
     private Observable<List<ConsumerDetail>> mAllData;
     private FuelConsumption                  mMinFuelConsumption;
     private FuelConsumption                  mMaxFuelConsumption;
+    private LayoutInflater                   mLayoutInflater;
 
     public static ChartFragment newInstance() {
         return new ChartFragment();
@@ -95,27 +94,23 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processBarChartData() {
-        return mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
+        return ui(mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
             @Override public Observable<BarData> call(List<ConsumerDetail> list) {
                 return Observable.just(ChartUtil.convertBarData(mAppContext, list));
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Action1<BarData>() {
-                    @Override public void call(BarData barData) {
-                        if (null != barData) {
-                            mConsumerBarchart.setData(barData);
-                            mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                        }
-                        mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
-                    }
-                });
+        })).subscribe(new Action1<BarData>() {
+            @Override public void call(BarData barData) {
+                if (null != barData) {
+                    mConsumerBarchart.setData(barData);
+                    mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                }
+                mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     private Subscription processPieChartData() {
-        return mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
+        return ui(mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
             @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
                 mValuesMap = new HashMap<>();
                 for (int i = 0; i < list.size(); i++) {
@@ -130,113 +125,115 @@ public class ChartFragment extends AppBaseFragment {
                 return Observable.just(mValuesMap);
             }
         })
-                .flatMap(new Func1<Map<Integer, Float>, Observable<PieData>>() {
-                    @Override public Observable<PieData> call(Map<Integer, Float> map) {
-                        return Observable.just(ChartUtil.convertPieData(mAppContext, mTotalMoney, map));
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Action1<PieData>() {
-                    @Override public void call(PieData pieData) {
-                        if (null != pieData) {
-                            mPercentagePiechart.setData(pieData);
-                            mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                        }
-                        mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
-                        processPercentageDetail();
-                    }
-                });
+                       .flatMap(new Func1<Map<Integer, Float>, Observable<PieData>>() {
+                           @Override public Observable<PieData> call(Map<Integer, Float> map) {
+                               return Observable.just(ChartUtil.convertPieData(mAppContext, mTotalMoney, map));
+                           }
+                       }))
+                       .subscribe(new Action1<PieData>() {
+                           @Override public void call(PieData pieData) {
+                               if (null != pieData) {
+                                   mPercentagePiechart.setData(pieData);
+                                   mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                               }
+                               mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
+                               processPercentageDetail();
+                           }
+                       });
     }
 
     private void processPercentageDetail() {
-        if(mPercentageDetail.getChildCount() > 0){
+        if (mPercentageDetail.getChildCount() > 0) {
             mPercentageDetail.removeAllViews();
+        }
+        if(null == mLayoutInflater){
+            mLayoutInflater = LayoutInflater.from(activity);
         }
         int rows = 1;
         for (Integer key : mValuesMap.keySet()) {
-            View itemView = LayoutInflater.from(activity).inflate(R.layout.item_table, null);
-            ((TextView)itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
-            ((TextView)itemView.findViewById(R.id.item_table_total_money)).setText(
+            View itemView = mLayoutInflater.inflate(R.layout.item_table, null);
+            ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
+            ((TextView) itemView.findViewById(R.id.item_table_total_money)).setText(
                     Util.formatRMB(mValuesMap.get(key)));
-            ((TextView)itemView.findViewById(R.id.item_table_percentage)).setText(
+            ((TextView) itemView.findViewById(R.id.item_table_percentage)).setText(
                     Util.formatPercentage(mValuesMap.get(key), mTotalMoney));
-            itemView.findViewById(R.id.item_table_bottom_divider).setVisibility(rows==mValuesMap.size() ?
-            View.VISIBLE:View.GONE);
+            itemView.findViewById(R.id.item_table_bottom_divider)
+                    .setVisibility(rows == mValuesMap.size() ? View.VISIBLE : View.GONE);
             mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             rows++;
         }
+        View totalView = mLayoutInflater.inflate(R.layout.item_total_table, null);
+        ((TextView) totalView.findViewById(R.id.item_total_table_value)).setText(Util.formatRMB(mTotalMoney));
+        mPercentageDetail.addView(totalView, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
     }
 
     private Subscription processLineChartData() {
-        return mConsumerDao.queryByType(Consts.TYPE_FUEL)
-                    .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
-                        @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
-                            List<FuelConsumption> result = new ArrayList<>();
-                            for (int i = 0; i < list.size() - 1; i++) {
-                                ConsumerDetail startItem = list.get(i);
-                                ConsumerDetail endItem = list.get(i + 1);
-                                final long mileage = endItem.getCurrentMileage() - startItem.getCurrentMileage();
-                                final float money = MoneyUtil.newInstance(startItem.getMoney())
-                                                             .divide(mileage)
-                                                             .multiply(100)
-                                                             .create()
-                                                             .floatValue();
-                                final float oilMass = MoneyUtil.newInstance(money)
-                                                               .divide(startItem.getUnitPrice())
-                                                               .create()
-                                                               .floatValue();
+        return ui(mConsumerDao.queryByType(Consts.TYPE_FUEL)
+                           .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
+                               @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
+                                   List<FuelConsumption> result = new ArrayList<>();
+                                   for (int i = 0; i < list.size() - 1; i++) {
+                                       ConsumerDetail startItem = list.get(i);
+                                       ConsumerDetail endItem = list.get(i + 1);
+                                       final long mileage = endItem.getCurrentMileage() - startItem.getCurrentMileage();
+                                       final float money = MoneyUtil.newInstance(startItem.getMoney())
+                                                                    .divide(mileage)
+                                                                    .multiply(100)
+                                                                    .create()
+                                                                    .floatValue();
+                                       final float oilMass = MoneyUtil.newInstance(money)
+                                                                      .divide(startItem.getUnitPrice())
+                                                                      .create()
+                                                                      .floatValue();
 
-                                final FuelConsumption item = new FuelConsumption(mileage,
-                                        Float.valueOf(MoneyUtil.replace(money)),
-                                        Float.valueOf(MoneyUtil.replace(oilMass)));
-                                result.add(item);
-                                mMinFuelConsumption = null == mMinFuelConsumption
-                                                      ? item
-                                                      : (item.getMoney() < mMinFuelConsumption.getMoney()
-                                                         ? item
-                                                         : mMinFuelConsumption);
-                                mMaxFuelConsumption = null == mMaxFuelConsumption
-                                                      ? item
-                                                      : (item.getMoney() > mMaxFuelConsumption.getMoney()
-                                                         ? item
-                                                         : mMaxFuelConsumption);
-                            }
-                            return Observable.just(result);
-                        }
-                    })
-                    .flatMap(new Func1<List<FuelConsumption>, Observable<LineData>>() {
-                        @Override public Observable<LineData> call(List<FuelConsumption> list) {
-                            return Observable.just(ChartUtil.convertLineData(mAppContext, list));
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe(new Action1<LineData>() {
-                        @Override public void call(LineData lineData) {
-                            if (null != lineData) {
-                                mFuelLinechart.setData(lineData);
-                                mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                            }
-                            if (null != mMinFuelConsumption) {
-                                mMinMoney.setText(Util.formatRMB(mMinFuelConsumption.getMoney()));
-                                mMinOilMess.setText(Util.formatOilMess(mMinFuelConsumption.getOilMass()));
-                            }
-                            if (null != mMaxFuelConsumption) {
-                                mMaxMoney.setText(Util.formatRMB(mMaxFuelConsumption.getMoney()));
-                                mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
-                            }
-                            mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
-                        }
-                    });
+                                       final FuelConsumption item = new FuelConsumption(mileage,
+                                               Float.valueOf(MoneyUtil.replace(money)),
+                                               Float.valueOf(MoneyUtil.replace(oilMass)));
+                                       result.add(item);
+                                       mMinFuelConsumption = null == mMinFuelConsumption
+                                                             ? item
+                                                             : (item.getMoney() < mMinFuelConsumption.getMoney()
+                                                                ? item
+                                                                : mMinFuelConsumption);
+                                       mMaxFuelConsumption = null == mMaxFuelConsumption
+                                                             ? item
+                                                             : (item.getMoney() > mMaxFuelConsumption.getMoney()
+                                                                ? item
+                                                                : mMaxFuelConsumption);
+                                   }
+                                   return Observable.just(result);
+                               }
+                           })
+                           .flatMap(new Func1<List<FuelConsumption>, Observable<LineData>>() {
+                               @Override public Observable<LineData> call(List<FuelConsumption> list) {
+                                   return Observable.just(ChartUtil.convertLineData(mAppContext, list));
+                               }
+                           }))
+                           .subscribe(new Action1<LineData>() {
+                               @Override public void call(LineData lineData) {
+                                   if (null != lineData) {
+                                       mFuelLinechart.setData(lineData);
+                                       mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                                   }
+                                   if (null != mMinFuelConsumption) {
+                                       mMinMoney.setText(Util.formatRMB(mMinFuelConsumption.getMoney()));
+                                       mMinOilMess.setText(Util.formatOilMess(mMinFuelConsumption.getOilMass()));
+                                   }
+                                   if (null != mMaxFuelConsumption) {
+                                       mMaxMoney.setText(Util.formatRMB(mMaxFuelConsumption.getMoney()));
+                                       mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
+                                   }
+                                   mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
+                               }
+                           });
     }
 
-    @OnClick({R.id.chart_consumer_save, R.id.chart_fuel_save, R.id.chart_percentage_save})
-    public void onSaveCharts(View view){
-        switch (view.getId()){
+    @OnClick({ R.id.chart_consumer_save, R.id.chart_fuel_save, R.id.chart_percentage_save })
+    public void onSaveCharts(View view) {
+        switch (view.getId()) {
             case R.id.chart_consumer_save:
                 ChartUtil.saveCharts(activity, mConsumerBarchart);
                 break;
@@ -248,5 +245,4 @@ public class ChartFragment extends AppBaseFragment {
                 break;
         }
     }
-
 }

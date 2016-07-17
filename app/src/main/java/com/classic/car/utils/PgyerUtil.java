@@ -14,7 +14,7 @@ import com.pgyersdk.update.UpdateManagerListener;
  * 应用名称: CarAssistant
  * 包 名 称: com.classic.car.utils
  *
- * 文件描述：TODO
+ * 文件描述：版本更新
  * 创 建 人：续写经典
  * 创建时间：16/7/9 下午4:00
  */
