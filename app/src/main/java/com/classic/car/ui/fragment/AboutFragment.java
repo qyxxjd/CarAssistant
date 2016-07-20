@@ -1,6 +1,7 @@
 package com.classic.car.ui.fragment;
 
 import android.Manifest;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -74,13 +75,17 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     private void feedback(){
-        RxPermissions.getInstance(mAppContext)
-                     .request(Manifest.permission.RECORD_AUDIO)
-                     .subscribe(new Action1<Boolean>() {
-                         @Override public void call(Boolean granted) {
-                             PgyFeedback.getInstance().showDialog(activity);
-                         }
-                     });
+        if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            PgyFeedback.getInstance().showDialog(activity);
+        } else {
+            RxPermissions.getInstance(mAppContext)
+                         .request(Manifest.permission.RECORD_AUDIO)
+                         .subscribe(new Action1<Boolean>() {
+                             @Override public void call(Boolean granted) {
+                                 PgyFeedback.getInstance().showDialog(activity);
+                             }
+                         });
+        }
     }
 
     @Override public void onPause() {
