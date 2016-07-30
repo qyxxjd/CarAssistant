@@ -1,12 +1,12 @@
 package com.classic.car.app;
 
 import android.app.Application;
-import com.classic.car.BuildConfig;
 import com.classic.car.di.components.AppComponent;
 import com.classic.car.di.components.DaggerAppComponent;
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.di.modules.DbModule;
 import com.classic.core.utils.SDcardUtil;
+import com.github.mikephil.charting.BuildConfig;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 
@@ -41,7 +41,7 @@ public class CarApplication extends Application {
         // this is default block threshold, you can set it by phone's performance
         @Override
         public int getConfigBlockThreshold() {
-            return 500;
+            return 300;
         }
 
         // if set true, notification will be shown, else only write log file

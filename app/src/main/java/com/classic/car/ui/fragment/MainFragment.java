@@ -1,5 +1,7 @@
 package com.classic.car.ui.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +14,21 @@ import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
+import com.classic.car.utils.RxUtil;
+import com.classic.car.utils.TxtHelper;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.functions.Action1;
 
 /**
  * 应用名称: CarAssistant
@@ -40,27 +51,34 @@ public class MainFragment extends AppBaseFragment
         return new MainFragment();
     }
 
-    //@Override public void onFirst() {
-    //    super.onFirst();
-    //    //导入文本数据,自用
-    //    addSubscription(ui(Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
-    //        @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
-    //            subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
-    //        }
-    //    })).subscribe(new Action1<List<ConsumerDetail>>() {
-    //        @Override public void call(List<ConsumerDetail> list) {
-    //            if (!DataUtil.isEmpty(list)) {
-    //                mConsumerDao.insert(list);
-    //            }
-    //        }
-    //    }));
-    //}
-
     @Override public int getLayoutResId() {
         return R.layout.fragment_main;
     }
 
-    @Override public void initView(View parentView, Bundle savedInstanceState) {
+    @Override public void onFirst() {
+        super.onFirst();
+        //导入文本数据,自用
+        addSubscription(insertData());
+    }
+
+    private Subscription insertData(){
+        return Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
+                             @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
+                                 subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
+                             }
+                         })
+                         .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                         .subscribe(new Action1<List<ConsumerDetail>>() {
+                             @Override public void call(List<ConsumerDetail> list) {
+                                 if (!DataUtil.isEmpty(list)) {
+                                     mConsumerDao.insert(list);
+                                 }
+                             }
+                         }, RxUtil.ERROR_ACTION);
+    }
+
+    @TargetApi(Build.VERSION_CODES.DONUT) @Override
+    public void initView(View parentView, Bundle savedInstanceState) {
         ((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
@@ -70,7 +88,13 @@ public class MainFragment extends AppBaseFragment
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
 
-        addSubscription(ui(mConsumerDao.queryAll()).subscribe(mAdapter));
+        addSubscription(loadData());
+    }
+
+    private Subscription loadData(){
+        return mConsumerDao.queryAll()
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                           .subscribe(mAdapter, RxUtil.ERROR_ACTION);
     }
 
     @OnClick(R.id.main_fab) public void onFabClick() {

@@ -116,7 +116,7 @@ public final class Util {
         editText.requestFocus();
     }
 
-    public static final int getRandom(int maxValue){
+    public static int getRandom(int maxValue){
         return (int)(Math.random()*maxValue);
     }
 }

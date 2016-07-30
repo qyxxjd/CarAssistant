@@ -1,5 +1,5 @@
 def supportVersion = "23.4.0"
-def butterknifeVersion = "8.1.0"
+def butterknifeVersion = "8.2.1"
 def leakCanaryVersion = "1.4-beta2"
 def dagger2Version = "2.5"
 
@@ -11,8 +11,8 @@ ext {
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 23,
-            versionCode      : 5,
-            versionName      : "0.5"
+            versionCode      : 6,
+            versionName      : "0.6"
     ]
 
     //官方库

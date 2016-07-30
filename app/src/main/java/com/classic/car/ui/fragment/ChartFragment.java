@@ -15,6 +15,7 @@ import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.ChartUtil;
+import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.Util;
 import com.classic.core.utils.MoneyUtil;
 import com.github.mikephil.charting.charts.BarChart;
@@ -94,42 +95,47 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processBarChartData() {
-        return ui(mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
-            @Override public Observable<BarData> call(List<ConsumerDetail> list) {
-                return Observable.just(ChartUtil.convertBarData(mAppContext, list));
-            }
-        })).subscribe(new Action1<BarData>() {
-            @Override public void call(BarData barData) {
-                if (null != barData) {
-                    mConsumerBarchart.setData(barData);
-                    mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                }
-                mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
-            }
-        });
+        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                       .flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
+                           @Override public Observable<BarData> call(List<ConsumerDetail> list) {
+                               return Observable.just(ChartUtil.convertBarData(mAppContext, list));
+                           }
+                       })
+                       .subscribe(new Action1<BarData>() {
+                           @Override public void call(BarData barData) {
+                               if (null != barData) {
+                                   mConsumerBarchart.setData(barData);
+                                   mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                               }
+                               mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
+                           }
+                       }, RxUtil.ERROR_ACTION);
     }
 
     private Subscription processPieChartData() {
-        return ui(mAllData.flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
-            @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
-                mValuesMap = new HashMap<>();
-                for (int i = 0; i < list.size(); i++) {
-                    final int type = list.get(i).getType();
-                    if (!mValuesMap.containsKey(type)) {
-                        mValuesMap.put(type, 0f);
-                    }
-                    final float money = list.get(i).getMoney();
-                    mTotalMoney = MoneyUtil.newInstance(mTotalMoney).add(money).create().floatValue();
-                    mValuesMap.put(type, MoneyUtil.newInstance(mValuesMap.get(type)).add(money).create().floatValue());
-                }
-                return Observable.just(mValuesMap);
-            }
-        })
+        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                       .flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
+                           @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
+                               mValuesMap = new HashMap<>();
+                               for (int i = 0; i < list.size(); i++) {
+                                   final int type = list.get(i).getType();
+                                   if (!mValuesMap.containsKey(type)) {
+                                       mValuesMap.put(type, 0f);
+                                   }
+                                   final float money = list.get(i).getMoney();
+                                   mTotalMoney = MoneyUtil.newInstance(mTotalMoney).add(money).create().floatValue();
+                                   mValuesMap.put(type,
+                                           MoneyUtil.newInstance(mValuesMap.get(type)).add(money).create().floatValue
+                                                   ());
+                               }
+                               return Observable.just(mValuesMap);
+                           }
+                       })
                        .flatMap(new Func1<Map<Integer, Float>, Observable<PieData>>() {
                            @Override public Observable<PieData> call(Map<Integer, Float> map) {
                                return Observable.just(ChartUtil.convertPieData(mAppContext, mTotalMoney, map));
                            }
-                       }))
+                       })
                        .subscribe(new Action1<PieData>() {
                            @Override public void call(PieData pieData) {
                                if (null != pieData) {
@@ -139,7 +145,7 @@ public class ChartFragment extends AppBaseFragment {
                                mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
                                processPercentageDetail();
                            }
-                       });
+                       }, RxUtil.ERROR_ACTION);
     }
 
     private void processPercentageDetail() {
@@ -171,7 +177,8 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processLineChartData() {
-        return ui(mConsumerDao.queryByType(Consts.TYPE_FUEL)
+        return mConsumerDao.queryByType(Consts.TYPE_FUEL)
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                                @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
                                    List<FuelConsumption> result = new ArrayList<>();
@@ -211,7 +218,7 @@ public class ChartFragment extends AppBaseFragment {
                                @Override public Observable<LineData> call(List<FuelConsumption> list) {
                                    return Observable.just(ChartUtil.convertLineData(mAppContext, list));
                                }
-                           }))
+                           })
                            .subscribe(new Action1<LineData>() {
                                @Override public void call(LineData lineData) {
                                    if (null != lineData) {
@@ -228,7 +235,7 @@ public class ChartFragment extends AppBaseFragment {
                                    }
                                    mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
                                }
-                           });
+                           }, RxUtil.ERROR_ACTION);
     }
 
     @OnClick({ R.id.chart_consumer_save, R.id.chart_fuel_save, R.id.chart_percentage_save })

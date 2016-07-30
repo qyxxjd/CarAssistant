@@ -8,9 +8,13 @@ import butterknife.BindView;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.adapter.TimelineAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
+import com.classic.car.utils.RxUtil;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Subscription;
 
 /**
  * 应用名称: CarAssistant
@@ -42,6 +46,12 @@ public class TimelineFragment extends AppBaseFragment {
         mAdapter = new TimelineAdapter(mAppContext, R.layout.item_timeline);
         mRecyclerView.setAdapter(mAdapter);
 
-        addSubscription(ui(mConsumerDao.queryAll()).subscribe(mAdapter));
+        addSubscription(loadData());
+    }
+
+    private Subscription loadData(){
+        return mConsumerDao.queryAll()
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                           .subscribe(mAdapter, RxUtil.ERROR_ACTION);
     }
 }
