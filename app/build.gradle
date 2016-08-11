@@ -57,5 +57,6 @@ dependencies {
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
     compile rootProject.ext.blockCanary
+    compile rootProject.ext.leakCanaryDebug
 
 }

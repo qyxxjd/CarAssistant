@@ -67,6 +67,7 @@
         Dagger2 \n
         BottomBar \n
         LeakCanary \n
+        BlockCanary \n
         Butterknife \n
         SublimePicker \n
         MPAndroidChart \n

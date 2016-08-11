@@ -101,7 +101,7 @@ public final class Util {
         return MoneyUtil.replace(MoneyUtil.newInstance(percentage).round(2).create()) + "%";
     }
     public static String formatPercentage(float value, float totalValue){
-        return formatPercentage(value/totalValue*100);
+        return formatPercentage(value*100/totalValue);
     }
 
     public static void setText(EditText editText, String value){

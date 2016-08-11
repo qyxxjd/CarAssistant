@@ -3,6 +3,8 @@ package com.classic.car.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,8 @@ import java.util.Calendar;
  * 创建时间：16/6/26 下午5:51
  */
 public class DatePickerFragment extends DialogFragment {
-    private SublimePicker          mSublimePicker;
-    private Callback               mCallback;
+    private SublimePicker mSublimePicker;
+    private Callback      mCallback;
 
     public static DatePickerFragment newInstance() {
         return new DatePickerFragment();
@@ -46,9 +48,14 @@ public class DatePickerFragment extends DialogFragment {
         SublimeOptions options = new SublimeOptions();
         options.setDisplayOptions(SublimeOptions.ACTIVATE_DATE_PICKER);
         options.setPickerToShow(SublimeOptions.Picker.DATE_PICKER);
+        //final Calendar calendar = Calendar.getInstance();
+        //options.setTimeParams(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         mSublimePicker.initializePicker(options, new SublimeListenerAdapter() {
             @Override
-            public void onDateTimeRecurrenceSet(SublimePicker sublimeMaterialPicker, SelectedDate selectedDate, int hourOfDay, int minute, SublimeRecurrencePicker.RecurrenceOption recurrenceOption, String recurrenceRule) {
+            public void onDateTimeRecurrenceSet(SublimePicker sublimeMaterialPicker, SelectedDate selectedDate,
+                                                int hourOfDay, int minute,
+                                                SublimeRecurrencePicker.RecurrenceOption recurrenceOption,
+                                                String recurrenceRule) {
                 if (null != mCallback && null != selectedDate && null != selectedDate.getFirstDate()) {
                     mCallback.onFinish(selectedDate.getFirstDate());
                 }
@@ -62,6 +69,19 @@ public class DatePickerFragment extends DialogFragment {
                 dismiss();
             }
         });
+    }
+
+    @Override public void show(FragmentManager manager, String tag) {
+        try{
+            super.show(manager, tag);
+        }catch (Exception e){
+            e.printStackTrace();
+            if(isAdded()){
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.remove(this);
+                show(transaction, tag);
+            }
+        }
     }
 
     public void setCallback(Callback callback) {

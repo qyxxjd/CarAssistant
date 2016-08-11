@@ -1,6 +1,7 @@
 package com.classic.car.di.modules;
 
 import android.app.Application;
+import com.classic.car.app.RxBus;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -26,4 +27,7 @@ public class AppModule {
         return mApplication;
     }
 
+    @Provides @Singleton RxBus provideRxBus() {
+        return new RxBus();
+    }
 }

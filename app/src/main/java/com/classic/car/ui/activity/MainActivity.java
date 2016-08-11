@@ -62,7 +62,7 @@ public class MainActivity extends AppBaseActivity {
                          });
         }
         initBottomBar();
-        PgyCrashManager.register(this);
+        PgyCrashManager.register(getApplicationContext());
         PgyerUtil.checkUpdate(activity, false);
 
     }

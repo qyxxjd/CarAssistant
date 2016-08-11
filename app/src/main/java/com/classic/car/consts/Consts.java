@@ -37,4 +37,6 @@ public final class Consts {
     public static final String FORMAT_MONEY    = "￥%s";
     public static final String FORMAT_RMB      = "%s元";
     public static final String FORMAT_OIL_MESS = "%s升";
+
+    public static final String EVENT_DATA_CHANGE = "DataChange";
 }

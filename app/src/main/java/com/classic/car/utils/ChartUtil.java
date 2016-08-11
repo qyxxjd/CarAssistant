@@ -192,11 +192,13 @@ public final class ChartUtil {
         //moneySet.setDrawCircleHole(false); //圆点是否空心
         moneySet.setValueTextSize(8f);
         //moneySet.setHighlightEnabled(true); //选中高亮
+        moneySet.setValueFormatter(new OilMessFormatter());
 
         LineDataSet oilMessSet = new LineDataSet(oilMessValues, "百公里耗油曲线(升)");
         oilMessSet.setColor(getColor(context, R.color.blue));
         oilMessSet.setCircleColor(getColor(context, R.color.blue));
         oilMessSet.setValueTextSize(8f);
+        oilMessSet.setValueFormatter(new OilMessFormatter());
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(moneySet);
@@ -233,8 +235,8 @@ public final class ChartUtil {
         dataSet.setColors(getColorTemplate(context));
         int i = 0;
         for (Integer key : map.keySet()) {
-            yVals1.add(new Entry(
-                    MoneyUtil.newInstance(map.get(key)).divide(totalMoney).create().floatValue(), i));
+            yVals1.add(new Entry(totalMoney == 0F ? 0 :
+                    MoneyUtil.newInstance(map.get(key)).divide(totalMoney, 4).create().floatValue(), i));
             xVals.add(Consts.TYPE_MENUS[key]);
             i++;
         }
@@ -243,6 +245,7 @@ public final class ChartUtil {
         data.setValueFormatter(new PercentageFormatter());
         data.setValueTextSize(8f);
         data.setValueTextColor(Color.WHITE);
+        //data.setDrawValues(false);
         return data;
     }
 

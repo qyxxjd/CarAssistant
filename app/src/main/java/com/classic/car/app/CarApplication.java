@@ -1,14 +1,15 @@
 package com.classic.car.app;
 
 import android.app.Application;
+import com.classic.car.BuildConfig;
 import com.classic.car.di.components.AppComponent;
 import com.classic.car.di.components.DaggerAppComponent;
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.di.modules.DbModule;
 import com.classic.core.utils.SDcardUtil;
-import com.github.mikephil.charting.BuildConfig;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * 应用名称: CarAssistant
@@ -28,6 +29,8 @@ public class CarApplication extends Application {
                 .appModule(new AppModule(this))
                 .dbModule(new DbModule())
                 .build();
+
+        LeakCanary.install(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
