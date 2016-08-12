@@ -1,15 +1,10 @@
 package com.classic.car.app;
 
 import android.app.Application;
-import com.classic.car.BuildConfig;
 import com.classic.car.di.components.AppComponent;
 import com.classic.car.di.components.DaggerAppComponent;
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.di.modules.DbModule;
-import com.classic.core.utils.SDcardUtil;
-import com.github.moduth.blockcanary.BlockCanary;
-import com.github.moduth.blockcanary.BlockCanaryContext;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * 应用名称: CarAssistant
@@ -30,33 +25,33 @@ public class CarApplication extends Application {
                 .dbModule(new DbModule())
                 .build();
 
-        LeakCanary.install(this);
-        BlockCanary.install(this, new AppBlockCanaryContext()).start();
+        //LeakCanary.install(this);
+        //BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
     public AppComponent getAppComponent() {
         return mAppComponent;
     }
 
-    private class AppBlockCanaryContext extends BlockCanaryContext {
-        // override to provide context like app qualifier, uid, network type, block threshold, log save path
-
-        // this is default block threshold, you can set it by phone's performance
-        @Override
-        public int getConfigBlockThreshold() {
-            return 300;
-        }
-
-        // if set true, notification will be shown, else only write log file
-        @Override
-        public boolean isNeedDisplay() {
-            return BuildConfig.DEBUG;
-        }
-
-        // path to save log file
-        @Override
-        public String getLogPath() {
-            return SDcardUtil.getLogDirPath();
-        }
-    }
+    //private class AppBlockCanaryContext extends BlockCanaryContext {
+    //    // override to provide context like app qualifier, uid, network type, block threshold, log save path
+    //
+    //    // this is default block threshold, you can set it by phone's performance
+    //    @Override
+    //    public int getConfigBlockThreshold() {
+    //        return 300;
+    //    }
+    //
+    //    // if set true, notification will be shown, else only write log file
+    //    @Override
+    //    public boolean isNeedDisplay() {
+    //        return BuildConfig.DEBUG;
+    //    }
+    //
+    //    // path to save log file
+    //    @Override
+    //    public String getLogPath() {
+    //        return SDcardUtil.getLogDirPath();
+    //    }
+    //}
 }

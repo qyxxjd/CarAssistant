@@ -9,7 +9,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.app.RxBus;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
@@ -31,9 +30,7 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -60,7 +57,6 @@ public class ChartFragment extends AppBaseFragment {
     @BindView(R.id.chart_percentage_save)     TextView     mSavePercentage;
     @BindView(R.id.chart_percentage_detail)   LinearLayout mPercentageDetail;
     @Inject                                   ConsumerDao  mConsumerDao;
-    @Inject                                   RxBus        mRxBus;
 
     private float                            mTotalMoney;
     private Map<Integer, Float>              mValuesMap;
@@ -84,60 +80,17 @@ public class ChartFragment extends AppBaseFragment {
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarchart);
         ChartUtil.initPieChart(mAppContext, mPercentagePiechart);
-        addSubscription(processDataChange());
-        queryData();
-    }
-
-    @Override public void onChange() {
-        super.onChange();
-        if(isDataChange){
-            resetData();
-            queryData();
-            return;
-        }
-
-        mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-    }
-
-    private void queryData(){
         mAllData = mConsumerDao.queryByType(null);
         addSubscription(processLineChartData());
         addSubscription(processBarChartData());
         addSubscription(processPieChartData());
     }
-    private void resetData(){
-        mTotalMoney = 0f;
-        if(null != mAllData){
-            mAllData = null;
-        }
-        if(null != mValuesMap){
-            mValuesMap.clear();
-        }
-        mMinFuelConsumption = null;
-        mMaxFuelConsumption = null;
-    }
 
-    private boolean isDataChange;
-    private Subscription processDataChange(){
-        return mRxBus.toObserverable()
-                     .observeOn(AndroidSchedulers.mainThread())
-                     .subscribe(new Subscriber<Object>() {
-                         @Override public void onCompleted() {
-
-                         }
-
-                         @Override public void onError(Throwable throwable) {
-                            throwable.printStackTrace();
-                         }
-
-                         @Override public void onNext(Object o) {
-                             if(o.toString().equals(Consts.EVENT_DATA_CHANGE)){
-                                 isDataChange = true;
-                             }
-                         }
-                     });
+    @Override public void onChange() {
+        super.onChange();
+        mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
     }
 
     private Subscription processBarChartData() {
@@ -154,7 +107,6 @@ public class ChartFragment extends AppBaseFragment {
                                    mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
                                }
                                mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
-                               isDataChange = false;
                            }
                        }, RxUtil.ERROR_ACTION);
     }
@@ -164,6 +116,7 @@ public class ChartFragment extends AppBaseFragment {
                        .flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
                            @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
                                mValuesMap = new HashMap<>();
+                               mTotalMoney = 0;
                                for (int i = 0; i < list.size(); i++) {
                                    final int type = list.get(i).getType();
                                    if (!mValuesMap.containsKey(type)) {
@@ -191,7 +144,6 @@ public class ChartFragment extends AppBaseFragment {
                                }
                                mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
                                processPercentageDetail();
-                               isDataChange = false;
                            }
                        }, RxUtil.ERROR_ACTION);
     }
@@ -230,6 +182,8 @@ public class ChartFragment extends AppBaseFragment {
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                                @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
                                    List<FuelConsumption> result = new ArrayList<>();
+                                   mMinFuelConsumption = null;
+                                   mMaxFuelConsumption = null;
                                    for (int i = 0; i < list.size() - 1; i++) {
                                        ConsumerDetail startItem = list.get(i);
                                        ConsumerDetail endItem = list.get(i + 1);
@@ -286,7 +240,6 @@ public class ChartFragment extends AppBaseFragment {
                                        mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
                                    }
                                    mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
-                                   isDataChange = false;
                                }
                            }, RxUtil.ERROR_ACTION);
     }

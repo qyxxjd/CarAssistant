@@ -13,8 +13,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.app.RxBus;
-import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
@@ -46,7 +44,6 @@ public class MainFragment extends AppBaseFragment
     @BindView(R.id.main_recycler_view) RecyclerView         mRecyclerView;
     @BindView(R.id.main_fab)           FloatingActionButton mFab;
     @Inject                            ConsumerDao          mConsumerDao;
-    @Inject                            RxBus                mRxBus;
 
     private ConsumerDetailAdapter mAdapter;
 
@@ -120,7 +117,6 @@ public class MainFragment extends AppBaseFragment
                                                     int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
                                                     ToastUtil.showToast(mAppContext,
                                                             rows > 0 ? R.string.delete_success : R.string.delete_fail);
-                                                    mRxBus.send(Consts.EVENT_DATA_CHANGE);
                                                     dialog.dismiss();
                                                 }
                                             })

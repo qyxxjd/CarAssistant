@@ -12,7 +12,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.app.RxBus;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
@@ -54,7 +53,6 @@ public class AddConsumerActivity extends AppBaseActivity
     @BindView(R.id.add_consumer_current_mileage) MaterialEditText mAddConsumerCurrentMileage;
     @BindView(R.id.add_consumer_notes)           MaterialEditText mAddConsumerNotes;
 
-    @Inject RxBus              mRxBus;
     @Inject ConsumerDao        mConsumerDao;
     private DatePickerFragment mDatePickerFragment;
     private Calendar           mSelectCalendar;
@@ -168,7 +166,6 @@ public class AddConsumerActivity extends AppBaseActivity
         }
         if(mConsumerDao.insert(mConsumerDetail) > 0){
             ToastUtil.showToast(mAppContext, R.string.add_consumer_success);
-            notifyDataSetChanged();
             reset();
         } else {
             ToastUtil.showToast(mAppContext, R.string.add_consumer_fail);
@@ -180,14 +177,10 @@ public class AddConsumerActivity extends AppBaseActivity
         }
         if (mConsumerDao.update(mConsumerDetail) > 0){
             ToastUtil.showToast(mAppContext, R.string.modify_consumer_success);
-            notifyDataSetChanged();
             finish();
         } else {
             ToastUtil.showToast(mAppContext, R.string.modify_consumer_fail);
         }
-    }
-    private void notifyDataSetChanged(){
-        mRxBus.send(Consts.EVENT_DATA_CHANGE);
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
