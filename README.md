@@ -40,6 +40,7 @@ Sqlbrite
 Dagger2 
 BottomBar 
 LeakCanary
+BlockCanary
 Butterknife 
 SublimePicker 
 MPAndroidChart 
