@@ -12,6 +12,9 @@ public final class Consts {
 
     public static final String DB_NAME = "CarAssistant.db";
 
+    /** 防止误点击时间间隔 */
+    public static final int    SHIELD_TIME     = 3;
+
     public static final String[] TYPE_MENUS =
             { "其它", "加油费", "停车费", "维修费", "过路费", "保险费", "汽车保养费", "汽车年审费", "交通违章罚款" };
 
@@ -38,5 +41,4 @@ public final class Consts {
     public static final String FORMAT_RMB      = "%s元";
     public static final String FORMAT_OIL_MESS = "%s升";
 
-    public static final String EVENT_DATA_CHANGE = "DataChange";
 }

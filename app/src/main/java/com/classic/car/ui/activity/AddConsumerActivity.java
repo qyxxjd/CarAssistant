@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
@@ -20,10 +19,13 @@ import com.classic.car.ui.fragment.DatePickerFragment;
 import com.classic.car.utils.Util;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.ToastUtil;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
+import rx.functions.Action1;
 
 /**
  * 应用名称: CarAssistant
@@ -96,6 +98,15 @@ public class AddConsumerActivity extends AppBaseActivity
         mSpinner.setItems(Consts.TYPE_MENUS);
         mFuelSpinner.setItems(Consts.FUEL_MENUS);
         mSpinner.setOnItemSelectedListener(this);
+        addSubscription(
+                RxView.clicks(mConsumerTime)
+                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                      .subscribe(new Action1<Void>() {
+                          @Override public void call(Void aVoid) {
+                              showDatePickerFragment();
+                          }
+                      })
+        );
         initValues();
     }
 
@@ -194,7 +205,7 @@ public class AddConsumerActivity extends AppBaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.add_consumer_time) void onTimeClick() {
+    private void showDatePickerFragment() {
         if (null == mDatePickerFragment) {
             mDatePickerFragment = DatePickerFragment.newInstance();
             mDatePickerFragment.setCallback(this);

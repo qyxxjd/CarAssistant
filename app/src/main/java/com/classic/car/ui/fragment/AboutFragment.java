@@ -8,15 +8,18 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.classic.car.R;
+import com.classic.car.consts.Consts;
 import com.classic.car.ui.activity.ThanksActivity;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.dialog.AuthorDialog;
 import com.classic.car.utils.PgyerUtil;
 import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.IntentUtil;
+import com.jakewharton.rxbinding.view.RxView;
 import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.views.PgyerDialog;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import java.util.concurrent.TimeUnit;
 import rx.functions.Action1;
 
 /**
@@ -30,6 +33,7 @@ import rx.functions.Action1;
 public class AboutFragment extends AppBaseFragment {
 
     @BindView(R.id.about_version)  TextView mVersion;
+    @BindView(R.id.about_update)   TextView mUpdate;
 
     private AuthorDialog mAuthorDialog;
 
@@ -47,14 +51,20 @@ public class AboutFragment extends AppBaseFragment {
         mVersion.setText(getString(R.string.about_version, AppInfoUtil.getVersionName(mAppContext)));
         PgyerDialog.setDialogTitleBackgroundColor("#3F51B5");
         PgyerDialog.setDialogTitleTextColor("#FFFFFF");
+        addSubscription(
+                RxView.clicks(mUpdate)
+                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                      .subscribe(new Action1<Void>() {
+                          @Override public void call(Void aVoid) {
+                              PgyerUtil.checkUpdate(activity, true);
+                          }
+                      })
+        );
     }
 
-    @OnClick({ R.id.about_update, R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share })
+    @OnClick({ R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share })
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.about_update:
-                PgyerUtil.checkUpdate(activity, true);
-                break;
             case R.id.about_feedback:
                 feedback();
                 break;

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.OnClick;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
@@ -17,17 +16,22 @@ import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.ChartUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.Util;
+import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
+import com.classic.core.utils.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
+import com.jakewharton.rxbinding.view.RxView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscription;
@@ -80,6 +84,9 @@ public class ChartFragment extends AppBaseFragment {
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarchart);
         ChartUtil.initPieChart(mAppContext, mPercentagePiechart);
+        addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarchart));
+        addSubscription(processAccidentalClick(mSaveFuel, mFuelLinechart));
+        addSubscription(processAccidentalClick(mSavePercentage, mPercentagePiechart));
         mAllData = mConsumerDao.queryByType(null);
         addSubscription(processLineChartData());
         addSubscription(processBarChartData());
@@ -244,18 +251,20 @@ public class ChartFragment extends AppBaseFragment {
                            }, RxUtil.ERROR_ACTION);
     }
 
-    @OnClick({ R.id.chart_consumer_save, R.id.chart_fuel_save, R.id.chart_percentage_save })
-    public void onSaveCharts(View view) {
-        switch (view.getId()) {
-            case R.id.chart_consumer_save:
-                ChartUtil.saveCharts(activity, mConsumerBarchart);
-                break;
-            case R.id.chart_fuel_save:
-                ChartUtil.saveCharts(activity, mFuelLinechart);
-                break;
-            case R.id.chart_percentage_save:
-                ChartUtil.saveCharts(activity, mPercentagePiechart);
-                break;
-        }
+    private Subscription processAccidentalClick(TextView view, final Chart chart){
+        return RxView.clicks(view)
+                     .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                     .subscribe(new Action1<Void>() {
+                         @Override public void call(Void aVoid) {
+                             final String fileName = new StringBuilder("CarAssistant_").append(
+                                     DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis()))
+                                                                                       .append(".png")
+                                                                                       .toString();
+
+                             ToastUtil.showToast(mAppContext, chart.saveToGallery(fileName, 100)
+                                                              ? R.string.chart_save_success
+                                                              : R.string.chart_save_fail);
+                         }
+                     });
     }
 }

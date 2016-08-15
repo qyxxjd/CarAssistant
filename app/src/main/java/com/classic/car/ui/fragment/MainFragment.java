@@ -11,6 +11,7 @@ import butterknife.OnClick;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.car.BuildConfig;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
@@ -57,8 +58,10 @@ public class MainFragment extends AppBaseFragment
 
     @Override public void onFirst() {
         super.onFirst();
-        //导入文本数据,自用
-        addSubscription(insertData());
+        if(BuildConfig.DEBUG){
+            //导入文本数据,自用
+            addSubscription(insertData());
+        }
     }
 
     private Subscription insertData(){

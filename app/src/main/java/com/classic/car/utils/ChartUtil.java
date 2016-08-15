@@ -1,6 +1,5 @@
 package com.classic.car.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import com.classic.car.R;
@@ -8,11 +7,8 @@ import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
 import com.classic.core.utils.DataUtil;
-import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -247,16 +243,5 @@ public final class ChartUtil {
         data.setValueTextColor(Color.WHITE);
         //data.setDrawValues(false);
         return data;
-    }
-
-    public static void saveCharts(Activity context, Chart chart){
-        //generates chart name
-        final String fileName = new StringBuilder("CarAssistant_")
-                .append(DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis()))
-                .append(".png")
-                .toString();
-
-        ToastUtil.showToast(context,
-                chart.saveToGallery(fileName, 100) ? R.string.chart_save_success : R.string.chart_save_fail);
     }
 }
