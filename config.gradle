@@ -2,6 +2,7 @@ def supportVersion = "23.4.0"
 def butterknifeVersion = "8.2.1"
 def leakCanaryVersion = "1.4-beta2"
 def dagger2Version = "2.6"
+def rxBindingVersion = "0.4.0"
 
 ext {
 
@@ -11,8 +12,8 @@ ext {
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 23,
-            versionCode      : 6,
-            versionName      : "0.6"
+            versionCode      : 7,
+            versionName      : "0.7"
     ]
 
     //官方库
@@ -32,9 +33,15 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.1.8"
+    rxJava = "io.reactivex:rxjava:1.1.9"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
     rxPermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar"
+    rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
+    rxBindingSupportV4 = "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
+    rxBindingSupportAppcompatV7 = "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
+    rxBindingSupportDesign = "com.jakewharton.rxbinding:rxbinding-design:${rxBindingVersion}"
+    rxBindingSupportRecyclerView = "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:${rxBindingVersion}"
+    rxBindingLeanbackV17 = "com.jakewharton.rxbinding:rxbinding-leanback-v17:${rxBindingVersion}"
 
     //数据库
     sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.7.0"
