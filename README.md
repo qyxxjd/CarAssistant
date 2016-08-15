@@ -6,7 +6,7 @@
 - 百公里油耗曲线图,最低油耗/最高油耗信息
 
 
-[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.6_beta.apk?raw=true)
+[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.7_beta.apk?raw=true)
 
 #### 注意事项
 运行项目前，需要在`local.properties`文件里添加两个变量
@@ -16,14 +16,11 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 ```
 
 ## 更新历史
-#### v0.6
-
-> 修复图表页面数据不同步
-
-> 非法值校验
-
-> 修复部分机型崩溃
-
+#### v0.7
+1. 修复图表页面数据不同步
+2. 非法值校验
+3. 修复部分机型崩溃
+4. 误点击处理
 
 ## 截图
 ![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot001.png?raw=true)
@@ -36,7 +33,8 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 感谢以下开源库和作者，排名不分先后：
 ```xml
 RxJava 
-RxAndroid 
+RxAndroid
+RxBinding
 RxPermissions
 Sqlbrite 
 Dagger2 
