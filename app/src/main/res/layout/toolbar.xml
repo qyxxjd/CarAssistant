@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    android:elevation="1dp"
+    android:elevation="@dimen/toolbar_elevation"
+    app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/AppTheme.PopupOverlay"
     />
-    <!--app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:popupTheme="@style/AppTheme.PopupOverlay"-->

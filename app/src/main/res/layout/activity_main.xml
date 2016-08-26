@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
-    android:orientation="vertical" >
-<!--
-    <include layout="@layout/toolbar" />-->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/windowBackground" >
 
     <FrameLayout
         android:id="@+id/main_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <include layout="@layout/toolbar" />
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/main_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottombar_height"
+        android:layout_gravity="bottom"
+        app:bb_tabXmlResource="@xml/bottombar_tabs"
+        app:bb_behavior="shifting|underNavbar" />
+
+</FrameLayout>

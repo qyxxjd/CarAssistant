@@ -1,7 +1,9 @@
 package com.classic.car.db.dao;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Build;
 import com.classic.car.db.table.ConsumerTable;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CursorUtil;
@@ -97,7 +99,7 @@ public class ConsumerDao {
         return mDatabase.delete(ConsumerTable.NAME, ConsumerTable.COLUMN_ID + " = ? ", String.valueOf(id));
     }
 
-    private List<ConsumerDetail> convert(Cursor cursor){
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN) private List<ConsumerDetail> convert(Cursor cursor){
         if(null == cursor){
             return null;
         }

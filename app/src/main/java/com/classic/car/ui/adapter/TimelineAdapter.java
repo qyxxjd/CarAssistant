@@ -31,6 +31,7 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
     }
 
     @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {
+        if(position==0) return;
         CircleImageView civ = helper.getView(R.id.item_timeline_icon_bg);
         int color = mContext.getResources().getColor(Util.getColorByType(item.getType()));
         civ.setFillColor(color);
@@ -46,6 +47,11 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
     }
 
     @Override public void call(List<ConsumerDetail> list) {
+        list.add(0, new ConsumerDetail());
         replaceAll(list);
+    }
+
+    @Override public int getLayoutResId(ConsumerDetail item, int position) {
+        return position==0 ? R.layout.item_header : mLayoutResId;
     }
 }

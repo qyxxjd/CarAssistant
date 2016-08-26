@@ -18,9 +18,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/CarTheme">
         <activity
             android:name=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,8 +30,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.AddConsumerActivity"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".ui.activity.ThanksActivity"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTop" />
 
         <meta-data android:name="PGYER_APPID" android:value="${PGYER_APPID}" />

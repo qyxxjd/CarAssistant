@@ -28,6 +28,7 @@ public class ConsumerDetailAdapter extends CommonRecyclerAdapter<ConsumerDetail>
     }
 
     @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {
+        if(position==0) return;
         final boolean isNotesEmpty = TextUtils.isEmpty(item.getNotes());
         helper.setText(R.id.item_consumer_detail_money, Util.formatMoney(item.getMoney()))
               .setText(R.id.item_consumer_detail_tag, Consts.TYPE_MENUS[item.getType()])
@@ -42,6 +43,11 @@ public class ConsumerDetailAdapter extends CommonRecyclerAdapter<ConsumerDetail>
     }
 
     @Override public void call(List<ConsumerDetail> list) {
+        list.add(0, new ConsumerDetail());
         replaceAll(list);
+    }
+
+    @Override public int getLayoutResId(ConsumerDetail item, int position) {
+        return position==0 ? R.layout.item_header : mLayoutResId;
     }
 }

@@ -18,6 +18,8 @@ android {
         manifestPlaceholders = [PGYER_APPID: properties.getProperty("PGYER_APPID"),
                                 UMENG_APPKEY: properties.getProperty("UMENG_APPKEY"),
                                 UMENG_CHANNEL: "pgyer"]
+
+//        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -55,8 +57,8 @@ dependencies {
 
     compile rootProject.ext.butterknife
     compile rootProject.ext.dagger2
-    apt butterknifeCompiler
-    apt dagger2Compiler
+    apt rootProject.ext.butterknifeCompiler
+    apt rootProject.ext.dagger2Compiler
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer

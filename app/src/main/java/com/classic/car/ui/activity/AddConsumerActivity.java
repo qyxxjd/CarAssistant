@@ -3,6 +3,7 @@ package com.classic.car.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,8 +37,8 @@ import rx.functions.Action1;
  * 创建时间：16/6/5 下午2:07
  */
 public class AddConsumerActivity extends AppBaseActivity
-        implements /*Toolbar.OnMenuItemClickListener, */MaterialSpinner.OnItemSelectedListener,
-                    DatePickerFragment.Callback{
+        implements Toolbar.OnMenuItemClickListener, MaterialSpinner.OnItemSelectedListener,
+                   DatePickerFragment.Callback{
     public static final int TYPE_ADD    = 0;
     public static final int TYPE_MODIFY = 1;
 
@@ -93,7 +94,7 @@ public class AddConsumerActivity extends AppBaseActivity
             return;
         }
 
-        //getToolbar().setOnMenuItemClickListener(this);
+        getToolbar().setOnMenuItemClickListener(this);
         setTitle(mType == TYPE_ADD ? R.string.add_consumer_title : R.string.modify_consumer_title);
         mSpinner.setItems(Consts.TYPE_MENUS);
         mFuelSpinner.setItems(Consts.FUEL_MENUS);
@@ -194,16 +195,16 @@ public class AddConsumerActivity extends AppBaseActivity
         }
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_add) {
-            addConsumer();
-            return true;
-        }else if(item.getItemId() == R.id.action_modify){
-            modifyConsumer();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //@Override public boolean onOptionsItemSelected(MenuItem item) {
+    //    if (item.getItemId() == R.id.action_add) {
+    //        addConsumer();
+    //        return true;
+    //    }else if(item.getItemId() == R.id.action_modify){
+    //        modifyConsumer();
+    //        return true;
+    //    }
+    //    return super.onOptionsItemSelected(item);
+    //}
 
     private void showDatePickerFragment() {
         if (null == mDatePickerFragment) {
@@ -218,14 +219,14 @@ public class AddConsumerActivity extends AppBaseActivity
         return true;
     }
 
-    //@Override public boolean onMenuItemClick(MenuItem item) {
-    //    if (item.getItemId() == R.id.action_add) {
-    //        addConsumer();
-    //    }else if(item.getItemId() == R.id.action_modify){
-    //        modifyConsumer();
-    //    }
-    //    return true;
-    //}
+    @Override public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.action_add) {
+            addConsumer();
+        }else if(item.getItemId() == R.id.action_modify){
+            modifyConsumer();
+        }
+        return true;
+    }
 
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
         final int visibility = position == Consts.TYPE_FUEL ? View.VISIBLE : View.GONE;

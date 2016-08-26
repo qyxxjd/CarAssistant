@@ -17,8 +17,10 @@ import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.AddConsumerActivity;
+import com.classic.car.ui.activity.MainActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
+import com.classic.car.utils.HidingScrollListener;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.TxtHelper;
 import com.classic.core.utils.DataUtil;
@@ -90,6 +92,15 @@ public class MainFragment extends AppBaseFragment
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.addOnScrollListener(new HidingScrollListener() {
+            @Override public void onHide() {
+                ((MainActivity)activity).onHide();
+            }
+
+            @Override public void onShow() {
+                ((MainActivity)activity).onShow();
+            }
+        });
 
         addSubscription(loadData());
     }
