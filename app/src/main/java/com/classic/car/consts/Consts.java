@@ -10,8 +10,6 @@ package com.classic.car.consts;
  */
 public final class Consts {
 
-    public static final String DB_NAME = "CarAssistant.db";
-
     /** 防止误点击时间间隔 */
     public static final int    SHIELD_TIME     = 3;
 
@@ -41,4 +39,5 @@ public final class Consts {
     public static final String FORMAT_RMB      = "%s元";
     public static final String FORMAT_OIL_MESS = "%s升";
 
+    public static final String DATA_NAME = "data.txt";
 }

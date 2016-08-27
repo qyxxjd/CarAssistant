@@ -16,6 +16,7 @@ import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.ChartUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.Util;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
 import com.classic.core.utils.ToastUtil;
@@ -101,7 +102,7 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processBarChartData() {
-        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                        .flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
                            @Override public Observable<BarData> call(List<ConsumerDetail> list) {
                                return Observable.just(ChartUtil.convertBarData(mAppContext, list));
@@ -119,7 +120,7 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processPieChartData() {
-        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                        .flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
                            @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
                                mValuesMap = new HashMap<>();
@@ -156,6 +157,7 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private void processPercentageDetail() {
+        if(DataUtil.isEmpty(mValuesMap)) { return; }
         if (mPercentageDetail.getChildCount() > 0) {
             mPercentageDetail.removeAllViews();
         }
@@ -185,7 +187,7 @@ public class ChartFragment extends AppBaseFragment {
 
     private Subscription processLineChartData() {
         return mConsumerDao.queryByType(Consts.TYPE_FUEL)
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                                @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
                                    List<FuelConsumption> result = new ArrayList<>();

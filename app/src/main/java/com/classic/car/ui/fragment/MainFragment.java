@@ -11,7 +11,6 @@ import butterknife.OnClick;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
-import com.classic.car.BuildConfig;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
@@ -22,16 +21,11 @@ import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.HidingScrollListener;
 import com.classic.car.utils.RxUtil;
-import com.classic.car.utils.TxtHelper;
-import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.List;
 import javax.inject.Inject;
-import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * 应用名称: CarAssistant
@@ -56,30 +50,6 @@ public class MainFragment extends AppBaseFragment
 
     @Override public int getLayoutResId() {
         return R.layout.fragment_main;
-    }
-
-    @Override public void onFirst() {
-        super.onFirst();
-        if(BuildConfig.DEBUG){
-            //导入文本数据,自用
-            addSubscription(insertData());
-        }
-    }
-
-    private Subscription insertData(){
-        return Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
-                             @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
-                                 subscriber.onNext(TxtHelper.read(activity.getApplicationContext()));
-                             }
-                         })
-                         .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
-                         .subscribe(new Action1<List<ConsumerDetail>>() {
-                             @Override public void call(List<ConsumerDetail> list) {
-                                 if (!DataUtil.isEmpty(list)) {
-                                     mConsumerDao.insert(list);
-                                 }
-                             }
-                         }, RxUtil.ERROR_ACTION);
     }
 
     @TargetApi(Build.VERSION_CODES.DONUT) @Override
@@ -107,7 +77,7 @@ public class MainFragment extends AppBaseFragment
 
     private Subscription loadData(){
         return mConsumerDao.queryAll()
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .subscribe(mAdapter, RxUtil.ERROR_ACTION);
     }
 

@@ -61,7 +61,7 @@ public class TimelineFragment extends AppBaseFragment {
 
     private Subscription loadData(){
         return mConsumerDao.queryAll()
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.UI_TRANSFORMER))
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .subscribe(mAdapter, RxUtil.ERROR_ACTION);
     }
 }

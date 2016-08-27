@@ -17,7 +17,15 @@ import rx.schedulers.Schedulers;
  */
 public final class RxUtil {
 
-    public static Observable.Transformer UI_TRANSFORMER = new Observable.Transformer() {
+    public static Observable.Transformer IO_TRANSFORMER = new Observable.Transformer() {
+        @Override public Object call(Object observable) {
+            return ((Observable) observable).subscribeOn(Schedulers.io())
+                                            .unsubscribeOn(Schedulers.io())
+                                            .observeOn(Schedulers.io());
+        }
+    };
+
+    public static Observable.Transformer IO_ON_UI_TRANSFORMER = new Observable.Transformer() {
         @Override public Object call(Object observable) {
             return ((Observable) observable).subscribeOn(Schedulers.io())
                                             .unsubscribeOn(Schedulers.io())
@@ -34,7 +42,7 @@ public final class RxUtil {
         }
     };
 
-    public static <T> Observable.Transformer<T, T> applySchedulers(Observable.Transformer transformer){
-        return (Observable.Transformer<T, T>)transformer;
+    public static <T> Observable.Transformer<T, T> applySchedulers(Observable.Transformer transformer) {
+        return (Observable.Transformer<T, T>) transformer;
     }
 }
