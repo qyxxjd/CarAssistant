@@ -18,6 +18,6 @@
         android:layout_height="@dimen/bottombar_height"
         android:layout_gravity="bottom"
         app:bb_tabXmlResource="@xml/bottombar_tabs"
-        app:bb_behavior="shifting|underNavbar" />
+        app:bb_behavior="shifting" />
 
 </FrameLayout>

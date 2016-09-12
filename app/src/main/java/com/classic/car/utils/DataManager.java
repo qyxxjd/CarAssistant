@@ -1,6 +1,7 @@
 package com.classic.car.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
@@ -33,7 +34,9 @@ public final class DataManager {
      *
      * @param fileName 文件名称
      */
-    public void importByAssets(final Context context, final ConsumerDao mConsumerDao, final String fileName) {
+    public void importByAssets(@NonNull final Context context,
+                               @NonNull final ConsumerDao mConsumerDao,
+                               @NonNull final String fileName) {
         Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
                         @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
                             List<ConsumerDetail> consumerDetails = new ArrayList<>();
@@ -74,7 +77,9 @@ public final class DataManager {
      * @param path 文件路径
      * @param fileName 文件名称
      */
-    public void backup(final ConsumerDao mConsumerDao, final String path, final String fileName) {
+    public void backup(@NonNull final ConsumerDao mConsumerDao,
+                       @NonNull final String path,
+                       @NonNull final String fileName) {
         mConsumerDao.queryAll()
                     .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_TRANSFORMER))
                     .subscribe(new Action1<List<ConsumerDetail>>() {

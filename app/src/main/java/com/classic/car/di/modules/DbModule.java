@@ -17,6 +17,7 @@ package com.classic.car.di.modules;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import com.classic.car.BuildConfig;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.db.DbOpenHelper;
@@ -45,7 +46,9 @@ import rx.schedulers.Schedulers;
     @Provides @Singleton SqlBrite provideSqlBrite() {
         return SqlBrite.create(new SqlBrite.Logger() {
             @Override public void log(String message) {
-                Logger.d(message);
+                if(!TextUtils.isEmpty(message)){
+                    Logger.d(message);
+                }
             }
         });
     }
