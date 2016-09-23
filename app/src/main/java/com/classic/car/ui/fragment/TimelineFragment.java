@@ -41,16 +41,16 @@ public class TimelineFragment extends AppBaseFragment {
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication)activity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication)mActivity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
         mRecyclerView.addOnScrollListener(new HidingScrollListener() {
             @Override public void onHide() {
-                ((MainActivity)activity).onHide();
+                ((MainActivity)mActivity).onHide();
             }
 
             @Override public void onShow() {
-                ((MainActivity)activity).onShow();
+                ((MainActivity)mActivity).onShow();
             }
         });
         mAdapter = new TimelineAdapter(mAppContext, R.layout.item_timeline);

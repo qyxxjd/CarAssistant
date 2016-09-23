@@ -1,7 +1,7 @@
 package com.classic.car.utils;
 
 import android.text.TextUtils;
-import com.classic.core.log.Logger;
+import com.orhanobut.logger.Logger;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

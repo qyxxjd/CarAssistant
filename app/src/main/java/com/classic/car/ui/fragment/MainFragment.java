@@ -54,7 +54,7 @@ public class MainFragment extends AppBaseFragment
 
     @TargetApi(Build.VERSION_CODES.DONUT) @Override
     public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
         mAdapter = new ConsumerDetailAdapter(mAppContext, R.layout.item_consumer_detail);
@@ -64,11 +64,11 @@ public class MainFragment extends AppBaseFragment
         mFab.attachToRecyclerView(mRecyclerView);
         mRecyclerView.addOnScrollListener(new HidingScrollListener() {
             @Override public void onHide() {
-                ((MainActivity)activity).onHide();
+                ((MainActivity)mActivity).onHide();
             }
 
             @Override public void onShow() {
-                ((MainActivity)activity).onShow();
+                ((MainActivity)mActivity).onShow();
             }
         });
 
@@ -82,15 +82,15 @@ public class MainFragment extends AppBaseFragment
     }
 
     @OnClick(R.id.main_fab) public void onFabClick() {
-        AddConsumerActivity.start(activity, AddConsumerActivity.TYPE_ADD, null);
+        AddConsumerActivity.start(mActivity, AddConsumerActivity.TYPE_ADD, null);
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-        AddConsumerActivity.start(activity, AddConsumerActivity.TYPE_MODIFY, mAdapter.getItem(position));
+        AddConsumerActivity.start(mActivity, AddConsumerActivity.TYPE_MODIFY, mAdapter.getItem(position));
     }
 
     @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
-        new MaterialDialog.Builder(activity).backgroundColorRes(R.color.white)
+        new MaterialDialog.Builder(mActivity).backgroundColorRes(R.color.white)
                                             .content(R.string.delete_dialog_content)
                                             .contentColorRes(R.color.primary_light)
                                             .positiveText(R.string.confirm)

@@ -43,7 +43,7 @@ public class MainActivity extends AppBaseActivity {
     @Override public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setTitle(R.string.app_name);
-        mDoubleClickExitHelper = new DoubleClickExitHelper(activity);
+        mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
 
         if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
             init();
@@ -55,7 +55,7 @@ public class MainActivity extends AppBaseActivity {
                          .subscribe(new Action1<Boolean>() {
                              @Override public void call(Boolean granted) {
                                  if (!granted) {
-                                     activity.finish();
+                                     mActivity.finish();
                                      return;
                                  }
                                  init();
@@ -64,7 +64,7 @@ public class MainActivity extends AppBaseActivity {
         }
         initBottomBar();
         PgyCrashManager.register(getApplicationContext());
-        PgyerUtil.checkUpdate(activity, false);
+        PgyerUtil.checkUpdate(mActivity, false);
     }
 
     private void init(){

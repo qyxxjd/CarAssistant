@@ -138,26 +138,26 @@ public class AddConsumerActivity extends AppBaseActivity
         mConsumerDetail.setType(mSpinner.getSelectedIndex());
         final String money = mAddConsumerMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {
-            ToastUtil.showToast(activity, R.string.consumer_money_hint);
+            ToastUtil.showToast(mAppContext, R.string.consumer_money_hint);
             Util.setFocusable(mAddConsumerMoney);
             return false;
         }
         mConsumerDetail.setMoney(Float.valueOf(money));
         if (null == mSelectCalendar) {
-            ToastUtil.showToast(activity, R.string.consumer_select_time_hint);
+            ToastUtil.showToast(mAppContext, R.string.consumer_select_time_hint);
             return false;
         }
         mConsumerDetail.setConsumptionTime(mSelectCalendar.getTimeInMillis());
         if (mSpinner.getSelectedIndex() == Consts.TYPE_FUEL) {
             final String unitPrice = mAddConsumerUnitPrice.getText().toString().trim();
             if (TextUtils.isEmpty(unitPrice)){
-                ToastUtil.showToast(activity, R.string.consumer_unit_price_hint);
+                ToastUtil.showToast(mAppContext, R.string.consumer_unit_price_hint);
                 Util.setFocusable(mAddConsumerUnitPrice);
                 return false;
             }
             final String currentMileage = mAddConsumerCurrentMileage.getText().toString().trim();
             if(TextUtils.isEmpty(currentMileage)){
-                ToastUtil.showToast(activity, R.string.consumer_current_mileage_hint);
+                ToastUtil.showToast(mAppContext, R.string.consumer_current_mileage_hint);
                 Util.setFocusable(mAddConsumerCurrentMileage);
                 return false;
             }

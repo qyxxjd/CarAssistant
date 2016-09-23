@@ -8,6 +8,7 @@ import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.core.utils.CloseUtil;
 import com.classic.core.utils.DataUtil;
+import com.classic.core.utils.MoneyUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -125,13 +126,13 @@ public final class DataManager {
         if (detail.getType() == Consts.TYPE_FUEL) {
             return new StringBuilder().append(Consts.TYPE_FUEL)
                                       .append(SEPARATOR)
-                                      .append(detail.getMoney())
+                                      .append(MoneyUtil.replace(detail.getMoney()))
                                       .append(SEPARATOR)
                                       .append(timeStr)
                                       .append(SEPARATOR)
                                       .append(detail.getOilType())
                                       .append(SEPARATOR)
-                                      .append(detail.getUnitPrice())
+                                      .append(MoneyUtil.replace(detail.getUnitPrice()))
                                       .append(SEPARATOR)
                                       .append(detail.getCurrentMileage())
                                       .append(SEPARATOR)
@@ -141,7 +142,7 @@ public final class DataManager {
         }
         return new StringBuilder().append(detail.getType())
                                   .append(SEPARATOR)
-                                  .append(detail.getMoney())
+                                  .append(MoneyUtil.replace(detail.getMoney()))
                                   .append(SEPARATOR)
                                   .append(timeStr)
                                   .append(SEPARATOR)

@@ -48,6 +48,7 @@ dependencies {
     compile rootProject.ext.fab
     compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
+    compile rootProject.ext.logger
 
     compile rootProject.ext.sqlbrite
     compile rootProject.ext.rxJava
@@ -62,7 +63,10 @@ dependencies {
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
-//    compile rootProject.ext.blockCanary
-//    compile rootProject.ext.leakCanaryDebug
+
+//    debugCompile rootProject.ext.leakCanaryDebug
+//    debugCompile rootProject.ext.blockCanaryDebug
+//    releaseCompile rootProject.ext.leakCanaryRelease
+//    releaseCompile rootProject.ext.blockCanaryRelease
 
 }

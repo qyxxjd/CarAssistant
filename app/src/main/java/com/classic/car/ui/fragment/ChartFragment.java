@@ -79,7 +79,7 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
 
         ChartUtil.initLineChart(mAppContext, mFuelLinechart);
@@ -94,8 +94,8 @@ public class ChartFragment extends AppBaseFragment {
         addSubscription(processPieChartData());
     }
 
-    @Override public void onChange() {
-        super.onChange();
+    @Override public void onFragmentShow() {
+        super.onFragmentShow();
         mFuelLinechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
         mConsumerBarchart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
         mPercentagePiechart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
@@ -162,7 +162,7 @@ public class ChartFragment extends AppBaseFragment {
             mPercentageDetail.removeAllViews();
         }
         if(null == mLayoutInflater){
-            mLayoutInflater = LayoutInflater.from(activity);
+            mLayoutInflater = LayoutInflater.from(mActivity);
         }
         int rows = 1;
         for (Integer key : mValuesMap.keySet()) {

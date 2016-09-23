@@ -56,7 +56,7 @@ public class AboutFragment extends AppBaseFragment {
                       .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
                       .subscribe(new Action1<Void>() {
                           @Override public void call(Void aVoid) {
-                              PgyerUtil.checkUpdate(activity, true);
+                              PgyerUtil.checkUpdate(mActivity, true);
                           }
                       })
         );
@@ -70,29 +70,29 @@ public class AboutFragment extends AppBaseFragment {
                 break;
             case R.id.about_author:
                 if (null == mAuthorDialog) {
-                    mAuthorDialog = new AuthorDialog(activity);
+                    mAuthorDialog = new AuthorDialog(mActivity);
                 }
                 mAuthorDialog.show();
                 break;
             case R.id.about_share:
-                IntentUtil.shareText(activity, getString(R.string.share_title),
-                        getString(R.string.share_subject),getString(R.string.share_content));
+                IntentUtil.shareText(mActivity, getString(R.string.share_title),
+                        getString(R.string.share_subject), getString(R.string.share_content));
                 break;
             case R.id.about_thanks:
-                ThanksActivity.start(activity);
+                ThanksActivity.start(mActivity);
                 break;
         }
     }
 
     private void feedback(){
         if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            PgyFeedback.getInstance().showDialog(activity);
+            PgyFeedback.getInstance().showDialog(mActivity);
         } else {
             RxPermissions.getInstance(mAppContext)
                          .request(Manifest.permission.RECORD_AUDIO)
                          .subscribe(new Action1<Boolean>() {
                              @Override public void call(Boolean granted) {
-                                 PgyFeedback.getInstance().showDialog(activity);
+                                 PgyFeedback.getInstance().showDialog(mActivity);
                              }
                          });
         }
