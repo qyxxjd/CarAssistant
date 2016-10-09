@@ -1,6 +1,6 @@
 def supportVersion = "24.2.1"
 def butterknifeVersion = "8.4.0"
-def leakCanaryVersion = "1.4-beta2"
+def leakCanaryVersion = "1.5"
 def dagger2Version = "2.7"
 def rxBindingVersion = "0.4.0"
 def blockCanaryVersion = "1.3.1"
@@ -9,7 +9,7 @@ ext {
 
     android = [
             compileSdkVersion: 24,
-            buildToolsVersion: "24.0.2",
+            buildToolsVersion: "24.0.3",
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 24,
@@ -25,7 +25,7 @@ ext {
     supportRecyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
 
     //基础项目
-    basicProject = "com.classic.core:classic:2.2"
+    basicProject = "com.classic.core:classic:2.2.1"
 
     //https://github.com/google/dagger
     dagger2 = "com.google.dagger:dagger:${dagger2Version}"
@@ -34,7 +34,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.2.0"
+    rxJava = "io.reactivex:rxjava:1.2.1"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
     rxPermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar"
     rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
