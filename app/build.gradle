@@ -36,7 +36,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
-    compile rootProject.ext.supportDesign
     compile rootProject.ext.supportRecyclerView
 
     compile rootProject.ext.basicProject
@@ -48,7 +47,6 @@ dependencies {
     compile rootProject.ext.fab
     compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
-    compile rootProject.ext.logger
 
     compile rootProject.ext.sqlbrite
     compile rootProject.ext.rxJava
@@ -64,9 +62,9 @@ dependencies {
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
 
-//    debugCompile rootProject.ext.leakCanaryDebug
-//    debugCompile rootProject.ext.blockCanaryDebug
-//    releaseCompile rootProject.ext.leakCanaryRelease
-//    releaseCompile rootProject.ext.blockCanaryRelease
+    debugCompile rootProject.ext.leakCanaryDebug
+    debugCompile rootProject.ext.blockCanaryDebug
+    releaseCompile rootProject.ext.leakCanaryRelease
+    releaseCompile rootProject.ext.blockCanaryRelease
 
 }

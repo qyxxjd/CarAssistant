@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginBottom="?attr/actionBarSize"
-    android:background="@color/windowBackground"
     android:scrollbars="none">
 
     <LinearLayout
@@ -28,6 +27,7 @@
             <View
                 style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_consumer_lable"
+                android:layout_toEndOf="@id/chart_consumer_lable"
                 android:layout_alignBottom="@id/chart_consumer_lable"/>
 
             <TextView
@@ -55,6 +55,7 @@
             <View
                 style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_percentage_lable"
+                android:layout_toEndOf="@id/chart_percentage_lable"
                 android:layout_alignBottom="@id/chart_percentage_lable"/>
 
             <TextView
@@ -66,7 +67,6 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart_percentage_piechart"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/chart_height"/>
 
@@ -90,6 +90,7 @@
             <View
                 style="@style/Chart.TagDivider"
                 android:layout_toRightOf="@id/chart_fuel_lable"
+                android:layout_toEndOf="@id/chart_fuel_lable"
                 android:layout_alignBottom="@id/chart_fuel_lable"/>
 
             <TextView

@@ -10,6 +10,12 @@
 
     <style name="CarTheme" parent="AppTheme" />
 
+    <style name="AppDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="ActionbarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/TitleStyle</item>
     </style>

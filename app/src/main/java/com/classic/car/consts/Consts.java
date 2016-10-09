@@ -39,5 +39,6 @@ public final class Consts {
     public static final String FORMAT_RMB      = "%s元";
     public static final String FORMAT_OIL_MESS = "%s升";
 
-    public static final String DATA_NAME = "data.txt";
+    public static final String STORAGE_PERMISSIONS_DESCRIBE  = "应用需要访问你的存储空间,进行日志存储";
+    public static final String FEEDBACK_PERMISSIONS_DESCRIBE = "语音反馈需要使用语音录制权限";
 }

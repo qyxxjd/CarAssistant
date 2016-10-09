@@ -2,6 +2,7 @@ package com.classic.car.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -67,6 +68,9 @@ public class AddConsumerActivity extends AppBaseActivity
         intent.putExtra(PARAMS_TYPE, type);
         if(null != consumerDetail){
             intent.putExtra(PARAMS_CONSUMER, consumerDetail);
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity.isInMultiWindowMode()){
+            intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
         }
         activity.startActivity(intent);
     }
@@ -194,17 +198,6 @@ public class AddConsumerActivity extends AppBaseActivity
             ToastUtil.showToast(mAppContext, R.string.modify_consumer_fail);
         }
     }
-
-    //@Override public boolean onOptionsItemSelected(MenuItem item) {
-    //    if (item.getItemId() == R.id.action_add) {
-    //        addConsumer();
-    //        return true;
-    //    }else if(item.getItemId() == R.id.action_modify){
-    //        modifyConsumer();
-    //        return true;
-    //    }
-    //    return super.onOptionsItemSelected(item);
-    //}
 
     private void showDatePickerFragment() {
         if (null == mDatePickerFragment) {

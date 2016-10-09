@@ -2,6 +2,7 @@ package com.classic.car.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import com.classic.car.R;
 import com.classic.car.ui.base.AppBaseActivity;
@@ -17,6 +18,10 @@ import com.classic.car.ui.base.AppBaseActivity;
 public class ThanksActivity extends AppBaseActivity {
 
     public static void start(Activity activity){
+        Intent intent = new Intent(activity, ThanksActivity.class);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity.isInMultiWindowMode()){
+            intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
+        }
         activity.startActivity(new Intent(activity, ThanksActivity.class));
     }
 

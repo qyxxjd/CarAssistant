@@ -16,8 +16,9 @@
         <TextView
             style="@style/Chart.ItemLable"
             android:id="@+id/item_table_lable"
-            android:gravity="right|center_vertical"
+            android:gravity="end|center_vertical"
             android:layout_marginRight="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             tools:text="最低油耗"/>
 
         <View style="@style/Chart.VerticalDivider"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ContentDescription"
     style="@style/ConsumerDetail.ItemLayout" >
 
     <RelativeLayout
@@ -16,6 +17,7 @@
             android:scaleType="center"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_large"
             tools:src="@drawable/ic_parking"
             />
 
@@ -23,8 +25,10 @@
             style="@style/ListItemMoney"
             android:id="@+id/item_consumer_detail_money"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
             tools:text="$ 600"
             />
 
@@ -37,8 +41,10 @@
         android:id="@+id/item_consumer_detail_tag"
         android:layout_below="@id/item_consumer_detail_top_layout"
         android:drawableLeft="@drawable/ic_tag"
+        android:drawableStart="@drawable/ic_tag"
         android:drawablePadding="@dimen/margin_normal"
         android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         tools:textColor="@color/green_light"
         tools:text="加油费用"
@@ -48,8 +54,10 @@
         android:id="@+id/item_consumer_detail_time"
         android:layout_below="@id/item_consumer_detail_tag"
         android:drawableLeft="@drawable/ic_time"
+        android:drawableStart="@drawable/ic_time"
         android:drawablePadding="@dimen/margin_normal"
         android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_small"
         tools:text="2016-05-23"
         />
@@ -61,15 +69,19 @@
         android:layout_below="@id/item_consumer_detail_time"
         android:src="@drawable/ic_notes"
         android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
         />
     <TextView
         style="@style/ItemText.Gray.Normal"
         android:id="@+id/item_consumer_detail_notes"
         android:layout_below="@id/item_consumer_detail_time"
         android:layout_toRightOf="@id/item_consumer_detail_notes_icon"
+        android:layout_toEndOf="@id/item_consumer_detail_notes_icon"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
         />
 </RelativeLayout>

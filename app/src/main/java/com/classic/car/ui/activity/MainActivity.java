@@ -1,7 +1,6 @@
 package com.classic.car.ui.activity;
 
 import android.Manifest;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.KeyEvent;
@@ -10,6 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import butterknife.BindView;
 import com.classic.car.BuildConfig;
 import com.classic.car.R;
+import com.classic.car.consts.Consts;
 import com.classic.car.ui.base.AppBaseActivity;
 import com.classic.car.ui.fragment.AboutFragment;
 import com.classic.car.ui.fragment.ChartFragment;
@@ -17,14 +17,13 @@ import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
 import com.classic.car.utils.PgyerUtil;
 import com.classic.core.BasicConfig;
-import com.classic.core.utils.DeviceUtil;
+import com.classic.core.permissions.AfterPermissionGranted;
+import com.classic.core.permissions.AppSettingsDialog;
+import com.classic.core.permissions.EasyPermissions;
 import com.classic.core.utils.DoubleClickExitHelper;
-import com.pgyersdk.crash.PgyCrashManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.tbruyelle.rxpermissions.RxPermissions;
-import com.umeng.analytics.MobclickAgent;
-import rx.functions.Action1;
+import java.util.List;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.main_bottombar) BottomBar mBottomBar;
@@ -45,26 +44,47 @@ public class MainActivity extends AppBaseActivity {
         setTitle(R.string.app_name);
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
 
-        if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+        checkStoragePermissions();
+        initBottomBar();
+        PgyerUtil.register(mAppContext);
+        PgyerUtil.checkUpdate(mActivity, false);
+    }
+
+    private static final int REQUEST_CODE_STORAGE  = 101;
+    private static final int REQUEST_CODE_SETTINGS = 102;
+    private static final String[] STORAGE_PERMISSIONS = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    @AfterPermissionGranted(REQUEST_CODE_STORAGE)
+    private void checkStoragePermissions(){
+        if (EasyPermissions.hasPermissions(this, STORAGE_PERMISSIONS)) {
             init();
         } else {
-            RxPermissions.getInstance(mAppContext)
-                         .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                                 Manifest.permission.READ_PHONE_STATE)
-                         .subscribe(new Action1<Boolean>() {
-                             @Override public void call(Boolean granted) {
-                                 if (!granted) {
-                                     mActivity.finish();
-                                     return;
-                                 }
-                                 init();
-                             }
-                         });
+            EasyPermissions.requestPermissions(this, Consts.STORAGE_PERMISSIONS_DESCRIBE,
+                                               REQUEST_CODE_STORAGE, STORAGE_PERMISSIONS);
         }
-        initBottomBar();
-        PgyCrashManager.register(getApplicationContext());
-        PgyerUtil.checkUpdate(mActivity, false);
+    }
+
+    @Override public void onPermissionsGranted(int requestCode, List<String> perms) {
+        super.onPermissionsGranted(requestCode, perms);
+        if(requestCode == REQUEST_CODE_STORAGE){
+            init();
+        }
+    }
+
+    @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
+        super.onPermissionsDenied(requestCode, perms);
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this, Consts.STORAGE_PERMISSIONS_DESCRIBE)
+                    .setTitle("权限申请")
+                    .setPositiveButton("设置")
+                    .setNegativeButton("取消", null)
+                    .setRequestCode(REQUEST_CODE_SETTINGS)
+                    .build()
+                    .show();
+        }
     }
 
     private void init(){
@@ -73,7 +93,6 @@ public class MainActivity extends AppBaseActivity {
         }else {
             BasicConfig.getInstance(mAppContext).init();
         }
-        MobclickAgent.onProfileSignIn(DeviceUtil.getInstance(mAppContext).getID());
     }
 
     private void initBottomBar(){
@@ -112,7 +131,7 @@ public class MainActivity extends AppBaseActivity {
 
     @Override public void unRegister() {
         super.unRegister();
-        PgyCrashManager.unregister();
+        PgyerUtil.destroy();
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {

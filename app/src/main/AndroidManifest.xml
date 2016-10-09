@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 存储卡 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -22,19 +21,45 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <layout
+                android:gravity="top|end"
+                android:defaultHeight="@dimen/multi_window_height"
+                android:defaultWidth="@dimen/multi_window_width"
+                android:minWidth="@dimen/multi_window_min_width"
+                android:minHeight="@dimen/multi_window_min_height" />
         </activity>
         <activity android:name=".ui.activity.AddConsumerActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <layout
+                android:gravity="top|end"
+                android:defaultHeight="@dimen/multi_window_height"
+                android:defaultWidth="@dimen/multi_window_width"
+                android:minWidth="@dimen/multi_window_min_width"
+                android:minHeight="@dimen/multi_window_min_height" />
+        </activity>
         <activity android:name=".ui.activity.ThanksActivity"
             android:theme="@style/AppTheme"
-            android:launchMode="singleTop" />
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:launchMode="singleTop" >
+            <layout
+                android:gravity="top|end"
+                android:defaultHeight="@dimen/multi_window_height"
+                android:defaultWidth="@dimen/multi_window_width"
+                android:minWidth="@dimen/multi_window_min_width"
+                android:minHeight="@dimen/multi_window_min_height" />
+        </activity>
 
         <meta-data android:name="PGYER_APPID" android:value="${PGYER_APPID}" />
         <meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY}" />

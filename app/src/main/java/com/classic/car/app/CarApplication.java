@@ -20,38 +20,21 @@ public class CarApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
 
+        //if (LeakCanary.isInAnalyzerProcess(this)) {
+        //    return;
+        //}
+        //LeakCanary.install(this);
+        //BlockCanary.install(this, new CarContext(this)).start();
+
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .dbModule(new DbModule())
                 .build();
 
-        //LeakCanary.install(this);
-        //BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
     public AppComponent getAppComponent() {
         return mAppComponent;
     }
 
-    //private class AppBlockCanaryContext extends BlockCanaryContext {
-    //    // override to provide context like app qualifier, uid, network type, block threshold, log save path
-    //
-    //    // this is default block threshold, you can set it by phone's performance
-    //    @Override
-    //    public int getConfigBlockThreshold() {
-    //        return 300;
-    //    }
-    //
-    //    // if set true, notification will be shown, else only write log file
-    //    @Override
-    //    public boolean isNeedDisplay() {
-    //        return BuildConfig.DEBUG;
-    //    }
-    //
-    //    // path to save log file
-    //    @Override
-    //    public String getLogPath() {
-    //        return SDcardUtil.getLogDirPath();
-    //    }
-    //}
 }

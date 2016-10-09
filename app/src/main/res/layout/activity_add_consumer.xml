@@ -63,6 +63,7 @@
                     style="@style/ItemText.Gray.Large"
                     android:id="@+id/add_consumer_time"
                     android:layout_marginLeft="@dimen/margin_larger"
+                    android:layout_marginStart="@dimen/margin_larger"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:text="@string/consumer.select.time.hint" />

@@ -49,4 +49,10 @@
     <dimen name="qrcode_width">140dp</dimen>
 
     <dimen name="consumer_detail_top_layout_height">80dp</dimen>
+
+    <dimen name="multi_window_height">500dp</dimen>
+    <dimen name="multi_window_width">500dp</dimen>
+    <dimen name="multi_window_min_height">300dp</dimen>
+    <dimen name="multi_window_min_width">300dp</dimen>
+
 </resources>

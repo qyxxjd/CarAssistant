@@ -50,6 +50,8 @@
     <string name="about.author">联系作者</string>
     <string name="about.share">应用分享</string>
     <string name="about.thanks">感恩鸣谢</string>
+    <string name="storage.permissions.describe">应用需要访问你的存储空间,进行日志存储</string>
+    <string name="feedback.permissions.describe">问题反馈支持语音反馈，是否允许语音录制</string>
 
     <string name="share.title">应用分享</string>
     <string name="share.subject">汽车助手</string>
@@ -63,8 +65,8 @@
         RxJava \n
         RxAndroid \n
         RxBinding \n
-        RxPermissions \n
         Sqlbrite \n
+        Logger \n
         Dagger2 \n
         BottomBar \n
         LeakCanary \n
@@ -72,6 +74,7 @@
         Butterknife \n
         SublimePicker \n
         MPAndroidChart \n
+        EasyPermissions \n
         CircleImageView \n
         MaterialDialog \n
         MaterialSpinner \n

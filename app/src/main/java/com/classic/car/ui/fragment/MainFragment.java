@@ -75,6 +75,21 @@ public class MainFragment extends AppBaseFragment
         addSubscription(loadData());
     }
 
+    //@Override public void onConfigurationChanged(Configuration newConfig) {
+    //    super.onConfigurationChanged(newConfig);
+    //    Logger.d("onConfigurationChanged: " + newConfig.toString());
+    //    addSubscription(loadData());
+    //}
+    //
+    //@Override public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+    //    super.onMultiWindowModeChanged(isInMultiWindowMode);
+    //    Logger.d("onMultiWindowModeChanged: " + isInMultiWindowMode);
+    //}
+    //@Override public void onStart() {
+    //    super.onStart();
+    //    new DataManager().importByAssets(mAppContext, mConsumerDao, "new_data.txt");
+    //}
+
     private Subscription loadData(){
         return mConsumerDao.queryAll()
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
