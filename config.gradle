@@ -1,4 +1,4 @@
-def supportVersion = "24.2.1"
+def supportVersion = "25.0.0"
 def butterknifeVersion = "8.4.0"
 def leakCanaryVersion = "1.5"
 def dagger2Version = "2.7"
@@ -8,11 +8,11 @@ def blockCanaryVersion = "1.3.1"
 ext {
 
     android = [
-            compileSdkVersion: 24,
-            buildToolsVersion: "24.0.3",
+            compileSdkVersion: 25,
+            buildToolsVersion: "25.0.0",
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
-            targetSdkVersion : 24,
+            targetSdkVersion : 25,
             versionCode      : 8,
             versionName      : "0.8"
     ]
@@ -45,7 +45,7 @@ ext {
     rxBindingLeanbackV17 = "com.jakewharton.rxbinding:rxbinding-leanback-v17:${rxBindingVersion}"
 
     //数据库
-    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.7.0"
+    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.8.0"
 
     //通用适配器
     commonAdapter = "com.classic.adapter:commonadapter:1.2"
@@ -71,5 +71,5 @@ ext {
     logger = "com.orhanobut:logger:1.15"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
-    pgyer = "com.pgyersdk:sdk:2.4.2"
+    pgyer = "com.pgyersdk:sdk:2.4.4"
 }
