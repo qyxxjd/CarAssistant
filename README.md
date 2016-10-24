@@ -30,13 +30,13 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 ## 截图
 <table align="center">
     <tr>
-        <td>![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot001.png?raw=true)</td>
-        <td>![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot002.png?raw=true)</td>
-        <td>![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot003.png?raw=true)</td>
+        <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot001.png?raw=true"/></td>
+        <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot002.png?raw=true"/></td>
+        <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot003.png?raw=true"/></td>
     </tr>
     <tr>
-        <td>![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot004.png?raw=true)</td>
-        <td>![](https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot005.png?raw=true)</td>
+        <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot004.png?raw=true"/></td>
+        <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot005.png?raw=true"/></td>
     </tr>
 </table>
 
