@@ -1,6 +1,5 @@
 package com.classic.car.utils;
 
-import com.classic.core.utils.MoneyUtil;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.ValueFormatter;

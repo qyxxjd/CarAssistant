@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.os.Build;
 import com.classic.car.db.table.ConsumerTable;
 import com.classic.car.entity.ConsumerDetail;
+import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.CursorUtil;
-import com.classic.core.utils.CloseUtil;
-import com.orhanobut.logger.Logger;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 import java.util.ArrayList;
@@ -120,7 +119,6 @@ public class ConsumerDao {
             }
         } catch (Exception e){
             e.printStackTrace();
-            Logger.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }

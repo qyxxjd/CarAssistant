@@ -7,8 +7,8 @@ import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
+import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.Util;
-import com.classic.core.utils.DateUtil;
 import java.util.List;
 import rx.functions.Action1;
 
@@ -23,8 +23,11 @@ import rx.functions.Action1;
 public class ConsumerDetailAdapter extends CommonRecyclerAdapter<ConsumerDetail>
         implements Action1<List<ConsumerDetail>> {
 
+    private final int mLayoutResId;
+
     public ConsumerDetailAdapter(Context context, int layoutResId) {
         super(context, layoutResId);
+        this.mLayoutResId = layoutResId;
     }
 
     @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {

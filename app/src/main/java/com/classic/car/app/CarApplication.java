@@ -19,22 +19,13 @@ public class CarApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
-
-        //if (LeakCanary.isInAnalyzerProcess(this)) {
-        //    return;
-        //}
-        //LeakCanary.install(this);
-        //BlockCanary.install(this, new CarContext(this)).start();
-
         mAppComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .dbModule(new DbModule())
-                .build();
-
+                                          .appModule(new AppModule(this))
+                                          .dbModule(new DbModule())
+                                          .build();
     }
 
     public AppComponent getAppComponent() {
         return mAppComponent;
     }
-
 }

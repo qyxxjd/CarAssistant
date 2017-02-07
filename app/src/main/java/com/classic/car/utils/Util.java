@@ -3,7 +3,6 @@ package com.classic.car.utils;
 import android.widget.EditText;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
-import com.classic.core.utils.MoneyUtil;
 import java.util.Locale;
 
 /**

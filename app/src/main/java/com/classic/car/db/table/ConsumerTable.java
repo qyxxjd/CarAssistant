@@ -22,6 +22,7 @@ public class ConsumerTable {
     public static final String COLUMN_CURRENT_MILEAGE  = "currentMileage";
 
     public static String create(){
+        //noinspection StringBufferReplaceableByString
         return new StringBuilder("CREATE TABLE ").append(NAME).append("(")
                                                  .append(COLUMN_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
                                                  .append(COLUMN_CREATE_TIME).append(" INTEGER NOT NULL,")

@@ -21,7 +21,6 @@ import android.text.TextUtils;
 import com.classic.car.BuildConfig;
 import com.classic.car.db.DbOpenHelper;
 import com.classic.car.db.dao.ConsumerDao;
-import com.orhanobut.logger.Logger;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 import dagger.Module;
@@ -44,13 +43,18 @@ import rx.schedulers.Schedulers;
     }
 
     @Provides @Singleton SqlBrite provideSqlBrite() {
-        return SqlBrite.create(new SqlBrite.Logger() {
-            @Override public void log(String message) {
-                if(!TextUtils.isEmpty(message)){
-                    Logger.d(message);
+        final SqlBrite.Builder builder = new SqlBrite.Builder();
+        if (BuildConfig.DEBUG) {
+            //noinspection CheckResult
+            builder.logger(new SqlBrite.Logger() {
+                @Override public void log(String message) {
+                    if (!TextUtils.isEmpty(message)) {
+                        //XLog.d(message);
+                    }
                 }
-            }
-        });
+            });
+        }
+        return builder.build();
     }
 
     @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite, SQLiteOpenHelper helper) {

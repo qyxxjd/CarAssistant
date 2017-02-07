@@ -7,6 +7,11 @@ import android.view.KeyEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import butterknife.BindView;
+import com.classic.android.BasicProject;
+import com.classic.android.permissions.AfterPermissionGranted;
+import com.classic.android.permissions.AppSettingsDialog;
+import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.utils.DoubleClickExitHelper;
 import com.classic.car.BuildConfig;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
@@ -15,12 +20,8 @@ import com.classic.car.ui.fragment.AboutFragment;
 import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
-import com.classic.car.utils.PgyerUtil;
-import com.classic.core.BasicConfig;
-import com.classic.core.permissions.AfterPermissionGranted;
-import com.classic.core.permissions.AppSettingsDialog;
-import com.classic.core.permissions.EasyPermissions;
-import com.classic.core.utils.DoubleClickExitHelper;
+import com.classic.car.utils.PgyUtil;
+import com.elvishew.xlog.LogLevel;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import java.util.List;
@@ -46,8 +47,8 @@ public class MainActivity extends AppBaseActivity {
 
         checkStoragePermissions();
         initBottomBar();
-        PgyerUtil.register(mAppContext);
-        PgyerUtil.checkUpdate(mActivity, false);
+        PgyUtil.register(mAppContext);
+        PgyUtil.checkUpdate(mActivity, false);
     }
 
     private static final int REQUEST_CODE_STORAGE  = 101;
@@ -87,12 +88,13 @@ public class MainActivity extends AppBaseActivity {
         }
     }
 
-    private void init(){
-        if(BuildConfig.DEBUG){
-            BasicConfig.getInstance(mAppContext).initDir().initLog(true);
-        }else {
-            BasicConfig.getInstance(mAppContext).init();
-        }
+    private void init() {
+        BasicProject.config(new BasicProject.Builder().setDebug(BuildConfig.DEBUG)
+                                                      .setRootDirectoryName(Consts.DIR_NAME)
+                                                      .setExceptionHandler(mAppContext)
+                                                      .setLog(BuildConfig.DEBUG
+                                                              ? LogLevel.ALL
+                                                              : LogLevel.NONE));
     }
 
     private void initBottomBar(){
@@ -131,7 +133,7 @@ public class MainActivity extends AppBaseActivity {
 
     @Override public void unRegister() {
         super.unRegister();
-        PgyerUtil.destroy();
+        PgyUtil.destroy();
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {

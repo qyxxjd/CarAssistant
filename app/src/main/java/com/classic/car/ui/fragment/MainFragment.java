@@ -19,9 +19,8 @@ import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.activity.MainActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
-import com.classic.car.utils.HidingScrollListener;
 import com.classic.car.utils.RxUtil;
-import com.classic.core.utils.ToastUtil;
+import com.classic.car.utils.ToastUtil;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.List;
 import javax.inject.Inject;
@@ -62,16 +61,15 @@ public class MainFragment extends AppBaseFragment
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
         mFab.attachToRecyclerView(mRecyclerView);
-        mRecyclerView.addOnScrollListener(new HidingScrollListener() {
-            @Override public void onHide() {
-                ((MainActivity)mActivity).onHide();
-            }
-
+        mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
             @Override public void onShow() {
                 ((MainActivity)mActivity).onShow();
             }
-        });
 
+            @Override public void onHide() {
+                ((MainActivity)mActivity).onHide();
+            }
+        });
         addSubscription(loadData());
     }
 

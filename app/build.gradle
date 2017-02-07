@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -15,11 +14,11 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
-        manifestPlaceholders = [PGYER_APPID: properties.getProperty("PGYER_APPID"),
-                                UMENG_APPKEY: properties.getProperty("UMENG_APPKEY"),
+        manifestPlaceholders = [PGYER_APPID  : properties.getProperty("PGYER_APPID"),
+                                UMENG_APPKEY : properties.getProperty("UMENG_APPKEY"),
                                 UMENG_CHANNEL: "pgyer"]
 
-//        vectorDrawables.useSupportLibrary = true
+        //vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -51,20 +50,13 @@ dependencies {
     compile rootProject.ext.sqlbrite
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
-    compile rootProject.ext.rxPermissions
     compile rootProject.ext.rxBinding
 
     compile rootProject.ext.butterknife
     compile rootProject.ext.dagger2
-    apt rootProject.ext.butterknifeCompiler
-    apt rootProject.ext.dagger2Compiler
+    annotationProcessor rootProject.ext.butterknifeCompiler
+    annotationProcessor rootProject.ext.dagger2Compiler
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
-
-    debugCompile rootProject.ext.leakCanaryDebug
-    debugCompile rootProject.ext.blockCanaryDebug
-    releaseCompile rootProject.ext.leakCanaryRelease
-    releaseCompile rootProject.ext.blockCanaryRelease
-
 }

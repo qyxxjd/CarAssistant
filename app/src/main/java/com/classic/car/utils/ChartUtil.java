@@ -6,8 +6,6 @@ import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
-import com.classic.core.utils.DataUtil;
-import com.classic.core.utils.MoneyUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;

@@ -1,7 +1,6 @@
 package com.classic.car.utils;
 
 import android.text.TextUtils;
-import com.orhanobut.logger.Logger;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -37,12 +36,12 @@ public final class RxUtil {
         @Override public void call(Throwable throwable) {
             if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
                 throwable.printStackTrace();
-                Logger.e(throwable.getMessage());
             }
         }
     };
 
     public static <T> Observable.Transformer<T, T> applySchedulers(Observable.Transformer transformer) {
+        //noinspection unchecked
         return (Observable.Transformer<T, T>) transformer;
     }
 }

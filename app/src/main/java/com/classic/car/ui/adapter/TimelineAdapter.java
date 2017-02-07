@@ -7,9 +7,9 @@ import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
+import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.Util;
 import com.classic.car.widget.CircleImageView;
-import com.classic.core.utils.DateUtil;
 import java.util.List;
 import rx.functions.Action1;
 
@@ -24,14 +24,18 @@ import rx.functions.Action1;
 public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
         implements Action1<List<ConsumerDetail>> {
     private static final int ALPHA = 100;
-    private Context mContext;
+
+    private       Context mContext;
+    private final int     mLayoutResId;
+
     public TimelineAdapter(Context context, int layoutResId) {
         super(context, layoutResId);
         this.mContext = context.getApplicationContext();
+        this.mLayoutResId = layoutResId;
     }
 
     @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {
-        if(position==0) return;
+        if (position == 0) return;
         CircleImageView civ = helper.getView(R.id.item_timeline_icon_bg);
         int color = mContext.getResources().getColor(Util.getColorByType(item.getType()));
         civ.setFillColor(color);
@@ -52,6 +56,6 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
     }
 
     @Override public int getLayoutResId(ConsumerDetail item, int position) {
-        return position==0 ? R.layout.item_header : mLayoutResId;
+        return position == 0 ? R.layout.item_header : mLayoutResId;
     }
 }

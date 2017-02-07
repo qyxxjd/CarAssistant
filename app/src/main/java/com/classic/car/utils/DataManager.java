@@ -6,9 +6,6 @@ import android.text.TextUtils;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
-import com.classic.core.utils.CloseUtil;
-import com.classic.core.utils.DataUtil;
-import com.classic.core.utils.MoneyUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -119,6 +116,7 @@ public final class DataManager {
         return null;
     }
 
+    @SuppressWarnings("StringBufferReplaceableByString")
     private String convertString(ConsumerDetail detail) {
         if (null == detail) return "";
         final String notes = TextUtils.isEmpty(detail.getNotes()) ? "" : detail.getNotes();
