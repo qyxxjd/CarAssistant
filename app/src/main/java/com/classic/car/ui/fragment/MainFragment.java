@@ -3,11 +3,13 @@ package com.classic.car.ui.fragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import butterknife.BindView;
-import butterknife.OnClick;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
@@ -21,9 +23,13 @@ import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
-import com.melnykov.fab.FloatingActionButton;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscription;
 
 /**
@@ -42,6 +48,7 @@ public class MainFragment extends AppBaseFragment
     @Inject                            ConsumerDao          mConsumerDao;
 
     private ConsumerDetailAdapter mAdapter;
+    private int                   mFabOffset;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -60,13 +67,17 @@ public class MainFragment extends AppBaseFragment
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
-        mFab.attachToRecyclerView(mRecyclerView);
         mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
             @Override public void onShow() {
+                mFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
                 ((MainActivity)mActivity).onShow();
             }
 
             @Override public void onHide() {
+                if(mFabOffset == 0) {
+                    mFabOffset = mFab.getHeight() + mFab.getBottom();
+                }
+                mFab.animate().translationY(mFabOffset).setInterpolator(new AccelerateInterpolator(2));
                 ((MainActivity)mActivity).onHide();
             }
         });

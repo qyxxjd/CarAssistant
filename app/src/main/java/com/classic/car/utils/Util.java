@@ -1,8 +1,10 @@
 package com.classic.car.utils;
 
 import android.widget.EditText;
+
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
+
 import java.util.Locale;
 
 /**
@@ -115,7 +117,12 @@ public final class Util {
         editText.requestFocus();
     }
 
-    public static int getRandom(int maxValue){
-        return (int)(Math.random()*maxValue);
-    }
+//    public static int dp2px(@NonNull Context context, float dpVal) {
+//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
+//                                               context.getResources().getDisplayMetrics());
+//    }
+//
+//    public static int getRandom(int maxValue){
+//        return (int)(Math.random()*maxValue);
+//    }
 }

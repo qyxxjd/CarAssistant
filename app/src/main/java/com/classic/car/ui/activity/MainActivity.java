@@ -2,11 +2,12 @@ package com.classic.car.ui.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.view.KeyEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import butterknife.BindView;
+
 import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.AppSettingsDialog;
@@ -24,7 +25,10 @@ import com.classic.car.utils.PgyUtil;
 import com.elvishew.xlog.LogLevel;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+
 import java.util.List;
+
+import butterknife.BindView;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.main_bottombar) BottomBar mBottomBar;
@@ -41,6 +45,10 @@ public class MainActivity extends AppBaseActivity {
     }
 
     @Override public void initView(Bundle savedInstanceState) {
+        if(BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+        }
         super.initView(savedInstanceState);
         setTitle(R.string.app_name);
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);

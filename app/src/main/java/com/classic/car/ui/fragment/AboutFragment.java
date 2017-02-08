@@ -9,8 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
@@ -21,8 +20,12 @@ import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.dialog.AuthorDialog;
 import com.classic.car.utils.PgyUtil;
 import com.jakewharton.rxbinding.view.RxView;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.functions.Action1;
 
 /**
@@ -34,11 +37,11 @@ import rx.functions.Action1;
  * 创建时间：16/5/29 下午2:21
  */
 public class AboutFragment extends AppBaseFragment {
-    private static final int REQUEST_CODE_FEEDBACK  = 201;
-    private static final String FEEDBACK_PERMISSION = Manifest.permission.RECORD_AUDIO;
+    private static final int    REQUEST_CODE_FEEDBACK = 201;
+    private static final String FEEDBACK_PERMISSION   = Manifest.permission.RECORD_AUDIO;
 
-    @BindView(R.id.about_version)  TextView mVersion;
-    @BindView(R.id.about_update)   TextView mUpdate;
+    @BindView(R.id.about_version) TextView mVersion;
+    @BindView(R.id.about_update)  TextView mUpdate;
 
     private AuthorDialog mAuthorDialog;
 
@@ -55,19 +58,17 @@ public class AboutFragment extends AppBaseFragment {
 
         mVersion.setText(getString(R.string.about_version, getVersionName(mAppContext)));
         PgyUtil.setDialogStyle("#3F51B5", "#FFFFFF");
-        addSubscription(
-                RxView.clicks(mUpdate)
-                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-                      .subscribe(new Action1<Void>() {
-                          @Override public void call(Void aVoid) {
-                              PgyUtil.checkUpdate(mActivity, true);
-                          }
-                      })
-        );
+        addSubscription(RxView.clicks(mUpdate)
+                              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                              .subscribe(new Action1<Void>() {
+                                  @Override public void call(Void aVoid) {
+                                      PgyUtil.checkUpdate(mActivity, true);
+                                  }
+                              }));
     }
 
-    @OnClick({ R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share })
-    public void onClick(View view) {
+    @OnClick({R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share}) public void onClick(
+            View view) {
         switch (view.getId()) {
             case R.id.about_feedback:
                 checkRecordAudioPermissions();
@@ -79,8 +80,8 @@ public class AboutFragment extends AppBaseFragment {
                 mAuthorDialog.show();
                 break;
             case R.id.about_share:
-                shareText(mActivity, getString(R.string.share_title),
-                        getString(R.string.share_subject), getString(R.string.share_content));
+                shareText(mActivity, getString(R.string.share_title), getString(R.string.share_subject),
+                          getString(R.string.share_content));
                 break;
             case R.id.about_thanks:
                 ThanksActivity.start(mActivity);
@@ -90,31 +91,30 @@ public class AboutFragment extends AppBaseFragment {
 
     @Override public void onPause() {
         super.onPause();
-        if(null != mAuthorDialog && mAuthorDialog.isShowing()){
+        if (null != mAuthorDialog && mAuthorDialog.isShowing()) {
             mAuthorDialog.dismiss();
         }
     }
 
-    @AfterPermissionGranted(REQUEST_CODE_FEEDBACK)
-    private void checkRecordAudioPermissions(){
+    @AfterPermissionGranted(REQUEST_CODE_FEEDBACK) private void checkRecordAudioPermissions() {
         if (EasyPermissions.hasPermissions(mAppContext, FEEDBACK_PERMISSION)) {
             PgyUtil.feedback(mActivity);
         } else {
-            EasyPermissions.requestPermissions(this, Consts.FEEDBACK_PERMISSIONS_DESCRIBE,
-                                               REQUEST_CODE_FEEDBACK, FEEDBACK_PERMISSION);
+            EasyPermissions.requestPermissions(this, Consts.FEEDBACK_PERMISSIONS_DESCRIBE, REQUEST_CODE_FEEDBACK,
+                                               FEEDBACK_PERMISSION);
         }
     }
 
     @Override public void onPermissionsGranted(int requestCode, List<String> perms) {
         super.onPermissionsGranted(requestCode, perms);
-        if(requestCode == REQUEST_CODE_FEEDBACK){
+        if (requestCode == REQUEST_CODE_FEEDBACK) {
             PgyUtil.feedback(mActivity);
         }
     }
 
     @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
         super.onPermissionsDenied(requestCode, perms);
-        if(requestCode == REQUEST_CODE_FEEDBACK){
+        if (requestCode == REQUEST_CODE_FEEDBACK) {
             PgyUtil.feedback(mActivity);
         }
     }

@@ -35,6 +35,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
+    compile rootProject.ext.supportDesign
     compile rootProject.ext.supportRecyclerView
 
     compile rootProject.ext.basicProject
@@ -43,7 +44,6 @@ dependencies {
     compile rootProject.ext.materialEditText
     compile rootProject.ext.materialDialog
     compile rootProject.ext.materialSpinner
-    compile rootProject.ext.fab
     compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
 
