@@ -215,7 +215,6 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@color/primary_light</item>
         <item name="android:drawableRight">@drawable/about_item_icon</item>
-        <item name="android:background">@drawable/about_item_selector</item>
     </style>
 
 </resources>

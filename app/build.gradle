@@ -46,6 +46,7 @@ dependencies {
     compile rootProject.ext.materialSpinner
     compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
+    compile rootProject.ext.glide
 
     compile rootProject.ext.sqlbrite
     compile rootProject.ext.rxJava

@@ -48,7 +48,7 @@
                 android:minWidth="@dimen/multi_window_min_width"
                 android:minHeight="@dimen/multi_window_min_height" />
         </activity>
-        <activity android:name=".ui.activity.ThanksActivity"
+        <activity android:name=".ui.activity.OpenSourceLicensesActivity"
             android:theme="@style/AppTheme"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:resizeableActivity="true"

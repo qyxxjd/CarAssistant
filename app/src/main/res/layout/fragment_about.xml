@@ -16,14 +16,13 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_larger"
+            android:layout_marginTop="@dimen/margin_large"
             android:src="@drawable/ic_logo"/>
 
         <TextView
             style="@style/ItemText.Gray.Normal"
             android:id="@+id/about_version"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_larger"
             tools:text="v1.0"/>
 
         <LinearLayout
@@ -69,6 +68,34 @@
                 style="@style/About.ItemLable"
                 android:id="@+id/about_thanks"
                 android:text="@string/about.thanks"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_while"
+            android:paddingTop="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_normal"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_larger"
+            >
+
+            <TextView
+                style="@style/About.ItemLable"
+                android:id="@+id/about_backup"
+                android:text="@string/about.backup"/>
+
+            <View style="@style/Divider"/>
+
+            <TextView
+                style="@style/About.ItemLable"
+                android:id="@+id/about_restore"
+                android:text="@string/about.restore"/>
 
         </LinearLayout>
 

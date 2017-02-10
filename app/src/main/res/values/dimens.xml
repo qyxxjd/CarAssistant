@@ -55,4 +55,8 @@
     <dimen name="multi_window_min_height">300dp</dimen>
     <dimen name="multi_window_min_width">300dp</dimen>
 
+    <dimen name="licenses_item_height">120dp</dimen>
+    <dimen name="licenses_logo_height">56dp</dimen>
+    <dimen name="licenses_divider_margin">27dp</dimen>
+    <dimen name="licenses_title_font">20sp</dimen>
 </resources>

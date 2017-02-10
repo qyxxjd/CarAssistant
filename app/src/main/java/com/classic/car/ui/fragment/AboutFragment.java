@@ -15,7 +15,7 @@ import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
-import com.classic.car.ui.activity.ThanksActivity;
+import com.classic.car.ui.activity.OpenSourceLicensesActivity;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.dialog.AuthorDialog;
 import com.classic.car.utils.PgyUtil;
@@ -84,7 +84,7 @@ public class AboutFragment extends AppBaseFragment {
                           getString(R.string.share_content));
                 break;
             case R.id.about_thanks:
-                ThanksActivity.start(mActivity);
+                OpenSourceLicensesActivity.start(mActivity);
                 break;
         }
     }
