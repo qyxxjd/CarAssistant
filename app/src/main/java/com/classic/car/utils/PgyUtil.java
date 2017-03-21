@@ -6,8 +6,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
@@ -21,6 +21,7 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.pgyersdk.views.PgyerDialog;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -32,6 +33,7 @@ import java.lang.ref.WeakReference;
  * 创建时间：16/7/9 下午4:00
  */
 public final class PgyUtil {
+    @SuppressWarnings("SpellCheckingInspection") private static final String FILE_PROVIDER = "com.pgyersdk.provider";
 
     public static void checkUpdate(final Activity activity, final boolean showHint) {
         if (!isNetworkAvailable(activity.getApplicationContext())) {
@@ -41,7 +43,7 @@ public final class PgyUtil {
             return;
         }
         final WeakReference<Activity> reference = new WeakReference<>(activity);
-        PgyUpdateManager.register(activity, new UpdateManagerListener() {
+        PgyUpdateManager.register(activity, FILE_PROVIDER, new UpdateManagerListener() {
             @Override public void onUpdateAvailable(final String result) {
                 final Activity act = reference.get();
                 if (null == act) {
@@ -62,12 +64,12 @@ public final class PgyUtil {
                                                        final Activity act = reference.get();
                                                        if (null != act) {
                                                            //蒲公英SDK在Android N上崩溃，需要处理
-                                                           if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                                                           // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                                                                startDownloadTask(act, appBean.getDownloadURL());
-                                                           } else {
-                                                               download(act.getApplicationContext(),
-                                                                       appBean.getDownloadURL());
-                                                           }
+                                                           // } else {
+                                                           //     download(act.getApplicationContext(),
+                                                           //             appBean.getDownloadURL());
+                                                           // }
                                                        }
                                                    }
                                                })

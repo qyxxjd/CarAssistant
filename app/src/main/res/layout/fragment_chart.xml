@@ -114,13 +114,13 @@
 
             <TextView
                 style="@style/Chart.ItemLable"
-                android:text="@string/chart.fuel.min.lable"/>
+                android:text="@string/chart.fuel.min.label"/>
 
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
                 style="@style/Chart.ItemLable"
-                android:text="@string/chart.fuel.max.lable"/>
+                android:text="@string/chart.fuel.max.label"/>
 
             <View style="@style/Chart.VerticalDivider"/>
         </LinearLayout>

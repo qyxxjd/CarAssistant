@@ -39,11 +39,14 @@
     <string name="chart.consumer.title">消费统计图</string>
     <string name="chart.percentage.title">消费百分比</string>
     <string name="chart.fuel.title">油耗曲线图</string>
-    <string name="chart.fuel.min.lable">最低油耗</string>
-    <string name="chart.fuel.max.lable">最高油耗</string>
+    <string name="chart.fuel.min.label">最低油耗</string>
+    <string name="chart.fuel.max.label">最高油耗</string>
     <string name="chart.save">保存图表</string>
     <string name="chart.save.success">图表保存成功</string>
     <string name="chart.save.fail">图表保存失败</string>
+    <string name="chart.unit.money">单位:元</string>
+    <string name="chart.fuel.consumption">百公里耗油曲线(升)</string>
+    <string name="chart.fuel.consumption.money">百公里消费金额曲线(元)</string>
 
     <string name="about.update">检查更新</string>
     <string name="about.feedback">问题反馈</string>
