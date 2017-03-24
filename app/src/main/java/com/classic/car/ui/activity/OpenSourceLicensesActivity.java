@@ -88,10 +88,10 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         @Override public void load(@NonNull Context context, @NonNull ImageView imageView, @NonNull String imageUrl) {
             Glide.with(context)
                  .load(imageUrl)
-                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                  .placeholder(R.drawable.ic_github)
                  .error(R.drawable.ic_github)
                  .crossFade()
+                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                  .into(imageView);
         }
     };

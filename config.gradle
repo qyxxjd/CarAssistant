@@ -1,6 +1,6 @@
 def supportVersion = "25.3.0"
 def butterknifeVersion = "8.5.1"
-def dagger2Version = "2.9"
+def dagger2Version = "2.10"
 def rxBindingVersion = "1.0.1"
 
 ext {

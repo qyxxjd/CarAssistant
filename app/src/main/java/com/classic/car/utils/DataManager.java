@@ -3,9 +3,11 @@ package com.classic.car.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,56 +19,61 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 public final class DataManager {
     private static final String           SEPARATOR   = " ";
     private static final String           LINE_FEED   = "\n";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH:mm",
             Locale.CHINA);
+    private final CompositeSubscription mCompositeSubscription;
+
+    public DataManager() {
+        mCompositeSubscription = new CompositeSubscription();
+    }
 
     /**
      * 导入数据
      *
      * @param fileName 文件名称
      */
-    public void importByAssets(@NonNull final Context context,
-                               @NonNull final ConsumerDao mConsumerDao,
-                               @NonNull final String fileName) {
-        Observable.create(new Observable.OnSubscribe<List<ConsumerDetail>>() {
-                        @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
-                            List<ConsumerDetail> consumerDetails = new ArrayList<>();
-                            InputStreamReader inputreader = null;
-                            BufferedReader buffreader = null;
-                            try {
-                                inputreader = new InputStreamReader(
-                                        context.getResources().getAssets().open(fileName));
-                                buffreader = new BufferedReader(inputreader);
-                                String line;
-                                while ((line = buffreader.readLine()) != null) {
-                                    consumerDetails.add(convertConsumerDetail(line));
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            } finally {
-                                CloseUtil.close(buffreader);
-                                CloseUtil.close(inputreader);
-                            }
-
-                            subscriber.onNext(consumerDetails);
-                        }
-                    })
-                  .compose(
-                          RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                  .subscribe(new Action1<List<ConsumerDetail>>() {
-                      @Override public void call(List<ConsumerDetail> list) {
-                          if (!DataUtil.isEmpty(list)) {
-                              mConsumerDao.insert(list);
-                          }
-                      }
-                  }, RxUtil.ERROR_ACTION);
+    public Subscription importByAssets(@NonNull final Context context, @NonNull final ConsumerDao mConsumerDao,
+                                       @NonNull final String fileName) {
+        return Observable.unsafeCreate(new Observable.OnSubscribe<List<ConsumerDetail>>() {
+                             @Override public void call(Subscriber<? super List<ConsumerDetail>> subscriber) {
+                                 List<ConsumerDetail> consumerDetails = new ArrayList<>();
+                                 InputStreamReader inputreader = null;
+                                 BufferedReader buffreader = null;
+                                 try {
+                                     inputreader = new InputStreamReader(
+                                             context.getResources().getAssets().open(fileName));
+                                     buffreader = new BufferedReader(inputreader);
+                                     String line;
+                                     while ((line = buffreader.readLine()) != null) {
+                                         consumerDetails.add(convertConsumerDetail(line));
+                                     }
+                                 } catch (Exception e) {
+                                     e.printStackTrace();
+                                 } finally {
+                                     CloseUtil.close(buffreader);
+                                     CloseUtil.close(inputreader);
+                                 }
+                                 subscriber.onNext(consumerDetails);
+                             }
+                         })
+                         .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                         .subscribe(new Action1<List<ConsumerDetail>>() {
+                             @Override public void call(List<ConsumerDetail> list) {
+                                 if (!DataUtil.isEmpty(list)) {
+                                     mConsumerDao.insert(list);
+                                 }
+                             }
+                         }, RxUtil.ERROR_ACTION);
     }
 
     /**
@@ -75,26 +82,25 @@ public final class DataManager {
      * @param path 文件路径
      * @param fileName 文件名称
      */
-    public void backup(@NonNull final ConsumerDao mConsumerDao,
-                       @NonNull final String path,
-                       @NonNull final String fileName) {
-        mConsumerDao.queryAll()
-                    .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_TRANSFORMER))
-                    .subscribe(new Action1<List<ConsumerDetail>>() {
-                        @Override public void call(List<ConsumerDetail> consumerDetails) {
-                            FileWriter fileWriter = null;
-                            try {
-                                fileWriter = new FileWriter(new File(path, fileName));
-                                for (ConsumerDetail item : consumerDetails) {
-                                    fileWriter.write(convertString(item));
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } finally {
-                                CloseUtil.close(fileWriter);
-                            }
-                        }
-                    }, RxUtil.ERROR_ACTION);
+    public Subscription backup(@NonNull final ConsumerDao mConsumerDao, @NonNull final String path,
+                               @NonNull final String fileName) {
+        return mConsumerDao.queryAll()
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_TRANSFORMER))
+                           .subscribe(new Action1<List<ConsumerDetail>>() {
+                               @Override public void call(List<ConsumerDetail> consumerDetails) {
+                                   FileWriter fileWriter = null;
+                                   try {
+                                       fileWriter = new FileWriter(new File(path, fileName));
+                                       for (ConsumerDetail item : consumerDetails) {
+                                           fileWriter.write(convertString(item));
+                                       }
+                                   } catch (IOException e) {
+                                       e.printStackTrace();
+                                   } finally {
+                                       CloseUtil.close(fileWriter);
+                                   }
+                               }
+                           }, RxUtil.ERROR_ACTION);
     }
 
     private ConsumerDetail convertConsumerDetail(String data) {

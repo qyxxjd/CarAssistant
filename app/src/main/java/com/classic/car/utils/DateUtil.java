@@ -76,4 +76,11 @@ public final class DateUtil {
         if (dayOfWeek < 0) { dayOfWeek = 0; }
         return (dayNames[dayOfWeek]);
     }
+
+    public static long getTime(int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        return calendar.getTime().getTime();
+    }
 }

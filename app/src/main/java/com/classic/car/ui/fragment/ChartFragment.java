@@ -2,6 +2,9 @@ package com.classic.car.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -87,6 +90,7 @@ public class ChartFragment extends AppBaseFragment {
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
+        setHasOptionsMenu(true);
 
         ChartUtil.initLineChart(mAppContext, mFuelLineChart);
         ChartUtil.initBarChart(mAppContext, mConsumerBarChart);
@@ -94,17 +98,39 @@ public class ChartFragment extends AppBaseFragment {
         addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
         addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
         addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
-        mAllData = mConsumerDao.queryByType(null);
+        // mAllData = mConsumerDao.queryByType(null);
+        mAllData = mConsumerDao.queryBetween(DateUtil.getTime(2017), DateUtil.getTime(2018)-1);
         addSubscription(processLineChartData());
         addSubscription(processBarChartData());
         addSubscription(processPieChartData());
     }
 
+    @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.chart_menu, menu);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_date:
+
+                return true;
+            default:
+                return false;
+        }
+    }
+
     @Override public void onFragmentShow() {
         super.onFragmentShow();
-        mFuelLineChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        mConsumerBarChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        mPercentagePieChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        setHasOptionsMenu(true);
+        // mFuelLineChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        // mConsumerBarChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        // mPercentagePieChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+    }
+
+    @Override public void onFragmentHide() {
+        super.onFragmentHide();
+        setHasOptionsMenu(false);
     }
 
     private Subscription processBarChartData() {
@@ -212,7 +238,8 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     private Subscription processLineChartData() {
-        return mConsumerDao.queryByType(Consts.TYPE_FUEL)
+        // return mConsumerDao.queryByType(Consts.TYPE_FUEL)
+        return mConsumerDao.query(Consts.TYPE_FUEL, DateUtil.getTime(2017), DateUtil.getTime(2018)-1, false)
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
                                @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {

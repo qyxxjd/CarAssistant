@@ -34,7 +34,8 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail>
         this.mLayoutResId = layoutResId;
     }
 
-    @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item, int position) {
+    @SuppressWarnings("deprecation") @Override public void onUpdate(BaseAdapterHelper helper, ConsumerDetail item,
+                                                                    int position) {
         if (position == 0) return;
         CircleImageView civ = helper.getView(R.id.item_timeline_icon_bg);
         int color = mContext.getResources().getColor(Util.getColorByType(item.getType()));

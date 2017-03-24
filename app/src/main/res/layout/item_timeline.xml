@@ -11,7 +11,7 @@
     <TextView
         tools:text="2015-06-08\n09:56"
         android:id="@+id/item_timeline_time"
-        android:layout_width="64dp"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_marginEnd="@dimen/margin_normal"

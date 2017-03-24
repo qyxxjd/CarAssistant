@@ -40,6 +40,7 @@ public class ConsumerDetail implements Serializable {
         this.notes = notes;
         this.createTime = System.currentTimeMillis();
     }
+
     public ConsumerDetail(int type, float money, long consumptionTime, int oilType, float unitPrice, long currentMileage, String notes) {
         this.type = type;
         this.money = money;

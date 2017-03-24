@@ -255,7 +255,6 @@ public final class ChartUtil {
         moneySet.setAxisDependency(YAxis.AxisDependency.LEFT);
         moneySet.setColor(getColor(context, R.color.colorAccent));
         moneySet.setCircleColor(getColor(context, R.color.colorAccent));
-        moneySet.setLineWidth(1f);
         moneySet.setValueTextSize(TEXT_SIZE);
         moneySet.setValueFormatter(OIL_MESS_FORMATTER);
         //moneySet.setCircleRadius(3f); //圆点半径

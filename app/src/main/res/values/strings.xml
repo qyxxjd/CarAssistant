@@ -36,6 +36,7 @@
     <string name="consumer.time.hint">消费时间:</string>
     <string name="consumer.select.time.hint">点击选择消费时间</string>
 
+    <string name="chart.menu.date">日期查询</string>
     <string name="chart.consumer.title">消费统计图</string>
     <string name="chart.percentage.title">消费百分比</string>
     <string name="chart.fuel.title">油耗曲线图</string>

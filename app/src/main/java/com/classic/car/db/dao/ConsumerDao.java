@@ -70,21 +70,55 @@ public class ConsumerDao {
     }
 
     public Observable<List<ConsumerDetail>> queryAll(){
-        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
-                                                               .append(" ORDER BY ")
-                                                               .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
-                                                               .append(" DESC ");
+        // StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
+        //                                                        .append(" ORDER BY ")
+        //                                                        .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
+        //                                                        .append(" DESC ");
+        return query(null, 0, 0, true);
+    }
+
+    public Observable<List<ConsumerDetail>> queryBetween(long startTime, long endTime){
+        // StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
+        //                                                        .append(" WHERE ")
+        //                                                        .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
+        //                                                        .append(" BETWEEN ")
+        //                                                        .append(startTime)
+        //                                                        .append(" AND ")
+        //                                                        .append(endTime);
+        return query(null, startTime, endTime, false);
+    }
+
+
+
+    public Observable<List<ConsumerDetail>> queryByType(Integer type) {
+        return query(type, 0, 0, false);
+    }
+
+    public Observable<List<ConsumerDetail>> query(Integer type, long startTime, long endTime, boolean desc) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME);
+        final boolean isBetween = (startTime > 0 && endTime > 0);
+        if (null != type || isBetween) {
+            sql.append(" WHERE ");
+        }
+        if (null != type) {
+            sql.append(ConsumerTable.COLUMN_TYPE).append(" = ").append(type);
+        }
+        if (null != type && isBetween) {
+            sql.append(" AND ");
+        }
+        if (isBetween) {
+            sql.append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
+               .append(" BETWEEN ")
+               .append(startTime)
+               .append(" AND ")
+               .append(endTime);
+        }
+        if (desc) {
+            sql.append(" ORDER BY ").append(ConsumerTable.COLUMN_CONSUMPTION_TIME).append(" DESC ");
+        }
         return queryBySql(sql.toString());
     }
 
-    public Observable<List<ConsumerDetail>> queryByType(Integer type) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME);
-        if (null != type) {
-            sql.append(" WHERE ").append(ConsumerTable.COLUMN_TYPE).append(" = ").append(type);
-        }
-        sql.append(" ORDER BY ").append(ConsumerTable.COLUMN_CONSUMPTION_TIME);
-        return queryBySql(sql.toString());
-    }
     private Observable<List<ConsumerDetail>> queryBySql(String sql){
         return mDatabase.createQuery(ConsumerTable.NAME, sql)
                         .map(new Func1<SqlBrite.Query, List<ConsumerDetail>>() {

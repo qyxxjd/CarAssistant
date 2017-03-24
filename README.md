@@ -14,6 +14,7 @@
 [apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.7_beta.apk?raw=true)
 
 #### 注意事项
+
 运行项目前，需要在`local.properties`文件里添加两个变量
 ```
 PGYER_APPID=fce67a1c46ac92a1d22d58c0fdf94811  //蒲公英测试APPID
@@ -28,6 +29,7 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 4. 误点击处理
 
 ## 截图
+
 <table align="center">
     <tr>
         <td><img src="https://github.com/qyxxjd/CarAssistant/blob/master/screenshots/Screenshot001.png?raw=true"/></td>
@@ -41,6 +43,7 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 </table>
 
 ## 感谢
+
 感谢以下开源库和作者，排名不分先后：
 ```xml
 RxJava 
@@ -63,11 +66,13 @@ MaterialEditText
 FloatingActionButton 
 ```
 
-##关于
+## 关于
+
 * Blog: [http://blog.csdn.net/qy1387](http://blog.csdn.net/qy1387)
 * Email: [pgliubin@gmail.com](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=pgliubin@gmail.com)
 
-##License
+## License
+
 ```
 Copyright 2015 classic
 
