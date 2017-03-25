@@ -311,12 +311,7 @@ public class ChartFragment extends AppBaseFragment {
                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
                      .subscribe(new Action1<Void>() {
                          @Override public void call(Void aVoid) {
-                             final String fileName = new StringBuilder("CarAssistant_").append(
-                                     DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis()))
-                                                                                       .append(".png")
-                                                                                       .toString();
-
-                             ToastUtil.showToast(mAppContext, chart.saveToGallery(fileName, 100)
+                             ToastUtil.showToast(mAppContext, chart.saveToGallery(Util.createImageName(), 100)
                                                               ? R.string.chart_save_success
                                                               : R.string.chart_save_fail);
                          }

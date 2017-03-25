@@ -20,15 +20,15 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                style="@style/Chart.Lable"
-                android:id="@+id/chart_consumer_lable"
+                style="@style/Chart.Label"
+                android:id="@+id/chart_consumer_label"
                 android:text="@string/chart.consumer.title"/>
 
             <View
                 style="@style/Chart.TagDivider"
-                android:layout_toRightOf="@id/chart_consumer_lable"
-                android:layout_toEndOf="@id/chart_consumer_lable"
-                android:layout_alignBottom="@id/chart_consumer_lable"/>
+                android:layout_toRightOf="@id/chart_consumer_label"
+                android:layout_toEndOf="@id/chart_consumer_label"
+                android:layout_alignBottom="@id/chart_consumer_label"/>
 
             <TextView
                 style="@style/Chart.Save"
@@ -48,15 +48,15 @@
             android:layout_marginTop="@dimen/margin_large">
 
             <TextView
-                style="@style/Chart.Lable"
-                android:id="@+id/chart_percentage_lable"
+                style="@style/Chart.Label"
+                android:id="@+id/chart_percentage_label"
                 android:text="@string/chart.percentage.title"/>
 
             <View
                 style="@style/Chart.TagDivider"
-                android:layout_toRightOf="@id/chart_percentage_lable"
-                android:layout_toEndOf="@id/chart_percentage_lable"
-                android:layout_alignBottom="@id/chart_percentage_lable"/>
+                android:layout_toRightOf="@id/chart_percentage_label"
+                android:layout_toEndOf="@id/chart_percentage_label"
+                android:layout_alignBottom="@id/chart_percentage_label"/>
 
             <TextView
                 style="@style/Chart.Save"
@@ -83,15 +83,15 @@
             android:layout_marginTop="@dimen/margin_large">
 
             <TextView
-                style="@style/Chart.Lable"
-                android:id="@+id/chart_fuel_lable"
+                style="@style/Chart.Label"
+                android:id="@+id/chart_fuel_label"
                 android:text="@string/chart.fuel.title"/>
 
             <View
                 style="@style/Chart.TagDivider"
-                android:layout_toRightOf="@id/chart_fuel_lable"
-                android:layout_toEndOf="@id/chart_fuel_lable"
-                android:layout_alignBottom="@id/chart_fuel_lable"/>
+                android:layout_toRightOf="@id/chart_fuel_label"
+                android:layout_toEndOf="@id/chart_fuel_label"
+                android:layout_alignBottom="@id/chart_fuel_label"/>
 
             <TextView
                 style="@style/Chart.Save"
@@ -113,13 +113,13 @@
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable"
+                style="@style/Chart.ItemLabel"
                 android:text="@string/chart.fuel.min.label"/>
 
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable"
+                style="@style/Chart.ItemLabel"
                 android:text="@string/chart.fuel.max.label"/>
 
             <View style="@style/Chart.VerticalDivider"/>
@@ -132,25 +132,25 @@
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable.Value"
+                style="@style/Chart.ItemLabel.Value"
                 android:id="@+id/chart_min_money"/>
 
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable.Value"
+                style="@style/Chart.ItemLabel.Value"
                 android:id="@+id/chart_min_oilmess"/>
 
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable.Value"
+                style="@style/Chart.ItemLabel.Value"
                 android:id="@+id/chart_max_money"/>
 
             <View style="@style/Chart.VerticalDivider"/>
 
             <TextView
-                style="@style/Chart.ItemLable.Value"
+                style="@style/Chart.ItemLabel.Value"
                 android:id="@+id/chart_max_oilmess"/>
 
             <View style="@style/Chart.VerticalDivider"/>

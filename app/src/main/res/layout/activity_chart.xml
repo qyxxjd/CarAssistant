@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/chart_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <ImageButton
+        style="@style/Chart.Button"
+        android:id="@+id/chart_back"
+        android:src="@drawable/ic_back" />
+
+    <ImageButton
+        style="@style/Chart.Button"
+        android:id="@+id/chart_download"
+        android:layout_gravity="right"
+        android:src="@drawable/ic_download"
+        tools:ignore="RtlHardcoded"/>
+
+</FrameLayout>

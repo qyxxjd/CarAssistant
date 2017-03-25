@@ -117,6 +117,14 @@ public final class Util {
         editText.requestFocus();
     }
 
+    public static String createImageName() {
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder("CarAssistant_")
+                .append(DateUtil.formatDate("yyyy-MM-dd_HH:mm:ss", System.currentTimeMillis()))
+                .append(".png")
+                .toString();
+    }
+
 //    public static int dp2px(@NonNull Context context, float dpVal) {
 //        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
 //                                               context.getResources().getDisplayMetrics());

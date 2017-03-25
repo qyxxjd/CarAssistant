@@ -14,7 +14,7 @@
         <View style="@style/Chart.VerticalDivider"/>
 
         <TextView
-            style="@style/Chart.ItemLable"
+            style="@style/Chart.ItemLabel"
             android:id="@+id/item_table_lable"
             android:gravity="end|center_vertical"
             android:layout_marginRight="@dimen/margin_normal"
@@ -24,14 +24,14 @@
         <View style="@style/Chart.VerticalDivider"/>
 
         <TextView
-            style="@style/Chart.ItemLable.Value"
+            style="@style/Chart.ItemLabel.Value"
             android:id="@+id/item_table_total_money"
             tools:text="78105.66元"/>
 
         <View style="@style/Chart.VerticalDivider"/>
 
         <TextView
-            style="@style/Chart.ItemLable.Value"
+            style="@style/Chart.ItemLabel.Value"
             android:id="@+id/item_table_percentage"
             tools:text="89.23%"/>
 

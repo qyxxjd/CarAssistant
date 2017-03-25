@@ -15,14 +15,14 @@
         <View style="@style/Chart.VerticalDivider"/>
 
         <TextView
-            style="@style/Chart.ItemLable"
+            style="@style/Chart.ItemLabel"
             android:id="@+id/item_total_table_lable"
             android:text="@string/total.money"/>
 
         <View style="@style/Chart.VerticalDivider"/>
 
         <TextView
-            style="@style/Chart.ItemLable.Value"
+            style="@style/Chart.ItemLabel.Value"
             android:id="@+id/item_total_table_value"
             tools:text="78105.66元"/>
 

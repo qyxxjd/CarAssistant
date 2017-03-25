@@ -37,35 +37,35 @@
             android:layout_margin="@dimen/margin_large">
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_update"
                 android:text="@string/about.update"/>
 
             <View style="@style/Divider"/>
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_feedback"
                 android:text="@string/about.feedback"/>
 
             <View style="@style/Divider"/>
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_author"
                 android:text="@string/about.author"/>
 
             <View style="@style/Divider"/>
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_share"
                 android:text="@string/about.share"/>
 
             <View style="@style/Divider"/>
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_thanks"
                 android:text="@string/about.thanks"/>
 
@@ -86,14 +86,14 @@
             >
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_backup"
                 android:text="@string/about.backup"/>
 
             <View style="@style/Divider"/>
 
             <TextView
-                style="@style/About.ItemLable"
+                style="@style/About.ItemLabel"
                 android:id="@+id/about_restore"
                 android:text="@string/about.restore"/>
 

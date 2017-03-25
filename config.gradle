@@ -32,7 +32,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.2.7"
+    rxJava = "io.reactivex:rxjava:1.2.9"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
     rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     rxBindingSupportV4 = "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
@@ -51,8 +51,8 @@ ext {
     mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.1"
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
-    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.1"
-    bottomBar = "com.roughike:bottom-bar:2.1.1"
+    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.2"
+    bottomBar = "com.roughike:bottom-bar:2.2.0"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"
 
