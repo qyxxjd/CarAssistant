@@ -1,5 +1,6 @@
 package com.classic.car.utils;
 
+import android.content.Context;
 import android.widget.EditText;
 
 import com.classic.car.R;
@@ -87,7 +88,9 @@ public final class Util {
     }
 
     public static String format(String format, Number number){
-        return String.format(Locale.CHINA, format, MoneyUtil.replace(number)) ;
+        // return String.format(Locale.CHINA, format, MoneyUtil.replace(number)) ;
+        return String.format(Locale.CHINA, format,
+                             MoneyUtil.replace(MoneyUtil.newInstance(number).round(2).create())) ;
     }
     public static String formatMoney(float money){
         return format(Consts.FORMAT_MONEY, money);
@@ -125,12 +128,60 @@ public final class Util {
                 .toString();
     }
 
-//    public static int dp2px(@NonNull Context context, float dpVal) {
-//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
-//                                               context.getResources().getDisplayMetrics());
-//    }
-//
-//    public static int getRandom(int maxValue){
-//        return (int)(Math.random()*maxValue);
-//    }
+    public static String getString(Context context, int resId){
+        return context.getResources().getString(resId);
+    }
+
+    public static int getColor(Context context, int resId){
+        //noinspection deprecation
+        return context.getResources().getColor(resId);
+    }
+
+    private static int[] sColorTemplate;
+    public static int[] getColorTemplate(Context context){
+        if(null == sColorTemplate){
+            sColorTemplate = new int[]{
+                    getColor(context,R.color.blue_light),
+                    getColor(context,R.color.pale_red),
+                    getColor(context,R.color.chartreuse_light),
+                    getColor(context,R.color.saffron_light),
+                    getColor(context,R.color.mediumorchid_light),
+                    getColor(context,R.color.green_light),
+                    getColor(context,R.color.orange_light),
+                    getColor(context,R.color.sienna_light),
+                    getColor(context,R.color.purple_light),
+                    getColor(context,R.color.pink_light)
+            };
+        }
+        return sColorTemplate;
+    }
+
+    // public static int dp2px(@NonNull Context context, float dpVal) {
+    //     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
+    //                                            context.getResources().getDisplayMetrics());
+    // }
+    // public static int getRandom(int maxValue){
+    //     return (int)(Math.random()*maxValue);
+    // }
+    // public static SparseArray<Float> sortSparseArray(SparseArray<Float> sparseArray){
+    //     List<Float> values = new ArrayList<>();
+    //     for(int i =0; i < sparseArray.size();i++){
+    //         values.add(sparseArray.valueAt(i));
+    //     }
+    //     // 顺序
+    //     // Collections.sort(values);
+    //     // 倒序
+    //     Collections.sort(values, new Comparator<Float>() {
+    //         @Override public int compare(Float o1, Float o2) {
+    //             return o2.compareTo(o1);
+    //         }
+    //     });
+    //     SparseArray<Float> tempArray = new SparseArray<>();
+    //     for (Float item : values) {
+    //         tempArray.put(sparseArray.keyAt(sparseArray.indexOfValue(item)), item);
+    //         // XLog.d(sparseArray.keyAt(sparseArray.indexOfValue(item)) + " " + item);
+    //     }
+    //     sparseArray.clear();
+    //     return tempArray;
+    // }
 }

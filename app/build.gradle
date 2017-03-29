@@ -36,6 +36,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportDesign
+    compile rootProject.ext.supportCardView
     compile rootProject.ext.supportRecyclerView
 
     compile rootProject.ext.basicProject

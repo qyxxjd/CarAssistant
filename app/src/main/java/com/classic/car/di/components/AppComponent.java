@@ -2,11 +2,14 @@ package com.classic.car.di.components;
 
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.ui.activity.AddConsumerActivity;
+import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
-import dagger.Component;
+
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
  * 应用名称: CarAssistant
@@ -19,6 +22,7 @@ import javax.inject.Singleton;
 @Singleton @Component(modules = { AppModule.class })
 public interface AppComponent {
     void inject(AddConsumerActivity activity);
+    void inject(ChartActivity activity);
     void inject(MainFragment fragment);
     void inject(TimelineFragment fragment);
     void inject(ChartFragment fragment);

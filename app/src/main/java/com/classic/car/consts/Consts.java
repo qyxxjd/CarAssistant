@@ -1,5 +1,10 @@
 package com.classic.car.consts;
 
+import com.elvishew.xlog.XLog;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 /**
  * 应用名称: CarAssistant
  * 包 名 称: com.classic.car.consts
@@ -45,4 +50,17 @@ public final class Consts {
 
     public static final String STORAGE_PERMISSIONS_DESCRIBE  = "应用需要访问你的存储空间,进行日志存储";
     public static final String FEEDBACK_PERMISSIONS_DESCRIBE = "语音反馈需要使用语音录制权限";
+
+    public static final ArrayList<Integer> YEARS;
+    private static final int MIN_YEAR       = 2015;
+    private static final int MIN_YEARS_SIZE = 10;
+    static {
+        YEARS = new ArrayList<>();
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int size = currentYear < MIN_YEAR ? MIN_YEARS_SIZE : (currentYear - MIN_YEAR);
+        for (int i = MIN_YEAR; i <= MIN_YEAR + size; i++) {
+            YEARS.add(i);
+        }
+    }
+    public static final int ANIMATE_DURATION = 400;
 }

@@ -1,4 +1,4 @@
-package com.classic.car.ui.dialog;
+package com.classic.car.ui.widget;
 
 import android.app.Dialog;
 import android.content.Context;

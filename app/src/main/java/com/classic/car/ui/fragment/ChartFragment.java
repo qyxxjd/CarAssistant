@@ -1,10 +1,13 @@
 package com.classic.car.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,13 +16,19 @@ import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.entity.ChartType;
 import com.classic.car.entity.ConsumerDetail;
-import com.classic.car.entity.FuelConsumption;
+import com.classic.car.ui.activity.ChartActivity;
+import com.classic.car.ui.activity.MainActivity;
 import com.classic.car.ui.base.AppBaseFragment;
-import com.classic.car.utils.ChartUtil;
+import com.classic.car.ui.chart.BarChartDisplayImpl;
+import com.classic.car.ui.chart.IChartDisplay;
+import com.classic.car.ui.chart.LineChartDisplayImpl;
+import com.classic.car.ui.chart.PieChartDisplayImpl;
+import com.classic.car.ui.widget.RelativePopupWindow;
+import com.classic.car.ui.widget.YearsPopup;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.DateUtil;
-import com.classic.car.utils.MoneyUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
@@ -28,16 +37,13 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.PieData;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -56,7 +62,7 @@ import rx.functions.Func1;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 下午2:21
  */
-public class ChartFragment extends AppBaseFragment {
+@SuppressWarnings("unchecked") public class ChartFragment extends AppBaseFragment {
     private static final int ANIMATE_DURATION = 400;
 
     @BindView(R.id.chart_fuel_linechart)      LineChart    mFuelLineChart;
@@ -72,12 +78,13 @@ public class ChartFragment extends AppBaseFragment {
     @BindView(R.id.chart_percentage_detail)   LinearLayout mPercentageDetail;
     @Inject                                   ConsumerDao  mConsumerDao;
 
-    private float                            mTotalMoney;
-    private Map<Integer, Float>              mValuesMap;
-    private Observable<List<ConsumerDetail>> mAllData;
-    private FuelConsumption                  mMinFuelConsumption;
-    private FuelConsumption                  mMaxFuelConsumption;
-    private LayoutInflater                   mLayoutInflater;
+    private LayoutInflater mLayoutInflater;
+    private IChartDisplay  mBarChartDisplay;
+    private IChartDisplay  mPieChartDisplay;
+    private IChartDisplay  mLineChartDisplay;
+
+    private long mStartTime;
+    private long mEndTime;
 
     public static ChartFragment newInstance() {
         return new ChartFragment();
@@ -91,18 +98,9 @@ public class ChartFragment extends AppBaseFragment {
         ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         setHasOptionsMenu(true);
-
-        ChartUtil.initLineChart(mAppContext, mFuelLineChart);
-        ChartUtil.initBarChart(mAppContext, mConsumerBarChart);
-        ChartUtil.initPieChart(mAppContext, mPercentagePieChart);
-        addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
-        addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
-        addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
-        // mAllData = mConsumerDao.queryByType(null);
-        mAllData = mConsumerDao.queryBetween(DateUtil.getTime(2017), DateUtil.getTime(2018)-1);
-        addSubscription(processLineChartData());
-        addSubscription(processBarChartData());
-        addSubscription(processPieChartData());
+        mCurrentYear = Calendar.getInstance().get(Calendar.YEAR);
+        initChart();
+        loadData(mCurrentYear);
     }
 
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -111,197 +109,157 @@ public class ChartFragment extends AppBaseFragment {
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_date:
+        if (item.getItemId() == R.id.action_date) {
+            showYears();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-                return true;
-            default:
-                return false;
+    private YearsPopup mYearsPopup;
+    private int mCurrentYear;
+    private void showYears() {
+        if (null == mYearsPopup) {
+            mYearsPopup = new YearsPopup.Builder()
+                    .context(mActivity)
+                    .years(Consts.YEARS)
+                    .fitInScreen(true)
+                    .horizontalPosition(RelativePopupWindow.HorizontalPosition.RIGHT)
+                    .verticalPosition(RelativePopupWindow.VerticalPosition.BELOW)
+                    .listener(new YearsPopup.Listener() {
+                        @Override public void onYearSelected(int year) {
+                            ToastUtil.showToast(mAppContext, String.valueOf(year));
+                            mCurrentYear = year;
+                            loadData(mCurrentYear);
+                        }
+                    })
+                    .build();
+        }
+        if (mYearsPopup.isShowing()) {
+            mYearsPopup.dismiss();
+        } else {
+            mYearsPopup.show(((MainActivity)mActivity).getToolbar());
         }
     }
 
     @Override public void onFragmentShow() {
         super.onFragmentShow();
         setHasOptionsMenu(true);
-        // mFuelLineChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        // mConsumerBarChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-        // mPercentagePieChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+        mActivity.setTitle(mCurrentYear+"年份消费统计图");
     }
 
     @Override public void onFragmentHide() {
         super.onFragmentHide();
         setHasOptionsMenu(false);
+        mActivity.setTitle(R.string.app_name);
     }
 
-    private Subscription processBarChartData() {
-        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                       .flatMap(new Func1<List<ConsumerDetail>, Observable<BarData>>() {
-                           @Override public Observable<BarData> call(List<ConsumerDetail> list) {
-                               return Observable.just(ChartUtil.convertBarData(mAppContext, list));
-                           }
-                       })
-                       .subscribe(new Action1<BarData>() {
-                           @Override public void call(BarData barData) {
-                               if (null != barData) {
-                                   mConsumerBarChart.setData(barData);
-                                   mConsumerBarChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                               }
-                               mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
-                           }
-                       }, RxUtil.ERROR_ACTION);
+    @Override public void onStop() {
+        super.onStop();
+        unRegister();
     }
 
-    private Subscription processPieChartData() {
-        return mAllData.compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                       .flatMap(new Func1<List<ConsumerDetail>, Observable<Map<Integer, Float>>>() {
-                           @Override public Observable<Map<Integer, Float>> call(List<ConsumerDetail> list) {
-                               mValuesMap = new HashMap<>();
-                               mTotalMoney = 0;
-                               for (int i = 0; i < list.size(); i++) {
-                                   final int type = list.get(i).getType();
-                                   if (!mValuesMap.containsKey(type)) {
-                                       mValuesMap.put(type, 0f);
-                                   }
-                                   final float money = list.get(i).getMoney();
-                                   mTotalMoney = MoneyUtil.newInstance(mTotalMoney).add(money).create().floatValue();
-                                   mValuesMap.put(type,
-                                           MoneyUtil.newInstance(mValuesMap.get(type)).add(money).create().floatValue
-                                                   ());
-                               }
-                               return Observable.just(mValuesMap);
-                           }
-                       })
-                       .flatMap(new Func1<Map<Integer, Float>, Observable<PieData>>() {
-                           @Override public Observable<PieData> call(Map<Integer, Float> map) {
-                               return Observable.just(ChartUtil.convertPieData(mAppContext, mTotalMoney, map));
-                           }
-                       })
-                       .subscribe(new Action1<PieData>() {
-                           @Override public void call(PieData pieData) {
-                               if (null != pieData) {
-                                   mPercentagePieChart.setData(pieData);
-                                   mPercentagePieChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
-                               }
-                               mSavePercentage.setVisibility(null != pieData ? View.VISIBLE : View.GONE);
-                               processPercentageDetail();
-                           }
-                       }, RxUtil.ERROR_ACTION);
+    @SuppressWarnings("unchecked") private void initChart() {
+        mBarChartDisplay = new BarChartDisplayImpl();
+        mPieChartDisplay = new PieChartDisplayImpl();
+        mLineChartDisplay = new LineChartDisplayImpl();
+        mBarChartDisplay.init(mConsumerBarChart, true);
+        mPieChartDisplay.init(mPercentagePieChart, true);
+        mLineChartDisplay.init(mFuelLineChart, true);
+        addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
+        addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
+        addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
+
+        RxView.touches(mConsumerBarChart)
+              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+              .subscribe(new Action1<MotionEvent>() {
+                  @Override public void call(MotionEvent motionEvent) {
+                      startChartActivity(ChartType.BAR_CHART);
+                  }
+              });
+        RxView.touches(mPercentagePieChart)
+              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+              .subscribe(new Action1<MotionEvent>() {
+                  @Override public void call(MotionEvent motionEvent) {
+                      startChartActivity(ChartType.PIE_CHART);
+                  }
+              });
+        RxView.touches(mFuelLineChart)
+              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+              .subscribe(new Action1<MotionEvent>() {
+                  @Override public void call(MotionEvent motionEvent) {
+                      startChartActivity(ChartType.LINE_CHART);
+                  }
+              });
     }
 
-    private void processPercentageDetail() {
-        if(DataUtil.isEmpty(mValuesMap)) { return; }
-        if (mPercentageDetail.getChildCount() > 0) {
-            mPercentageDetail.removeAllViews();
-        }
-        if(null == mLayoutInflater){
-            mLayoutInflater = LayoutInflater.from(mActivity);
-        }
-        int rows = 1;
-        ArrayList<Map.Entry<Integer, Float>> list = new ArrayList<>(mValuesMap.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Float>>() {
-            @Override public int compare(Map.Entry<Integer, Float> o1, Map.Entry<Integer, Float> o2) {
-                // 按降序排列
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
-        for (Map.Entry<Integer, Float> item : list) {
-            View itemView = mLayoutInflater.inflate(R.layout.item_table, null);
-            ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[item.getKey()]);
-            ((TextView) itemView.findViewById(R.id.item_table_total_money)).setText(
-                    Util.formatRMB(item.getValue()));
-            ((TextView) itemView.findViewById(R.id.item_table_percentage)).setText(
-                    Util.formatPercentage(item.getValue(), mTotalMoney));
-            itemView.findViewById(R.id.item_table_bottom_divider)
-                    .setVisibility(rows == mValuesMap.size() ? View.VISIBLE : View.GONE);
-            mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
-                                      LinearLayout.LayoutParams.WRAP_CONTENT);
-            rows++;
-        }
-        // for (Integer key : mValuesMap.keySet()) {
-        //     View itemView = mLayoutInflater.inflate(R.layout.item_table, null);
-        //     ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
-        //     ((TextView) itemView.findViewById(R.id.item_table_total_money)).setText(
-        //             Util.formatRMB(mValuesMap.get(key)));
-        //     ((TextView) itemView.findViewById(R.id.item_table_percentage)).setText(
-        //             Util.formatPercentage(mValuesMap.get(key), mTotalMoney));
-        //     itemView.findViewById(R.id.item_table_bottom_divider)
-        //             .setVisibility(rows == mValuesMap.size() ? View.VISIBLE : View.GONE);
-        //     mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
-        //             LinearLayout.LayoutParams.WRAP_CONTENT);
-        //     rows++;
-        // }
-        View totalView = mLayoutInflater.inflate(R.layout.item_total_table, null);
-        ((TextView) totalView.findViewById(R.id.item_total_table_value)).setText(Util.formatRMB(mTotalMoney));
-        mPercentageDetail.addView(totalView, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
+    private void startChartActivity(@ChartType int type) {
+        ChartActivity.start(mActivity, type, mStartTime, mEndTime);
     }
 
-    private Subscription processLineChartData() {
-        // return mConsumerDao.queryByType(Consts.TYPE_FUEL)
-        return mConsumerDao.query(Consts.TYPE_FUEL, DateUtil.getTime(2017), DateUtil.getTime(2018)-1, false)
+    private void loadData(int year) {
+        mActivity.setTitle(mCurrentYear+"年份消费统计图");
+        mStartTime = DateUtil.getTime(year);
+        mEndTime = DateUtil.getTime(year + 1) - 1;
+        addSubscription(loadConsumerDetail(mStartTime, mEndTime));
+        addSubscription(loadFuelConsumption(mStartTime, mEndTime));
+    }
+
+    /** 加载消费信息 */
+    private Subscription loadConsumerDetail(long startTime, long endTime) {
+        return mConsumerDao.queryBetween(startTime, endTime)
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                           .flatMap(new Func1<List<ConsumerDetail>, Observable<List<FuelConsumption>>>() {
-                               @Override public Observable<List<FuelConsumption>> call(List<ConsumerDetail> list) {
-                                   List<FuelConsumption> result = new ArrayList<>();
-                                   mMinFuelConsumption = null;
-                                   mMaxFuelConsumption = null;
-                                   for (int i = 0; i < list.size() - 1; i++) {
-                                       ConsumerDetail startItem = list.get(i);
-                                       ConsumerDetail endItem = list.get(i + 1);
-                                       final long mileage = endItem.getCurrentMileage() - startItem.getCurrentMileage();
-                                       final float money = mileage == 0L
-                                                           ? 0
-                                                           : MoneyUtil.newInstance(startItem.getMoney())
-                                                                      .multiply(100)
-                                                                      .divide(mileage)
-                                                                      .create()
-                                                                      .floatValue();
-                                       final float oilMass = startItem.getUnitPrice() == 0F
-                                                             ? 0
-                                                             : MoneyUtil.newInstance(money)
-                                                                        .divide(startItem.getUnitPrice())
-                                                                        .create()
-                                                                        .floatValue();
+                           .flatMap(new Func1<List<ConsumerDetail>, Observable<Object>>() {
+                               @Override public Observable<Object> call(List<ConsumerDetail> consumerDetails) {
+                                   if (DataUtil.isEmpty(consumerDetails)) { return null; }
+                                   return Observable.just(mBarChartDisplay.convert(consumerDetails),
+                                                          mPieChartDisplay.convert(consumerDetails));
+                               }
+                           })
+                           .subscribe(new Action1<Object>() {
+                               @Override public void call(Object data) {
+                                   if (null == data) { return; }
+                                   if (null != mBarChartDisplay && data instanceof BarData) {
+                                       mBarChartDisplay.animationDisplay(mConsumerBarChart, data, ANIMATE_DURATION);
+                                       mSaveConsumer.setVisibility(View.VISIBLE);
+                                   } else if (null != mPieChartDisplay &&
+                                              data instanceof PieChartDisplayImpl.PieChartData) {
+                                       PieChartDisplayImpl.PieChartData pieChartData =
+                                               (PieChartDisplayImpl.PieChartData)data;
+                                       mPieChartDisplay.animationDisplay(mPercentagePieChart, pieChartData,
+                                                                         ANIMATE_DURATION);
+                                       addPercentageDetailView(pieChartData);
+                                       mSavePercentage.setVisibility(
+                                               null != pieChartData.pieData ? View.VISIBLE : View.GONE);
+                                   }
+                               }
+                           });
+    }
 
-                                       final FuelConsumption item = new FuelConsumption(mileage,
-                                               Float.valueOf(MoneyUtil.replace(money)),
-                                               Float.valueOf(MoneyUtil.replace(oilMass)));
-                                       result.add(item);
-                                       mMinFuelConsumption = null == mMinFuelConsumption
-                                                             ? item
-                                                             : (item.getMoney() < mMinFuelConsumption.getMoney()
-                                                                ? item
-                                                                : mMinFuelConsumption);
-                                       mMaxFuelConsumption = null == mMaxFuelConsumption
-                                                             ? item
-                                                             : (item.getMoney() > mMaxFuelConsumption.getMoney()
-                                                                ? item
-                                                                : mMaxFuelConsumption);
-                                   }
-                                   return Observable.just(result);
+    /** 加载油耗信息 */
+    private Subscription loadFuelConsumption(long startTime, long endTime) {
+        return mConsumerDao.query(Consts.TYPE_FUEL, startTime, endTime, false, true)
+                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                           .map(new Func1<List<ConsumerDetail>, LineChartDisplayImpl.LineChartData>() {
+                               @Override public LineChartDisplayImpl.LineChartData call(List<ConsumerDetail> list) {
+                                   return (LineChartDisplayImpl.LineChartData)mLineChartDisplay.convert(list);
                                }
                            })
-                           .flatMap(new Func1<List<FuelConsumption>, Observable<LineData>>() {
-                               @Override public Observable<LineData> call(List<FuelConsumption> list) {
-                                   return Observable.just(ChartUtil.convertLineData(mAppContext, list));
-                               }
-                           })
-                           .subscribe(new Action1<LineData>() {
-                               @Override public void call(LineData lineData) {
-                                   if (null != lineData) {
-                                       mFuelLineChart.setData(lineData);
-                                       mFuelLineChart.animateXY(ANIMATE_DURATION, ANIMATE_DURATION);
+                           .subscribe(new Action1<LineChartDisplayImpl.LineChartData>() {
+                               @Override public void call(LineChartDisplayImpl.LineChartData lineChartData) {
+                                   if (null != mLineChartDisplay) {
+                                       mLineChartDisplay.animationDisplay(mFuelLineChart, lineChartData,
+                                                                          ANIMATE_DURATION);
                                    }
-                                   if (null != mMinFuelConsumption) {
-                                       mMinMoney.setText(Util.formatRMB(mMinFuelConsumption.getMoney()));
-                                       mMinOilMess.setText(Util.formatOilMess(mMinFuelConsumption.getOilMass()));
+                                   if (null != lineChartData.minFuelConsumption) {
+                                       mMinMoney.setText(Util.formatRMB(lineChartData.minFuelConsumption.getMoney()));
+                                       mMinOilMess.setText(Util.formatOilMess(lineChartData.minFuelConsumption.getOilMass()));
                                    }
-                                   if (null != mMaxFuelConsumption) {
-                                       mMaxMoney.setText(Util.formatRMB(mMaxFuelConsumption.getMoney()));
-                                       mMaxOilMess.setText(Util.formatOilMess(mMaxFuelConsumption.getOilMass()));
+                                   if (null != lineChartData.maxFuelConsumption) {
+                                       mMaxMoney.setText(Util.formatRMB(lineChartData.maxFuelConsumption.getMoney()));
+                                       mMaxOilMess.setText(Util.formatOilMess(lineChartData.maxFuelConsumption.getOilMass()));
                                    }
-                                   mSaveFuel.setVisibility(null != lineData ? View.VISIBLE : View.GONE);
+                                   mSaveFuel.setVisibility(null != lineChartData.lineData ? View.VISIBLE : View.GONE);
                                }
                            }, RxUtil.ERROR_ACTION);
     }
@@ -316,5 +274,53 @@ public class ChartFragment extends AppBaseFragment {
                                                               : R.string.chart_save_fail);
                          }
                      });
+    }
+
+    /**
+     * 添加消费百分比详细信息
+     */
+    private void addPercentageDetailView(@NonNull PieChartDisplayImpl.PieChartData pieChartData) {
+        if (mPercentageDetail.getChildCount() > 0) {
+            mPercentageDetail.removeAllViews();
+        }
+        if(null == mLayoutInflater){
+            mLayoutInflater = LayoutInflater.from(mActivity);
+        }
+
+        List<Float> values = new ArrayList<>();
+        for(int i =0; i < pieChartData.groupMoney.size();i++){
+            values.add(pieChartData.groupMoney.valueAt(i));
+        }
+        // 顺序
+        // Collections.sort(values);
+        // 倒序
+        Collections.sort(values, new Comparator<Float>() {
+            @Override public int compare(Float o1, Float o2) {
+                return o2.compareTo(o1);
+            }
+        });
+        int rows = 1;
+        for (Float item : values) {
+            int key = pieChartData.groupMoney.keyAt(pieChartData.groupMoney.indexOfValue(item));
+            @SuppressLint("InflateParams")
+            View itemView = mLayoutInflater.inflate(R.layout.item_table, null);
+            ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
+            ((TextView) itemView.findViewById(R.id.item_table_total_money)).setText(
+                    Util.formatRMB(item));
+            ((TextView) itemView.findViewById(R.id.item_table_percentage)).setText(
+                    Util.formatPercentage(item, pieChartData.totalMoney));
+            itemView.findViewById(R.id.item_table_bottom_divider)
+                    .setVisibility(rows == values.size() ? View.VISIBLE : View.GONE);
+            mPercentageDetail.addView(itemView, LinearLayout.LayoutParams.MATCH_PARENT,
+                                      LinearLayout.LayoutParams.WRAP_CONTENT);
+            rows++;
+        }
+        @SuppressLint("InflateParams")
+        View totalView = mLayoutInflater.inflate(R.layout.item_total_table, null);
+        ((TextView) totalView.findViewById(R.id.item_total_table_value)).setText(
+                Util.formatRMB(pieChartData.totalMoney));
+        mPercentageDetail.addView(totalView, LinearLayout.LayoutParams.MATCH_PARENT,
+                                  LinearLayout.LayoutParams.WRAP_CONTENT);
+
     }
 }

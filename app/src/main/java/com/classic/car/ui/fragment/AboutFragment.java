@@ -17,7 +17,7 @@ import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.ui.activity.OpenSourceLicensesActivity;
 import com.classic.car.ui.base.AppBaseFragment;
-import com.classic.car.ui.dialog.AuthorDialog;
+import com.classic.car.ui.widget.AuthorDialog;
 import com.classic.car.utils.PgyUtil;
 import com.jakewharton.rxbinding.view.RxView;
 

@@ -85,7 +85,7 @@ public class ConsumerDao {
         //                                                        .append(startTime)
         //                                                        .append(" AND ")
         //                                                        .append(endTime);
-        return query(null, startTime, endTime, false, false);
+        return query(null, startTime, endTime, false, true);
     }
 
     public Observable<List<ConsumerDetail>> query(Integer type, long startTime, long endTime,
