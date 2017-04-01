@@ -15,6 +15,7 @@
  */
 package com.classic.car.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -40,7 +41,7 @@ import com.classic.car.R;
 /**
  * @see 'https://github.com/hdodenhof/CircleImageView'
  */
-public class CircleImageView extends ImageView {
+@SuppressLint("AppCompatCustomView") public class CircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 

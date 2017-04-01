@@ -1,7 +1,5 @@
 package com.classic.car.consts;
 
-import com.elvishew.xlog.XLog;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -52,7 +50,7 @@ public final class Consts {
     public static final String FEEDBACK_PERMISSIONS_DESCRIBE = "语音反馈需要使用语音录制权限";
 
     public static final ArrayList<Integer> YEARS;
-    private static final int MIN_YEAR       = 2015;
+    private static final int MIN_YEAR       = 2014;
     private static final int MIN_YEARS_SIZE = 10;
     static {
         YEARS = new ArrayList<>();
@@ -62,5 +60,4 @@ public final class Consts {
             YEARS.add(i);
         }
     }
-    public static final int ANIMATE_DURATION = 400;
 }

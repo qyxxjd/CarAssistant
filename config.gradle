@@ -1,4 +1,4 @@
-def supportVersion = "25.3.0"
+def supportVersion = "25.3.1"
 def butterknifeVersion = "8.5.1"
 def dagger2Version = "2.10"
 def rxBindingVersion = "1.0.1"
@@ -48,7 +48,7 @@ ext {
     //通用适配器
     commonAdapter = "com.classic.adapter:commonadapter:1.6"
     //图表控件
-    mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.1"
+    mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.2"
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
     materialDialog = "com.afollestad.material-dialogs:core:0.9.4.2"

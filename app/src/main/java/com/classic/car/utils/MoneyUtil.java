@@ -5,9 +5,6 @@ import android.text.TextUtils;
 import java.math.BigDecimal;
 
 /**
- * 应用名称: BaseProject
- * 包 名 称: com.classic.android.utils
- *
  * 文件描述: 高精度数据计算工具类
  * 创 建 人: 续写经典
  * 创建时间: 2015/11/3 17:26

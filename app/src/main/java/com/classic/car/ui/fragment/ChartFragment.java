@@ -2,7 +2,6 @@ package com.classic.car.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +31,7 @@ import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
+import com.elvishew.xlog.XLog;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -63,7 +63,8 @@ import rx.functions.Func1;
  * 创建时间：16/5/29 下午2:21
  */
 @SuppressWarnings("unchecked") public class ChartFragment extends AppBaseFragment {
-    private static final int ANIMATE_DURATION = 400;
+    private static final int    ANIMATE_DURATION = 400;
+    private static final String EMPTY_VALUE      = "0";
 
     @BindView(R.id.chart_fuel_linechart)      LineChart    mFuelLineChart;
     @BindView(R.id.chart_consumer_barchart)   BarChart     mConsumerBarChart;
@@ -128,9 +129,11 @@ import rx.functions.Func1;
                     .verticalPosition(RelativePopupWindow.VerticalPosition.BELOW)
                     .listener(new YearsPopup.Listener() {
                         @Override public void onYearSelected(int year) {
-                            ToastUtil.showToast(mAppContext, String.valueOf(year));
-                            mCurrentYear = year;
-                            loadData(mCurrentYear);
+                            // ToastUtil.showToast(mAppContext, String.valueOf(year));
+                            if (mCurrentYear != year) {
+                                mCurrentYear = year;
+                                loadData(mCurrentYear);
+                            }
                         }
                     })
                     .build();
@@ -145,18 +148,13 @@ import rx.functions.Func1;
     @Override public void onFragmentShow() {
         super.onFragmentShow();
         setHasOptionsMenu(true);
-        mActivity.setTitle(mCurrentYear+"年份消费统计图");
+        mActivity.setTitle(getString(R.string.consumer_title, mCurrentYear));
     }
 
     @Override public void onFragmentHide() {
         super.onFragmentHide();
         setHasOptionsMenu(false);
         mActivity.setTitle(R.string.app_name);
-    }
-
-    @Override public void onStop() {
-        super.onStop();
-        unRegister();
     }
 
     @SuppressWarnings("unchecked") private void initChart() {
@@ -169,28 +167,9 @@ import rx.functions.Func1;
         addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
         addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
         addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
-
-        RxView.touches(mConsumerBarChart)
-              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-              .subscribe(new Action1<MotionEvent>() {
-                  @Override public void call(MotionEvent motionEvent) {
-                      startChartActivity(ChartType.BAR_CHART);
-                  }
-              });
-        RxView.touches(mPercentagePieChart)
-              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-              .subscribe(new Action1<MotionEvent>() {
-                  @Override public void call(MotionEvent motionEvent) {
-                      startChartActivity(ChartType.PIE_CHART);
-                  }
-              });
-        RxView.touches(mFuelLineChart)
-              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-              .subscribe(new Action1<MotionEvent>() {
-                  @Override public void call(MotionEvent motionEvent) {
-                      startChartActivity(ChartType.LINE_CHART);
-                  }
-              });
+        addTouchListener(mConsumerBarChart, ChartType.BAR_CHART);
+        addTouchListener(mPercentagePieChart, ChartType.PIE_CHART);
+        addTouchListener(mFuelLineChart, ChartType.LINE_CHART);
     }
 
     private void startChartActivity(@ChartType int type) {
@@ -198,7 +177,7 @@ import rx.functions.Func1;
     }
 
     private void loadData(int year) {
-        mActivity.setTitle(mCurrentYear+"年份消费统计图");
+        mActivity.setTitle(getString(R.string.consumer_title, mCurrentYear));
         mStartTime = DateUtil.getTime(year);
         mEndTime = DateUtil.getTime(year + 1) - 1;
         addSubscription(loadConsumerDetail(mStartTime, mEndTime));
@@ -211,26 +190,27 @@ import rx.functions.Func1;
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<Object>>() {
                                @Override public Observable<Object> call(List<ConsumerDetail> consumerDetails) {
-                                   if (DataUtil.isEmpty(consumerDetails)) { return null; }
+                                   if (DataUtil.isEmpty(consumerDetails)) { return Observable.just(null); }
+                                   // XLog.d("ChartFragment - 查询到消费信息数量："+consumerDetails.size());
                                    return Observable.just(mBarChartDisplay.convert(consumerDetails),
                                                           mPieChartDisplay.convert(consumerDetails));
                                }
                            })
                            .subscribe(new Action1<Object>() {
                                @Override public void call(Object data) {
-                                   if (null == data) { return; }
-                                   if (null != mBarChartDisplay && data instanceof BarData) {
+                                   if (null == data) {
+                                       mConsumerBarChart.clear();
+                                       mPercentagePieChart.clear();
+                                       refreshConsumerView(null);
+                                       refreshPercentageView(null);
+                                       return;
+                                   }
+                                   if (data instanceof BarData) {
                                        mBarChartDisplay.animationDisplay(mConsumerBarChart, data, ANIMATE_DURATION);
-                                       mSaveConsumer.setVisibility(View.VISIBLE);
-                                   } else if (null != mPieChartDisplay &&
-                                              data instanceof PieChartDisplayImpl.PieChartData) {
-                                       PieChartDisplayImpl.PieChartData pieChartData =
-                                               (PieChartDisplayImpl.PieChartData)data;
-                                       mPieChartDisplay.animationDisplay(mPercentagePieChart, pieChartData,
-                                                                         ANIMATE_DURATION);
-                                       addPercentageDetailView(pieChartData);
-                                       mSavePercentage.setVisibility(
-                                               null != pieChartData.pieData ? View.VISIBLE : View.GONE);
+                                       refreshConsumerView((BarData)data);
+                                   } else if (data instanceof PieChartDisplayImpl.PieChartData) {
+                                       mPieChartDisplay.animationDisplay(mPercentagePieChart, data, ANIMATE_DURATION);
+                                       refreshPercentageView((PieChartDisplayImpl.PieChartData)data);
                                    }
                                }
                            });
@@ -247,19 +227,8 @@ import rx.functions.Func1;
                            })
                            .subscribe(new Action1<LineChartDisplayImpl.LineChartData>() {
                                @Override public void call(LineChartDisplayImpl.LineChartData lineChartData) {
-                                   if (null != mLineChartDisplay) {
-                                       mLineChartDisplay.animationDisplay(mFuelLineChart, lineChartData,
-                                                                          ANIMATE_DURATION);
-                                   }
-                                   if (null != lineChartData.minFuelConsumption) {
-                                       mMinMoney.setText(Util.formatRMB(lineChartData.minFuelConsumption.getMoney()));
-                                       mMinOilMess.setText(Util.formatOilMess(lineChartData.minFuelConsumption.getOilMass()));
-                                   }
-                                   if (null != lineChartData.maxFuelConsumption) {
-                                       mMaxMoney.setText(Util.formatRMB(lineChartData.maxFuelConsumption.getMoney()));
-                                       mMaxOilMess.setText(Util.formatOilMess(lineChartData.maxFuelConsumption.getOilMass()));
-                                   }
-                                   mSaveFuel.setVisibility(null != lineChartData.lineData ? View.VISIBLE : View.GONE);
+                                   mLineChartDisplay.animationDisplay(mFuelLineChart, lineChartData, ANIMATE_DURATION);
+                                   refreshOilMessView(lineChartData);
                                }
                            }, RxUtil.ERROR_ACTION);
     }
@@ -269,24 +238,32 @@ import rx.functions.Func1;
                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
                      .subscribe(new Action1<Void>() {
                          @Override public void call(Void aVoid) {
-                             ToastUtil.showToast(mAppContext, chart.saveToGallery(Util.createImageName(), 100)
+                             ToastUtil.showToast(mAppContext, chart.saveToGallery(Util.createImageName(),
+                                                                                  IChartDisplay.QUALITY)
                                                               ? R.string.chart_save_success
                                                               : R.string.chart_save_fail);
                          }
                      });
     }
 
+    private void refreshConsumerView(BarData barData) {
+        mSaveConsumer.setVisibility(null != barData ? View.VISIBLE : View.GONE);
+    }
+
     /**
      * 添加消费百分比详细信息
      */
-    private void addPercentageDetailView(@NonNull PieChartDisplayImpl.PieChartData pieChartData) {
+    private void refreshPercentageView(PieChartDisplayImpl.PieChartData pieChartData) {
         if (mPercentageDetail.getChildCount() > 0) {
             mPercentageDetail.removeAllViews();
+        }
+        mSavePercentage.setVisibility(null != pieChartData && null != pieChartData.pieData ? View.VISIBLE : View.GONE);
+        if (null == pieChartData || null == pieChartData.groupMoney) {
+            return;
         }
         if(null == mLayoutInflater){
             mLayoutInflater = LayoutInflater.from(mActivity);
         }
-
         List<Float> values = new ArrayList<>();
         for(int i =0; i < pieChartData.groupMoney.size();i++){
             values.add(pieChartData.groupMoney.valueAt(i));
@@ -322,5 +299,39 @@ import rx.functions.Func1;
         mPercentageDetail.addView(totalView, LinearLayout.LayoutParams.MATCH_PARENT,
                                   LinearLayout.LayoutParams.WRAP_CONTENT);
 
+    }
+
+    private void refreshOilMessView(LineChartDisplayImpl.LineChartData lineChartData) {
+        if (null != lineChartData && null != lineChartData.minFuelConsumption) {
+            mMinMoney.setText(Util.formatRMB(lineChartData.minFuelConsumption.getMoney()));
+            mMinOilMess.setText(Util.formatOilMess(lineChartData.minFuelConsumption.getOilMass()));
+        } else {
+            mMinMoney.setText(EMPTY_VALUE);
+            mMinOilMess.setText(EMPTY_VALUE);
+        }
+        if (null != lineChartData && null != lineChartData.maxFuelConsumption) {
+            mMaxMoney.setText(Util.formatRMB(lineChartData.maxFuelConsumption.getMoney()));
+            mMaxOilMess.setText(Util.formatOilMess(lineChartData.maxFuelConsumption.getOilMass()));
+        } else {
+            mMaxMoney.setText(EMPTY_VALUE);
+            mMaxOilMess.setText(EMPTY_VALUE);
+        }
+        mSaveFuel.setVisibility(null != lineChartData && null != lineChartData.lineData ? View.VISIBLE : View.GONE);
+    }
+
+    private void addTouchListener(final Chart chart, final @ChartType int type) {
+        addSubscription(RxView.touches(chart)
+                              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                              .subscribe(new Action1<MotionEvent>() {
+                                  @Override public void call(MotionEvent motionEvent) {
+                                      if (chart.getData() != null) {
+                                          startChartActivity(type);
+                                      }
+                                  }
+                              }));
+    }
+
+    private void log(String content) {
+        XLog.d(content);
     }
 }

@@ -17,15 +17,18 @@ package com.classic.car.di.modules;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
+
 import com.classic.car.BuildConfig;
 import com.classic.car.db.DbOpenHelper;
 import com.classic.car.db.dao.ConsumerDao;
+import com.classic.car.utils.LogUtil;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 import rx.schedulers.Schedulers;
 
 /**
@@ -42,15 +45,13 @@ import rx.schedulers.Schedulers;
         return new DbOpenHelper(application);
     }
 
-    @Provides @Singleton SqlBrite provideSqlBrite() {
+    @SuppressWarnings("SpellCheckingInspection") @Provides @Singleton SqlBrite provideSqlBrite() {
         final SqlBrite.Builder builder = new SqlBrite.Builder();
         if (BuildConfig.DEBUG) {
             //noinspection CheckResult
             builder.logger(new SqlBrite.Logger() {
                 @Override public void log(String message) {
-                    if (!TextUtils.isEmpty(message)) {
-                        //XLog.d(message);
-                    }
+                    LogUtil.d(message);
                 }
             });
         }

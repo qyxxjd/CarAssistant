@@ -20,6 +20,7 @@ public class ConsumerTable {
     public static final String COLUMN_OIL_TYPE         = "oilType";
     public static final String COLUMN_UNIT_PRICE       = "unitPrice";
     public static final String COLUMN_CURRENT_MILEAGE  = "currentMileage";
+    public static final String COLUMN_LAST_UPDATE_TIME = "lastUpdateTime";
 
     public static String create(){
         //noinspection StringBufferReplaceableByString
@@ -27,6 +28,7 @@ public class ConsumerTable {
                                                  .append(COLUMN_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
                                                  .append(COLUMN_CREATE_TIME).append(" INTEGER NOT NULL,")
                                                  .append(COLUMN_CONSUMPTION_TIME).append(" INTEGER NOT NULL,")
+                                                 .append(COLUMN_LAST_UPDATE_TIME).append(" INTEGER DEFAULT 0, ")
                                                  .append(COLUMN_MONEY).append(" INTEGER,")
                                                  .append(COLUMN_UNIT_PRICE).append(" INTEGER,")
                                                  .append(COLUMN_TYPE).append(" INTEGER,")
@@ -34,5 +36,20 @@ public class ConsumerTable {
                                                  .append(COLUMN_CURRENT_MILEAGE).append(" INTEGER,")
                                                  .append(COLUMN_NOTES).append(" TEXT")
                                                  .append(")").toString();
+    }
+
+    /**
+     * 新增最后更新时间字段
+     *
+     * @return sql
+     */
+    public static String updateToVersion2(){
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder().append("ALTER TABLE ")
+                                  .append(NAME)
+                                  .append(" ADD COLUMN ")
+                                  .append(COLUMN_LAST_UPDATE_TIME)
+                                  .append(" INTEGER DEFAULT 0 ")
+                                  .toString();
     }
 }

@@ -1,6 +1,8 @@
 package com.classic.car.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.TypedValue;
 import android.widget.EditText;
 
 import com.classic.car.R;
@@ -156,10 +158,10 @@ public final class Util {
         return sColorTemplate;
     }
 
-    // public static int dp2px(@NonNull Context context, float dpVal) {
-    //     return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
-    //                                            context.getResources().getDisplayMetrics());
-    // }
+    public static int dp2px(@NonNull Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
+                                               context.getResources().getDisplayMetrics());
+    }
     // public static int getRandom(int maxValue){
     //     return (int)(Math.random()*maxValue);
     // }

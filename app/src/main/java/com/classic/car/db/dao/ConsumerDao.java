@@ -33,6 +33,7 @@ public class ConsumerDao {
     public long insert(ConsumerDetail detail){
         final ContentValues values = new ContentValues();
         values.put(ConsumerTable.COLUMN_CREATE_TIME, detail.getCreateTime());
+        values.put(ConsumerTable.COLUMN_LAST_UPDATE_TIME, detail.getLastUpdateTime());
         values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
         values.put(ConsumerTable.COLUMN_TYPE, detail.getType());
         values.put(ConsumerTable.COLUMN_MONEY, detail.getMoney());
@@ -57,6 +58,7 @@ public class ConsumerDao {
 
     public int update(ConsumerDetail detail){
         final ContentValues values = new ContentValues();
+        values.put(ConsumerTable.COLUMN_LAST_UPDATE_TIME, detail.getLastUpdateTime());
         values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
         values.put(ConsumerTable.COLUMN_TYPE, detail.getType());
         values.put(ConsumerTable.COLUMN_MONEY, detail.getMoney());
@@ -70,21 +72,10 @@ public class ConsumerDao {
     }
 
     public Observable<List<ConsumerDetail>> queryAll(){
-        // StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
-        //                                                        .append(" ORDER BY ")
-        //                                                        .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
-        //                                                        .append(" DESC ");
         return query(null, 0, 0, true, false);
     }
 
     public Observable<List<ConsumerDetail>> queryBetween(long startTime, long endTime){
-        // StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
-        //                                                        .append(" WHERE ")
-        //                                                        .append(ConsumerTable.COLUMN_CONSUMPTION_TIME)
-        //                                                        .append(" BETWEEN ")
-        //                                                        .append(startTime)
-        //                                                        .append(" AND ")
-        //                                                        .append(endTime);
         return query(null, startTime, endTime, false, true);
     }
 
@@ -140,6 +131,7 @@ public class ConsumerDao {
                 result.add(new ConsumerDetail(
                         CursorUtil.getLong(cursor, ConsumerTable.COLUMN_ID),
                         CursorUtil.getLong(cursor, ConsumerTable.COLUMN_CREATE_TIME),
+                        CursorUtil.getLong(cursor, ConsumerTable.COLUMN_LAST_UPDATE_TIME),
                         CursorUtil.getLong(cursor, ConsumerTable.COLUMN_CONSUMPTION_TIME),
                         CursorUtil.getFloat(cursor, ConsumerTable.COLUMN_MONEY),
                         CursorUtil.getInt(cursor, ConsumerTable.COLUMN_TYPE),

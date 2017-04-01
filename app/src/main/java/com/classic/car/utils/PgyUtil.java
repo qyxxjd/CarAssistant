@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -64,12 +65,12 @@ public final class PgyUtil {
                                                        final Activity act = reference.get();
                                                        if (null != act) {
                                                            //蒲公英SDK在Android N上崩溃，需要处理
-                                                           // if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                                                           if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                                                                startDownloadTask(act, appBean.getDownloadURL());
-                                                           // } else {
-                                                           //     download(act.getApplicationContext(),
-                                                           //             appBean.getDownloadURL());
-                                                           // }
+                                                           } else {
+                                                               download(act.getApplicationContext(),
+                                                                        appBean.getDownloadURL());
+                                                           }
                                                        }
                                                    }
                                                })

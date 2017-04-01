@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.classic.android.base.BaseActivity;
 import com.classic.car.R;
@@ -49,12 +51,14 @@ import rx.subscriptions.CompositeSubscription;
  * 创 建 人: 续写经典
  * 创建时间: 2017/3/25 10:53
  */
-public class ChartActivity extends BaseActivity {
+@SuppressWarnings("unchecked") public class ChartActivity extends BaseActivity {
     private static final String PARAMS_CHART_TYPE = "chartType";
     private static final String PARAMS_START_TIME = "startTime";
     private static final String PARAMS_END_TIME   = "endTime";
+    private static final int    ANIMATE_DURATION  = 400;
 
     @Inject ConsumerDao mConsumerDao;
+    @BindView(R.id.chart_download) ImageButton mDownloadBtn;
 
     private Context       mAppContext;
     private IChartDisplay mChartDisplay;
@@ -83,6 +87,8 @@ public class ChartActivity extends BaseActivity {
     }
 
     @Override public void initView(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.initView(savedInstanceState);
         ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         ButterKnife.bind(this);
@@ -122,15 +128,14 @@ public class ChartActivity extends BaseActivity {
         return mConsumerDao.query(mDataType, mStartTime, mEndTime, false, isAsc)
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                            .map(new Func1<List<ConsumerDetail>, Object>() {
-                               @SuppressWarnings("unchecked") @Override public Object call(List<ConsumerDetail> list) {
+                               @Override public Object call(List<ConsumerDetail> list) {
                                    return mChartDisplay.convert(list);
                                }
                            })
                            .subscribe(new Action1<Object>() {
-                               @SuppressWarnings("unchecked") @Override public void call(Object data) {
-                                   if (null != data) {
-                                       mChartDisplay.animationDisplay(mChart, data, Consts.ANIMATE_DURATION);
-                                   }
+                               @Override public void call(Object data) {
+                                   mDownloadBtn.setVisibility(null == data ? View.GONE : View.VISIBLE);
+                                   mChartDisplay.animationDisplay(mChart, data, ANIMATE_DURATION);
                                }
                            }, RxUtil.ERROR_ACTION);
     }
@@ -144,7 +149,8 @@ public class ChartActivity extends BaseActivity {
         mCompositeSubscription.add(Observable.unsafeCreate(new Observable.OnSubscribe<Boolean>() {
                                        @Override public void call(Subscriber<? super Boolean> subscriber) {
                                            if (!subscriber.isUnsubscribed()) {
-                                               subscriber.onNext(mChart.saveToGallery(Util.createImageName(), 100));
+                                               subscriber.onNext(mChart.saveToGallery(Util.createImageName(),
+                                                                                      IChartDisplay.QUALITY));
                                                subscriber.onCompleted();
                                            }
                                        }
@@ -165,6 +171,8 @@ public class ChartActivity extends BaseActivity {
     private void createChart(int chartType) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                                        FrameLayout.LayoutParams.MATCH_PARENT);
+        final int margin = Util.dp2px(mAppContext, 16);
+        params.setMargins(margin, margin, margin, margin);
         switch (chartType) {
             case ChartType.BAR_CHART:
                 mChart = new BarChart(mChartLayout.getContext());

@@ -24,6 +24,7 @@
 
     <string name="total.money">总金额</string>
 
+    <string name="consumer.title">%s年份消费统计图</string>
     <string name="consumer.money">消费金额(元)</string>
     <string name="consumer.money.hint">请输入消费金额</string>
     <string name="consumer.unit.price">单价(元/升)</string>

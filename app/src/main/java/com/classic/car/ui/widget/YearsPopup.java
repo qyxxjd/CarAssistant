@@ -1,16 +1,12 @@
 package com.classic.car.ui.widget;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,6 +42,7 @@ public class YearsPopup extends RelativePopupWindow implements AdapterView.OnIte
     @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             mListener.onYearSelected(mYears.get(position));
+            dismiss();
         }
     }
 
@@ -69,47 +66,11 @@ public class YearsPopup extends RelativePopupWindow implements AdapterView.OnIte
         setOutsideTouchable(true);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // Disable default animation for circular reveal
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setAnimationStyle(0);
-        }
         ListView lv = (ListView)view.findViewById(R.id.popup_lv);
         lv.setOnItemClickListener(this);
         lv.setAdapter(new CommonAdapter<Integer>(mContext.get(), R.layout.popup_years_item, mYears) {
             @Override public void onUpdate(BaseAdapterHelper helper, Integer item, int position) {
                 helper.setText(R.id.year, String.valueOf(item));
-            }
-        });
-    }
-
-    @Override
-    public void showOnAnchor(@NonNull View anchor, int vPos, int hPos, int x, int y, boolean fitInScreen) {
-        super.showOnAnchor(anchor, vPos, hPos, x, y, fitInScreen);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            circularReveal(anchor);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void circularReveal(@NonNull final View anchor) {
-        final View contentView = getContentView();
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                final int[] myLocation = new int[2];
-                final int[] anchorLocation = new int[2];
-                contentView.getLocationOnScreen(myLocation);
-                anchor.getLocationOnScreen(anchorLocation);
-                final int cx = anchorLocation[0] - myLocation[0] + anchor.getWidth()/2;
-                final int cy = anchorLocation[1] - myLocation[1] + anchor.getHeight()/2;
-
-                contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                final int dx = Math.max(cx, contentView.getMeasuredWidth() - cx);
-                final int dy = Math.max(cy, contentView.getMeasuredHeight() - cy);
-                final float finalRadius = (float) Math.hypot(dx, dy);
-                Animator animator = ViewAnimationUtils.createCircularReveal(contentView, cx, cy, 0f, finalRadius);
-                animator.setDuration(1000);
-                animator.start();
             }
         });
     }

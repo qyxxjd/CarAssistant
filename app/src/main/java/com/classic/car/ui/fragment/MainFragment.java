@@ -107,6 +107,7 @@ public class MainFragment extends AppBaseFragment
 
     @OnClick(R.id.main_fab) public void onFabClick() {
         AddConsumerActivity.start(mActivity, AddConsumerActivity.TYPE_ADD, null);
+        // new DataManager().importByAssets(mAppContext, mConsumerDao, "data.txt");
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {

@@ -1,10 +1,11 @@
 package com.classic.car.di.modules;
 
 import android.app.Application;
-import com.classic.car.app.RxBus;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * 应用名称: CarAssistant
@@ -25,9 +26,5 @@ public class AppModule {
 
     @Provides @Singleton Application provideApplication() {
         return mApplication;
-    }
-
-    @Provides @Singleton RxBus provideRxBus() {
-        return new RxBus();
     }
 }

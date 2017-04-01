@@ -5,6 +5,7 @@ import android.content.Context;
 import com.classic.car.R;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
+import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
 import com.classic.car.utils.Util;
@@ -31,15 +32,18 @@ import java.util.List;
  */
 public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartDisplayImpl.LineChartData, ConsumerDetail>{
     private Context mAppContext;
+    private int     mTextSize;
 
     @Override public void init(LineChart chart, boolean touchEnable) {
         if (null == chart) { return; }
         mAppContext = chart.getContext().getApplicationContext();
+        mTextSize = chart.getContext() instanceof ChartActivity ? LARGE_TEXT_SIZE : TEXT_SIZE;
+
         chart.setNoDataText(Util.getString(mAppContext, R.string.no_data_hint));
         chart.getDescription().setEnabled(false);
         chart.setTouchEnabled(touchEnable);
         //超过这个值，不显示value
-        chart.setMaxVisibleValueCount(MAX_VISIBLE_VALUE_COUNT);
+        chart.setMaxVisibleValueCount(MAX_VISIBLE_VALUE_COUNT * 2);
 
         if (touchEnable) {
             // enable scaling and dragging
@@ -51,18 +55,20 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
             chart.setPinchZoom(true);
         }
 
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.getXAxis().setDrawGridLines(false);
-        chart.getXAxis().setAvoidFirstLastClipping(true);
-
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setAxisMinimum(MINIMUM_VALUE);
+        leftAxis.setAxisMinimum(1);
+        leftAxis.setTextSize(mTextSize);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        // leftAxis.setDrawZeroLine(false);
-
         chart.getAxisRight().setEnabled(false);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextSize(mTextSize);
+        xAxis.setAxisMinimum(MINIMUM_VALUE);
+
         chart.getLegend().setForm(Legend.LegendForm.LINE);
+        chart.getLegend().setTextSize(mTextSize);
     }
 
     @Override public LineChartData convert(List<ConsumerDetail> list) {
@@ -92,11 +98,7 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
                 lineChartData.maxFuelConsumption = item;
             }
         }
-
-        LineData lineData = convertLineData(lineChartData.fuelConsumptions);
-        if (null != lineData) {
-            lineChartData.lineData = lineData;
-        }
+        lineChartData.lineData = convertLineData(lineChartData.fuelConsumptions);
         return lineChartData;
     }
 
@@ -105,7 +107,11 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
     }
 
     @Override public void animationDisplay(LineChart chart, LineChartData lineChartData, int duration) {
-        if (null == chart || null == lineChartData || null == lineChartData.lineData) {
+        if (null == chart) {
+            return;
+        }
+        if (null == lineChartData || null == lineChartData.lineData) {
+            chart.clear();
             return;
         }
         chart.setData(lineChartData.lineData);
@@ -149,7 +155,7 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
         moneySet.setAxisDependency(YAxis.AxisDependency.LEFT);
         moneySet.setColor(Util.getColor(mAppContext, R.color.colorAccent));
         moneySet.setCircleColor(Util.getColor(mAppContext, R.color.colorAccent));
-        moneySet.setValueTextSize(TEXT_SIZE);
+        moneySet.setValueTextSize(mTextSize);
         moneySet.setValueFormatter(OIL_MESS_FORMATTER);
         //moneySet.setCircleRadius(3f); //圆点半径
         //moneySet.setDrawCircleHole(false); //圆点是否空心
@@ -161,7 +167,7 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
         oilMessSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         oilMessSet.setColor(Util.getColor(mAppContext, R.color.blue));
         oilMessSet.setCircleColor(Util.getColor(mAppContext, R.color.blue));
-        oilMessSet.setValueTextSize(TEXT_SIZE);
+        oilMessSet.setValueTextSize(mTextSize);
         oilMessSet.setValueFormatter(OIL_MESS_FORMATTER);
         return new LineData(moneySet, oilMessSet);
     }

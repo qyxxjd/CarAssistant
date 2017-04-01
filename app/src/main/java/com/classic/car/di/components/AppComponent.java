@@ -19,11 +19,14 @@ import dagger.Component;
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
  */
-@Singleton @Component(modules = { AppModule.class })
-public interface AppComponent {
+@Singleton @Component(modules = {AppModule.class}) public interface AppComponent {
     void inject(AddConsumerActivity activity);
+
     void inject(ChartActivity activity);
+
     void inject(MainFragment fragment);
+
     void inject(TimelineFragment fragment);
+
     void inject(ChartFragment fragment);
 }

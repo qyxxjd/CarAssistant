@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.classic.car.R;
 import com.classic.car.entity.ConsumerDetail;
+import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.Util;
 import com.github.mikephil.charting.charts.BarChart;
@@ -27,21 +28,14 @@ import java.util.List;
 public class BarChartDisplayImpl implements IChartDisplay<BarChart, BarData, ConsumerDetail>{
 
     private Context mAppContext;
+    private int     mTextSize;
 
     @Override public void init(BarChart chart, boolean touchEnable) {
         if (null == chart) { return; }
         mAppContext = chart.getContext().getApplicationContext();
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setAxisMinimum(MINIMUM_VALUE);
-        // 网格线以虚线模式绘制
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        // leftAxis.setDrawZeroLine(true);
+        mTextSize = chart.getContext() instanceof ChartActivity ? LARGE_TEXT_SIZE : TEXT_SIZE;
 
         chart.setNoDataText(Util.getString(mAppContext, R.string.no_data_hint));
-        chart.getAxisRight().setEnabled(false);
-
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
         //打开或者关闭与图表的所有触摸交互
         chart.setTouchEnabled(touchEnable);
         if (touchEnable) {
@@ -53,20 +47,22 @@ public class BarChartDisplayImpl implements IChartDisplay<BarChart, BarData, Con
             chart.setDoubleTapToZoomEnabled(false);
             chart.setHighlightFullBarEnabled(false);
         }
-
         chart.getDescription().setEnabled(false);
-        // chart.setDescription(createDescription(Util.getString(mAppContext, R.string.chart_unit_money),
-        //                                           Util.getColor(mAppContext, R.color.gray_dark)));
-
-
         //超过这个值,不显示value
         chart.setMaxVisibleValueCount(MAX_VISIBLE_VALUE_COUNT);
         chart.setDrawGridBackground(false);
 
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setAxisMinimum(MINIMUM_VALUE);
+        // 网格线以虚线模式绘制
+        leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.setTextSize(mTextSize);
+        chart.getAxisRight().setEnabled(false);
+
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        // xAxis.setEnabled(true);
+        xAxis.setTextSize(mTextSize);
 
         chart.getLegend().setEnabled(false);
     }
@@ -90,7 +86,11 @@ public class BarChartDisplayImpl implements IChartDisplay<BarChart, BarData, Con
     }
 
     @Override public void animationDisplay(BarChart chart, BarData barData, int duration) {
-        if (null == chart || null == barData) {
+        if (null == chart) {
+            return;
+        }
+        if (null == barData) {
+            chart.clear();
             return;
         }
         chart.setData(barData);

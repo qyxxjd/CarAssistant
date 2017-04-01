@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,7 +115,7 @@ public final class DataManager {
             }
             return new ConsumerDetail(Integer.valueOf(dataItem[0]), Float.valueOf(dataItem[1]),
                     time, (dataItem.length == 4 ? dataItem[3] : ""));
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

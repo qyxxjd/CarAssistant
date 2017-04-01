@@ -15,6 +15,7 @@ public class ConsumerDetail implements Serializable {
 
     private long   id;
     private long   createTime;
+    private long   lastUpdateTime;
     private long   consumptionTime;
     private float  money;
     private int    type;
@@ -25,7 +26,7 @@ public class ConsumerDetail implements Serializable {
     private float unitPrice; //单价
     private long  currentMileage;//当前里程
 
-    public ConsumerDetail(){}
+    public ConsumerDetail(){ }
 
     public ConsumerDetail(long consumptionTime, float money, int type) {
         this.consumptionTime = consumptionTime;
@@ -52,10 +53,11 @@ public class ConsumerDetail implements Serializable {
         this.createTime = System.currentTimeMillis();
     }
 
-    public ConsumerDetail(long id, long createTime, long consumptionTime, float money, int type, String notes,
+    public ConsumerDetail(long id, long createTime, long lastUpdateTime, long consumptionTime, float money, int type, String notes,
                           int oilType, float unitPrice, long currentMileage) {
         this.id = id;
         this.createTime = createTime;
+        this.lastUpdateTime = lastUpdateTime;
         this.consumptionTime = consumptionTime;
         this.money = money;
         this.type = type;
@@ -135,5 +137,13 @@ public class ConsumerDetail implements Serializable {
 
     public void setCurrentMileage(long currentMileage) {
         this.currentMileage = currentMileage;
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

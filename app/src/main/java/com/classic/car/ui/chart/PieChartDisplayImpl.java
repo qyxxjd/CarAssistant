@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
+import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
 import com.classic.car.utils.Util;
@@ -33,10 +34,12 @@ import java.util.List;
 public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisplayImpl.PieChartData, ConsumerDetail>{
 
     private Context mAppContext;
+    private int     mTextSize;
 
     @Override public void init(PieChart chart, boolean touchEnable) {
         if (null == chart) { return; }
         mAppContext = chart.getContext().getApplicationContext();
+        mTextSize = chart.getContext() instanceof ChartActivity ? LARGE_TEXT_SIZE : TEXT_SIZE;
         chart.setNoDataText(Util.getString(mAppContext, R.string.no_data_hint));
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
@@ -66,7 +69,7 @@ public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisp
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setTextSize(TEXT_SIZE);
+        l.setTextSize(mTextSize);
         l.setTextColor(Util.getColor(mAppContext, R.color.gray_dark));
     }
 
@@ -99,7 +102,7 @@ public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisp
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(PERCENTAGE_FORMATTER);
-        data.setValueTextSize(TEXT_SIZE);
+        data.setValueTextSize(mTextSize);
         data.setValueTextColor(Color.WHITE);
         pieChartData.pieData = data;
         return pieChartData;
@@ -110,7 +113,11 @@ public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisp
     }
 
     @Override public void animationDisplay(PieChart chart, PieChartData pieChartData, int duration) {
-        if (null == chart || null == pieChartData || null == pieChartData.pieData) {
+        if (null == chart) {
+            return;
+        }
+        if (null == pieChartData || null == pieChartData.pieData) {
+            chart.clear();
             return;
         }
         chart.setData(pieChartData.pieData);

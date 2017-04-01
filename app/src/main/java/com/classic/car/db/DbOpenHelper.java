@@ -15,7 +15,7 @@ import com.classic.car.db.table.ConsumerTable;
  */
 public class DbOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME    = "CarAssistant.db";
-    private static final int    DB_VERSION = 1;
+    private static final int    DB_VERSION = 2;
 
     public DbOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -26,6 +26,25 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        try {
+            db.beginTransaction();
+            switch (newVersion) {
+                case 2:
+                    update2(db);
+                    break;
+                default:
+                    break;
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        db.setVersion(newVersion);
+    }
 
+    private void update2(SQLiteDatabase db) {
+        db.execSQL(ConsumerTable.updateToVersion2());
     }
 }
