@@ -1,25 +1,22 @@
 package com.classic.car.ui.chart;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.util.SparseArray;
-
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
 import com.classic.car.entity.ConsumerDetail;
-import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
 import com.classic.car.utils.Util;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,22 +28,15 @@ import java.util.List;
  * 创 建 人: 续写经典
  * 创建时间: 2017/3/28 19:19
  */
-public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisplayImpl.PieChartData, ConsumerDetail>{
-
-    private Context mAppContext;
-    private int     mTextSize;
+public class PieChartDisplayImpl extends BaseChartDisplayImpl<PieChart,
+        PieChartDisplayImpl.PieChartData>{
 
     @Override public void init(PieChart chart, boolean touchEnable) {
-        if (null == chart) { return; }
-        mAppContext = chart.getContext().getApplicationContext();
-        mTextSize = chart.getContext() instanceof ChartActivity ? LARGE_TEXT_SIZE : TEXT_SIZE;
-        chart.setNoDataText(Util.getString(mAppContext, R.string.no_data_hint));
+        super.init(chart, touchEnable);
         chart.setUsePercentValues(true);
-        chart.getDescription().setEnabled(false);
         chart.setExtraOffsets(5, 10, 5, 5);
         // 环形图不绘制描述信息
         chart.setDrawEntryLabels(false);
-        chart.setTouchEnabled(touchEnable);
 
         //pieChart.setCenterText(EMPTY_LABEL);
         chart.setDrawCenterText(false);
@@ -64,7 +54,6 @@ public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisp
         // pieChart.setEnabled(false);
         // pieChart.setEntryLabelColor(getColor(context, R.color.gray_dark));
 
-        // pieChart.getLegend().setEnabled(false);
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -108,22 +97,8 @@ public class PieChartDisplayImpl implements IChartDisplay<PieChart, PieChartDisp
         return pieChartData;
     }
 
-    @Override public void display(PieChart chart, PieChartData pieChartData) {
-        animationDisplay(chart, pieChartData, 0);
-    }
-
-    @Override public void animationDisplay(PieChart chart, PieChartData pieChartData, int duration) {
-        if (null == chart) {
-            return;
-        }
-        if (null == pieChartData || null == pieChartData.pieData) {
-            chart.clear();
-            return;
-        }
-        chart.setData(pieChartData.pieData);
-        if (duration > 0) {
-            chart.animateXY(duration, duration);
-        }
+    @Override ChartData getChartData(PieChartData pieChartData) {
+        return null == pieChartData ? null : pieChartData.pieData;
     }
 
     public static class PieChartData {

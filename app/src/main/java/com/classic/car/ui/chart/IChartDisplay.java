@@ -16,7 +16,8 @@ public interface IChartDisplay<C extends Chart, T, V> {
     int    MAX_VISIBLE_VALUE_COUNT = 30;
     int    MINIMUM_VALUE           = 0;
     int    TEXT_SIZE               = 8;
-    int    LARGE_TEXT_SIZE         = 24;
+    int    LARGE_TEXT_SIZE         = 16;
+    int    LARGE_AXIS_SIZE         = 12;
     int    QUALITY                 = 100;
     String EMPTY_LABEL             = "";
 

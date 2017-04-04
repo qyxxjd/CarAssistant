@@ -1,11 +1,8 @@
 package com.classic.car.ui.chart;
 
-import android.content.Context;
-
 import com.classic.car.R;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.entity.FuelConsumption;
-import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
 import com.classic.car.utils.Util;
@@ -13,12 +10,12 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,26 +27,17 @@ import java.util.List;
  * 创 建 人: 续写经典
  * 创建时间: 2017/3/28 19:55
  */
-public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartDisplayImpl.LineChartData, ConsumerDetail>{
-    private Context mAppContext;
-    private int     mTextSize;
+public class LineChartDisplayImpl extends BaseChartDisplayImpl<LineChart, LineChartDisplayImpl.LineChartData>{
 
     @Override public void init(LineChart chart, boolean touchEnable) {
-        if (null == chart) { return; }
-        mAppContext = chart.getContext().getApplicationContext();
-        mTextSize = chart.getContext() instanceof ChartActivity ? LARGE_TEXT_SIZE : TEXT_SIZE;
-
-        chart.setNoDataText(Util.getString(mAppContext, R.string.no_data_hint));
-        chart.getDescription().setEnabled(false);
-        chart.setTouchEnabled(touchEnable);
+        super.init(chart, touchEnable);
         //超过这个值，不显示value
         chart.setMaxVisibleValueCount(MAX_VISIBLE_VALUE_COUNT * 2);
-
+        chart.setDrawGridBackground(false);
         if (touchEnable) {
             // enable scaling and dragging
             // lineChart.setDragEnabled(true);
             // lineChart.setScaleEnabled(true);
-            chart.setDrawGridBackground(false);
             // lineChart.setHighlightPerDragEnabled(true);
             // if disabled, scaling can be done on x- and y-axis separately
             chart.setPinchZoom(true);
@@ -57,18 +45,21 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setAxisMinimum(1);
-        leftAxis.setTextSize(mTextSize);
+        leftAxis.setTextSize(mAxisSize);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.setTextColor(Util.getColor(mAppContext, R.color.gray_dark));
         chart.getAxisRight().setEnabled(false);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextSize(mTextSize);
+        xAxis.setTextSize(mAxisSize);
         xAxis.setAxisMinimum(MINIMUM_VALUE);
+        xAxis.setTextColor(Util.getColor(mAppContext, R.color.gray_dark));
 
         chart.getLegend().setForm(Legend.LegendForm.LINE);
         chart.getLegend().setTextSize(mTextSize);
+        chart.getLegend().setTextColor(Util.getColor(mAppContext, R.color.gray_dark));
     }
 
     @Override public LineChartData convert(List<ConsumerDetail> list) {
@@ -102,22 +93,8 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
         return lineChartData;
     }
 
-    @Override public void display(LineChart chart, LineChartData lineChartData) {
-        animationDisplay(chart, lineChartData, 0);
-    }
-
-    @Override public void animationDisplay(LineChart chart, LineChartData lineChartData, int duration) {
-        if (null == chart) {
-            return;
-        }
-        if (null == lineChartData || null == lineChartData.lineData) {
-            chart.clear();
-            return;
-        }
-        chart.setData(lineChartData.lineData);
-        if (duration > 0) {
-            chart.animateXY(duration, duration);
-        }
+    @Override ChartData getChartData(LineChartData lineChartData) {
+        return null == lineChartData ? null : lineChartData.lineData;
     }
 
     public static class LineChartData {
@@ -150,25 +127,27 @@ public class LineChartDisplayImpl implements IChartDisplay<LineChart, LineChartD
 
         LineDataSet moneySet = new LineDataSet(moneyValues,
                                                Util.getString(mAppContext, R.string.chart_fuel_consumption_money));
-        //moneySet.enableDashedLine(10f, 5f, 0f); //启用虚线
-        //moneySet.enableDashedHighlightLine(10f, 5f, 0f); //启用高亮虚线
-        moneySet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        moneySet.setColor(Util.getColor(mAppContext, R.color.colorAccent));
-        moneySet.setCircleColor(Util.getColor(mAppContext, R.color.colorAccent));
-        moneySet.setValueTextSize(mTextSize);
-        moneySet.setValueFormatter(OIL_MESS_FORMATTER);
-        //moneySet.setCircleRadius(3f); //圆点半径
-        //moneySet.setDrawCircleHole(false); //圆点是否空心
-        //moneySet.setHighlightEnabled(true); //选中高亮
-        // moneySet.setValueFormatter(new OilMessFormatter());
+        applyLineDataSetStyle(moneySet, Util.getColor(mAppContext, R.color.colorAccent));
 
         LineDataSet oilMessSet = new LineDataSet(oilMessValues,
                                                  Util.getString(mAppContext, R.string.chart_fuel_consumption));
-        oilMessSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        oilMessSet.setColor(Util.getColor(mAppContext, R.color.blue));
-        oilMessSet.setCircleColor(Util.getColor(mAppContext, R.color.blue));
-        oilMessSet.setValueTextSize(mTextSize);
-        oilMessSet.setValueFormatter(OIL_MESS_FORMATTER);
+        applyLineDataSetStyle(oilMessSet, Util.getColor(mAppContext, R.color.blue));
+
         return new LineData(moneySet, oilMessSet);
+    }
+
+    private void applyLineDataSetStyle(LineDataSet lineDataSet, int color) {
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setColor(color);
+        lineDataSet.setCircleColor(color);
+        lineDataSet.setValueTextSize(mTextSize);
+        lineDataSet.setValueFormatter(OIL_MESS_FORMATTER);
+
+        //moneySet.setCircleRadius(5f); //圆点半径
+        //moneySet.setDrawCircleHole(false); //圆点是否空心
+        //moneySet.setCircleHoleRadius(3f); //空心半径
+        //moneySet.setHighlightEnabled(true); //选中高亮
+        //moneySet.enableDashedLine(10f, 5f, 0f); //启用虚线
+        //moneySet.enableDashedHighlightLine(10f, 5f, 0f); //启用高亮虚线
     }
 }
