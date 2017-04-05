@@ -37,6 +37,9 @@ import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
@@ -167,13 +170,31 @@ import rx.functions.Func1;
         addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
         addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
         addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
-        addTouchListener(mConsumerBarChart, ChartType.BAR_CHART);
-        addTouchListener(mPercentagePieChart, ChartType.PIE_CHART);
-        addTouchListener(mFuelLineChart, ChartType.LINE_CHART);
+        mConsumerBarChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.BAR_CHART));
+        mPercentagePieChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.PIE_CHART));
+        mFuelLineChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.LINE_CHART));
+        // addTouchListener(mConsumerBarChart, ChartType.BAR_CHART);
+        // addTouchListener(mPercentagePieChart, ChartType.PIE_CHART);
+        // addTouchListener(mFuelLineChart, ChartType.LINE_CHART);
     }
 
     private void startChartActivity(@ChartType int type) {
         ChartActivity.start(mActivity, type, mStartTime, mEndTime);
+    }
+    private final class ChartValueSelectedListener implements OnChartValueSelectedListener {
+        private @ChartType int type;
+
+        public ChartValueSelectedListener(@ChartType int type) {
+            this.type = type;
+        }
+
+        @Override public void onValueSelected(Entry entry, Highlight highlight) {
+            ChartActivity.start(mActivity, type, mStartTime, mEndTime);
+        }
+
+        @Override public void onNothingSelected() {
+
+        }
     }
 
     private void loadData(int year) {
