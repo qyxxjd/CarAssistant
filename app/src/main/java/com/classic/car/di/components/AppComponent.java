@@ -3,6 +3,7 @@ package com.classic.car.di.components;
 import com.classic.car.di.modules.AppModule;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.activity.ChartActivity;
+import com.classic.car.ui.fragment.AboutFragment;
 import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
@@ -29,4 +30,6 @@ import dagger.Component;
     void inject(TimelineFragment fragment);
 
     void inject(ChartFragment fragment);
+
+    void inject(AboutFragment fragment);
 }

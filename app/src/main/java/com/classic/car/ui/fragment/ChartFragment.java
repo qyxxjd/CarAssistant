@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
-import com.elvishew.xlog.XLog;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -173,9 +171,6 @@ import rx.functions.Func1;
         mConsumerBarChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.BAR_CHART));
         mPercentagePieChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.PIE_CHART));
         mFuelLineChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.LINE_CHART));
-        // addTouchListener(mConsumerBarChart, ChartType.BAR_CHART);
-        // addTouchListener(mPercentagePieChart, ChartType.PIE_CHART);
-        // addTouchListener(mFuelLineChart, ChartType.LINE_CHART);
     }
 
     private void startChartActivity(@ChartType int type) {
@@ -338,21 +333,5 @@ import rx.functions.Func1;
             mMaxOilMess.setText(EMPTY_VALUE);
         }
         mSaveFuel.setVisibility(null != lineChartData && null != lineChartData.lineData ? View.VISIBLE : View.GONE);
-    }
-
-    private void addTouchListener(final Chart chart, final @ChartType int type) {
-        addSubscription(RxView.touches(chart)
-                              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-                              .subscribe(new Action1<MotionEvent>() {
-                                  @Override public void call(MotionEvent motionEvent) {
-                                      if (chart.getData() != null) {
-                                          startChartActivity(type);
-                                      }
-                                  }
-                              }));
-    }
-
-    private void log(String content) {
-        XLog.d(content);
     }
 }

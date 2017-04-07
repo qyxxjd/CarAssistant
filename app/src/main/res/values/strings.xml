@@ -57,6 +57,12 @@
     <string name="about.thanks">Open source licenses</string>
     <string name="about.backup">备份数据</string>
     <string name="about.restore">恢复数据</string>
+    <string name="backup.empty">暂无数据</string>
+    <string name="backup.success">数据备份成功</string>
+    <string name="backup.failure">数据备份失败</string>
+    <string name="restore.success">数据恢复成功</string>
+    <string name="restore.failure">数据恢复失败</string>
+
     <string name="storage.permissions.describe">应用需要访问你的存储空间,进行日志存储</string>
     <string name="feedback.permissions.describe">问题反馈支持语音反馈，是否允许语音录制</string>
 

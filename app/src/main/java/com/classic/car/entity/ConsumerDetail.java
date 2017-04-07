@@ -28,18 +28,19 @@ public class ConsumerDetail implements Serializable {
 
     public ConsumerDetail(){ }
 
-    public ConsumerDetail(long consumptionTime, float money, int type) {
-        this.consumptionTime = consumptionTime;
-        this.money = money;
-        this.type = type;
-    }
+    // public ConsumerDetail(long consumptionTime, float money, int type) {
+    //     this.consumptionTime = consumptionTime;
+    //     this.money = money;
+    //     this.type = type;
+    // }
 
     public ConsumerDetail(int type, float money, long consumptionTime, String notes) {
         this.type = type;
         this.money = money;
         this.consumptionTime = consumptionTime;
         this.notes = notes;
-        this.createTime = System.currentTimeMillis();
+        this.createTime = consumptionTime;
+        this.lastUpdateTime = consumptionTime;
     }
 
     public ConsumerDetail(int type, float money, long consumptionTime, int oilType, float unitPrice, long currentMileage, String notes) {
@@ -50,7 +51,30 @@ public class ConsumerDetail implements Serializable {
         this.unitPrice = unitPrice;
         this.currentMileage = currentMileage;
         this.notes = notes;
-        this.createTime = System.currentTimeMillis();
+        this.createTime = consumptionTime;
+        this.lastUpdateTime = consumptionTime;
+    }
+
+    public ConsumerDetail(int type, float money, long lastUpdateTime, long consumptionTime, long createTime, String notes) {
+        this.type = type;
+        this.money = money;
+        this.lastUpdateTime = lastUpdateTime;
+        this.consumptionTime = consumptionTime;
+        this.createTime = createTime;
+        this.notes = notes;
+    }
+
+    public ConsumerDetail(int type, float money, long lastUpdateTime, long consumptionTime, long createTime, int oilType,
+                          float unitPrice, long currentMileage, String notes) {
+        this.type = type;
+        this.money = money;
+        this.lastUpdateTime = lastUpdateTime;
+        this.consumptionTime = consumptionTime;
+        this.createTime = createTime;
+        this.oilType = oilType;
+        this.unitPrice = unitPrice;
+        this.currentMileage = currentMileage;
+        this.notes = notes;
     }
 
     public ConsumerDetail(long id, long createTime, long lastUpdateTime, long consumptionTime, float money, int type, String notes,
@@ -66,7 +90,6 @@ public class ConsumerDetail implements Serializable {
         this.unitPrice = unitPrice;
         this.currentMileage = currentMileage;
     }
-
     public long getId() {
         return id;
     }

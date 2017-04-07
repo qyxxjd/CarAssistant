@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
+
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
@@ -24,9 +24,13 @@ import com.classic.car.utils.Util;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
 import rx.functions.Action1;
 
 /**
@@ -136,9 +140,12 @@ public class AddConsumerActivity extends AppBaseActivity
     }
 
     private boolean verifyData(){
+        long time = System.currentTimeMillis();
         if(mType == TYPE_ADD){
             mConsumerDetail = new ConsumerDetail();
+            mConsumerDetail.setCreateTime(time);
         }
+        mConsumerDetail.setLastUpdateTime(time);
         mConsumerDetail.setType(mSpinner.getSelectedIndex());
         final String money = mAddConsumerMoney.getText().toString().trim();
         if (TextUtils.isEmpty(money)) {

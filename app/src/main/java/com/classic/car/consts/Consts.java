@@ -52,6 +52,10 @@ public final class Consts {
     public static final ArrayList<Integer> YEARS;
     private static final int MIN_YEAR       = 2014;
     private static final int MIN_YEARS_SIZE = 10;
+
+    public static final String BACKUP_PREFIX = "CarAssistant_";
+    public static final String BACKUP_SUFFIX = ".backup";
+
     static {
         YEARS = new ArrayList<>();
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);

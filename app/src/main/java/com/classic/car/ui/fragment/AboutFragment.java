@@ -13,19 +13,32 @@ import android.widget.TextView;
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
+import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
+import com.classic.car.db.BackupManager;
+import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.activity.OpenSourceLicensesActivity;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.widget.AuthorDialog;
 import com.classic.car.utils.PgyUtil;
+import com.classic.car.utils.RxUtil;
+import com.classic.car.utils.ToastUtil;
 import com.jakewharton.rxbinding.view.RxView;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
 import rx.functions.Action1;
 
 /**
@@ -40,8 +53,9 @@ public class AboutFragment extends AppBaseFragment {
     private static final int    REQUEST_CODE_FEEDBACK = 201;
     private static final String FEEDBACK_PERMISSION   = Manifest.permission.RECORD_AUDIO;
 
-    @BindView(R.id.about_version) TextView mVersion;
-    @BindView(R.id.about_update)  TextView mUpdate;
+    @BindView(R.id.about_version) TextView    mVersion;
+    @BindView(R.id.about_update)  TextView    mUpdate;
+    @Inject                       ConsumerDao mConsumerDao;
 
     private AuthorDialog mAuthorDialog;
 
@@ -55,7 +69,7 @@ public class AboutFragment extends AppBaseFragment {
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-
+        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
         mVersion.setText(getString(R.string.about_version, getVersionName(mAppContext)));
         PgyUtil.setDialogStyle("#3F51B5", "#FFFFFF");
         addSubscription(RxView.clicks(mUpdate)
@@ -67,8 +81,8 @@ public class AboutFragment extends AppBaseFragment {
                               }));
     }
 
-    @OnClick({R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share}) public void onClick(
-            View view) {
+    @OnClick({R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share, R.id.about_backup,
+            R.id.about_restore}) public void onClick(View view) {
         switch (view.getId()) {
             case R.id.about_feedback:
                 checkRecordAudioPermissions();
@@ -86,7 +100,55 @@ public class AboutFragment extends AppBaseFragment {
             case R.id.about_thanks:
                 OpenSourceLicensesActivity.start(mActivity);
                 break;
+            case R.id.about_backup:
+                backup();
+                break;
+            case R.id.about_restore:
+                restore();
+                break;
         }
+    }
+
+    private void restore() {
+        String path = SDCardUtil.getFileDirPath() + File.separator + "test.backup";
+        addSubscription(Observable.just(mBackupManager.restore(mConsumerDao, path))
+                                  .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                                  .subscribe(new Action1<Boolean>() {
+                                      @Override public void call(Boolean result) {
+                                          ToastUtil.showToast(mAppContext, result ? R.string.restore_success :
+                                                  R.string.restore_failure);
+                                      }
+                                  }, new Action1<Throwable>() {
+                                      @Override public void call(Throwable throwable) {
+                                          ToastUtil.showToast(mAppContext, R.string.restore_failure);
+                                      }
+                                  }));
+    }
+
+    private final BackupManager mBackupManager = new BackupManager();
+    private void backup() {
+        Observable.just(mBackupManager.backup(mConsumerDao, SDCardUtil.getFileDirPath(), createBackupFileName()))
+                  .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                  .subscribe(new Action1<Integer>() {
+                      @Override public void call(Integer integer) {
+                          ToastUtil.showToast(mAppContext,
+                                              integer == 0 ? R.string.backup_empty : R.string.backup_success);
+                      }
+                  }, new Action1<Throwable>() {
+                      @Override public void call(Throwable throwable) {
+                          ToastUtil.showToast(mAppContext, R.string.backup_success);
+                      }
+                  });
+
+    }
+
+    private String createBackupFileName() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder(Consts.BACKUP_PREFIX)
+                .append(sdf.format(new Date(System.currentTimeMillis())))
+                .append(Consts.BACKUP_SUFFIX)
+                .toString();
     }
 
     @Override public void onPause() {

@@ -8,6 +8,7 @@ import com.classic.car.db.table.ConsumerTable;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.CursorUtil;
+import com.classic.car.utils.DataUtil;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 import java.util.ArrayList;
@@ -30,18 +31,12 @@ public class ConsumerDao {
         this.mDatabase = database;
     }
 
+    public BriteDatabase getDatabase() {
+        return mDatabase;
+    }
+
     public long insert(ConsumerDetail detail){
-        final ContentValues values = new ContentValues();
-        values.put(ConsumerTable.COLUMN_CREATE_TIME, detail.getCreateTime());
-        values.put(ConsumerTable.COLUMN_LAST_UPDATE_TIME, detail.getLastUpdateTime());
-        values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
-        values.put(ConsumerTable.COLUMN_TYPE, detail.getType());
-        values.put(ConsumerTable.COLUMN_MONEY, detail.getMoney());
-        values.put(ConsumerTable.COLUMN_OIL_TYPE, detail.getOilType());
-        values.put(ConsumerTable.COLUMN_UNIT_PRICE, detail.getUnitPrice());
-        values.put(ConsumerTable.COLUMN_CURRENT_MILEAGE, detail.getCurrentMileage());
-        values.put(ConsumerTable.COLUMN_NOTES, detail.getNotes());
-        return mDatabase.insert(ConsumerTable.NAME, values);
+        return mDatabase.insert(ConsumerTable.NAME, convert(detail, true));
     }
 
     public void insert(List<ConsumerDetail> list){
@@ -57,17 +52,7 @@ public class ConsumerDao {
     }
 
     public int update(ConsumerDetail detail){
-        final ContentValues values = new ContentValues();
-        values.put(ConsumerTable.COLUMN_LAST_UPDATE_TIME, detail.getLastUpdateTime());
-        values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
-        values.put(ConsumerTable.COLUMN_TYPE, detail.getType());
-        values.put(ConsumerTable.COLUMN_MONEY, detail.getMoney());
-        values.put(ConsumerTable.COLUMN_OIL_TYPE, detail.getOilType());
-        values.put(ConsumerTable.COLUMN_UNIT_PRICE, detail.getUnitPrice());
-        values.put(ConsumerTable.COLUMN_CURRENT_MILEAGE, detail.getCurrentMileage());
-        values.put(ConsumerTable.COLUMN_NOTES, detail.getNotes());
-
-        return mDatabase.update(ConsumerTable.NAME, values, ConsumerTable.COLUMN_ID + " = ? ",
+        return mDatabase.update(ConsumerTable.NAME, convert(detail, false), ConsumerTable.COLUMN_ID + " = ? ",
                 String.valueOf(detail.getId()));
     }
 
@@ -106,6 +91,22 @@ public class ConsumerDao {
             sql.append(" ORDER BY ").append(ConsumerTable.COLUMN_CONSUMPTION_TIME).append(" DESC ");
         }
         return queryBySql(sql.toString());
+    }
+
+    public ConsumerDetail queryByCreateTime(long createTime) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME)
+                                                               .append(" WHERE ")
+                                                               .append(ConsumerTable.COLUMN_CREATE_TIME)
+                                                               .append(" = ")
+                                                               .append(createTime);
+        List<ConsumerDetail> list = convert(mDatabase.query(sql.toString()));
+        return DataUtil.isEmpty(list) ? null : list.get(0);
+    }
+
+    public List<ConsumerDetail> queryAllSync() {
+        //noinspection StringBufferReplaceableByString
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ConsumerTable.NAME);
+        return convert(mDatabase.query(sql.toString()));
     }
 
     private Observable<List<ConsumerDetail>> queryBySql(String sql){
@@ -147,5 +148,21 @@ public class ConsumerDao {
             CloseUtil.close(cursor);
         }
         return result;
+    }
+
+    private ContentValues convert(ConsumerDetail detail, boolean isInsert) {
+        ContentValues values = new ContentValues();
+        if (isInsert) {
+            values.put(ConsumerTable.COLUMN_CREATE_TIME, detail.getCreateTime());
+        }
+        values.put(ConsumerTable.COLUMN_LAST_UPDATE_TIME, detail.getLastUpdateTime());
+        values.put(ConsumerTable.COLUMN_CONSUMPTION_TIME, detail.getConsumptionTime());
+        values.put(ConsumerTable.COLUMN_TYPE, detail.getType());
+        values.put(ConsumerTable.COLUMN_MONEY, detail.getMoney());
+        values.put(ConsumerTable.COLUMN_OIL_TYPE, detail.getOilType());
+        values.put(ConsumerTable.COLUMN_UNIT_PRICE, detail.getUnitPrice());
+        values.put(ConsumerTable.COLUMN_CURRENT_MILEAGE, detail.getCurrentMileage());
+        values.put(ConsumerTable.COLUMN_NOTES, detail.getNotes());
+        return values;
     }
 }
