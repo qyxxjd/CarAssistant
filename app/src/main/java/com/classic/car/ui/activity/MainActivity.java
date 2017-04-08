@@ -1,13 +1,14 @@
 package com.classic.car.ui.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.view.KeyEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-
+import butterknife.BindView;
 import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.AppSettingsDialog;
@@ -25,10 +26,7 @@ import com.classic.car.utils.PgyUtil;
 import com.elvishew.xlog.LogLevel;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-
 import java.util.List;
-
-import butterknife.BindView;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.main_bottombar) BottomBar mBottomBar;
@@ -146,6 +144,10 @@ public class MainActivity extends AppBaseActivity {
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mDoubleClickExitHelper.onKeyDown(keyCode, event);
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onHide() {

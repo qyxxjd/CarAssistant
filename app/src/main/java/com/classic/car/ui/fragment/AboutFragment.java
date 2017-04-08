@@ -1,15 +1,18 @@
 package com.classic.car.ui.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.OnClick;
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
@@ -25,19 +28,16 @@ import com.classic.car.ui.widget.AuthorDialog;
 import com.classic.car.utils.PgyUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
+import com.classic.car.utils.UriUtil;
+import com.classic.car.utils.Util;
 import com.jakewharton.rxbinding.view.RxView;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -50,7 +50,8 @@ import rx.functions.Action1;
  * 创建时间：16/5/29 下午2:21
  */
 public class AboutFragment extends AppBaseFragment {
-    private static final int    REQUEST_CODE_FEEDBACK = 201;
+    private static final int    REQUEST_CODE_FEEDBACK = 1001;
+    private static final int    FILE_CHOOSER_CODE     = 1002;
     private static final String FEEDBACK_PERMISSION   = Manifest.permission.RECORD_AUDIO;
 
     @BindView(R.id.about_version) TextView    mVersion;
@@ -101,16 +102,30 @@ public class AboutFragment extends AppBaseFragment {
                 OpenSourceLicensesActivity.start(mActivity);
                 break;
             case R.id.about_backup:
-                backup();
+                backup(createBackupFileName());
                 break;
             case R.id.about_restore:
-                restore();
+                Util.showFileChooser(this, MIME.FILE, R.string.select_backup_file_hint,
+                        FILE_CHOOSER_CODE, R.string.not_found_file_manager_hint);
                 break;
         }
     }
 
-    private void restore() {
-        String path = SDCardUtil.getFileDirPath() + File.separator + "test.backup";
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK && requestCode == FILE_CHOOSER_CODE) {
+            String path = UriUtil.toAbsolutePath(mAppContext, data.getData());
+            if(!TextUtils.isEmpty(path) && path.endsWith(Consts.BACKUP_SUFFIX)) {
+                //ToastUtil.showToast(mAppContext, "select file："+path);
+                restore(path);
+            } else {
+                ToastUtil.showToast(mAppContext, R.string.invalid_backup_file);
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void restore(@NonNull String path) {
         addSubscription(Observable.just(mBackupManager.restore(mConsumerDao, path))
                                   .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                                   .subscribe(new Action1<Boolean>() {
@@ -126,13 +141,17 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     private final BackupManager mBackupManager = new BackupManager();
-    private void backup() {
-        Observable.just(mBackupManager.backup(mConsumerDao, SDCardUtil.getFileDirPath(), createBackupFileName()))
+    private void backup(final String filePath) {
+        Observable.just(mBackupManager.backup(mConsumerDao, filePath))
                   .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                   .subscribe(new Action1<Integer>() {
                       @Override public void call(Integer integer) {
-                          ToastUtil.showToast(mAppContext,
-                                              integer == 0 ? R.string.backup_empty : R.string.backup_success);
+                          if (integer == 0) {
+                              ToastUtil.showToast(mAppContext, R.string.backup_empty);
+                          } else {
+                              ToastUtil.showToast(mAppContext, String.format(Locale.CHINA,
+                                      getString(R.string.backup_success), filePath));
+                          }
                       }
                   }, new Action1<Throwable>() {
                       @Override public void call(Throwable throwable) {
@@ -143,9 +162,11 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     private String createBackupFileName() {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
         //noinspection StringBufferReplaceableByString
-        return new StringBuilder(Consts.BACKUP_PREFIX)
+        return new StringBuilder(SDCardUtil.getFileDirPath())
+                .append(File.separator)
+                .append(Consts.BACKUP_PREFIX)
                 .append(sdf.format(new Date(System.currentTimeMillis())))
                 .append(Consts.BACKUP_SUFFIX)
                 .toString();
