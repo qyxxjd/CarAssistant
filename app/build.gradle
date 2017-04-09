@@ -14,9 +14,12 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
+        resConfigs "zh"
+
         manifestPlaceholders = [PGYER_APPID  : properties.getProperty("PGYER_APPID"),
                                 UMENG_APPKEY : properties.getProperty("UMENG_APPKEY"),
-                                UMENG_CHANNEL: "pgyer"]
+                                UMENG_CHANNEL: "pgyer",
+                                APPLICATION_ID: rootProject.ext.android.applicationId]
 
         //vectorDrawables.useSupportLibrary = true
     }

@@ -11,8 +11,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
@@ -25,19 +24,24 @@ import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.activity.OpenSourceLicensesActivity;
 import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.widget.AuthorDialog;
+import com.classic.car.utils.IntentUtil;
 import com.classic.car.utils.PgyUtil;
 import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.UriUtil;
-import com.classic.car.utils.Util;
 import com.jakewharton.rxbinding.view.RxView;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -57,6 +61,10 @@ public class AboutFragment extends AppBaseFragment {
     @BindView(R.id.about_version) TextView    mVersion;
     @BindView(R.id.about_update)  TextView    mUpdate;
     @Inject                       ConsumerDao mConsumerDao;
+
+    @SuppressWarnings("SpellCheckingInspection")
+    private final SimpleDateFormat mDateFormat    = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
+    private final BackupManager    mBackupManager = new BackupManager();
 
     private AuthorDialog mAuthorDialog;
 
@@ -95,8 +103,8 @@ public class AboutFragment extends AppBaseFragment {
                 mAuthorDialog.show();
                 break;
             case R.id.about_share:
-                shareText(mActivity, getString(R.string.share_title), getString(R.string.share_subject),
-                          getString(R.string.share_content));
+                IntentUtil.shareText(mActivity, getString(R.string.share_title), getString(R.string.share_subject),
+                                     getString(R.string.share_content));
                 break;
             case R.id.about_thanks:
                 OpenSourceLicensesActivity.start(mActivity);
@@ -105,8 +113,8 @@ public class AboutFragment extends AppBaseFragment {
                 backup(createBackupFileName());
                 break;
             case R.id.about_restore:
-                Util.showFileChooser(this, MIME.FILE, R.string.select_backup_file_hint,
-                        FILE_CHOOSER_CODE, R.string.not_found_file_manager_hint);
+                IntentUtil.showFileChooser(this, MIME.FILE, R.string.select_backup_file_hint, FILE_CHOOSER_CODE,
+                                           R.string.not_found_file_manager_hint);
                 break;
         }
     }
@@ -140,34 +148,32 @@ public class AboutFragment extends AppBaseFragment {
                                   }));
     }
 
-    private final BackupManager mBackupManager = new BackupManager();
     private void backup(final String filePath) {
-        Observable.just(mBackupManager.backup(mConsumerDao, filePath))
-                  .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                  .subscribe(new Action1<Integer>() {
-                      @Override public void call(Integer integer) {
-                          if (integer == 0) {
-                              ToastUtil.showToast(mAppContext, R.string.backup_empty);
-                          } else {
-                              ToastUtil.showToast(mAppContext, String.format(Locale.CHINA,
-                                      getString(R.string.backup_success), filePath));
-                          }
-                      }
-                  }, new Action1<Throwable>() {
-                      @Override public void call(Throwable throwable) {
-                          ToastUtil.showToast(mAppContext, R.string.backup_success);
-                      }
-                  });
+        addSubscription(Observable.just(mBackupManager.backup(mConsumerDao, filePath))
+                                  .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                                  .subscribe(new Action1<Integer>() {
+                                      @Override public void call(Integer integer) {
+                                          if (integer == 0) {
+                                              ToastUtil.showToast(mAppContext, R.string.backup_empty);
+                                          } else {
+                                              ToastUtil.showToast(mAppContext, String.format(Locale.CHINA,
+                                                                                             getString(R.string.backup_success), filePath));
+                                          }
+                                      }
+                                  }, new Action1<Throwable>() {
+                                      @Override public void call(Throwable throwable) {
+                                          ToastUtil.showToast(mAppContext, R.string.backup_success);
+                                      }
+                                  }));
 
     }
 
     private String createBackupFileName() {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
         //noinspection StringBufferReplaceableByString
         return new StringBuilder(SDCardUtil.getFileDirPath())
                 .append(File.separator)
                 .append(Consts.BACKUP_PREFIX)
-                .append(sdf.format(new Date(System.currentTimeMillis())))
+                .append(mDateFormat.format(new Date(System.currentTimeMillis())))
                 .append(Consts.BACKUP_SUFFIX)
                 .toString();
     }
@@ -200,16 +206,6 @@ public class AboutFragment extends AppBaseFragment {
         if (requestCode == REQUEST_CODE_FEEDBACK) {
             PgyUtil.feedback(mActivity);
         }
-    }
-
-    private void shareText(@NonNull Context context, @NonNull String title, @NonNull String subject,
-                           @NonNull String content) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(MIME.TEXT);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, content);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, title));
     }
 
     private String getVersionName(@NonNull Context context) {

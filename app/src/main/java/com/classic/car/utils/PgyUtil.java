@@ -15,6 +15,7 @@ import com.classic.android.consts.MIME;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
+import com.classic.car.ui.activity.MainActivity;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedback;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
@@ -23,6 +24,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.pgyersdk.views.PgyerDialog;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 /**
@@ -34,7 +36,6 @@ import java.lang.ref.WeakReference;
  * 创建时间：16/7/9 下午4:00
  */
 public final class PgyUtil {
-    @SuppressWarnings("SpellCheckingInspection") private static final String FILE_PROVIDER = "com.pgyersdk.provider";
 
     public static void checkUpdate(final Activity activity, final boolean showHint) {
         if (!isNetworkAvailable(activity.getApplicationContext())) {
@@ -44,13 +45,20 @@ public final class PgyUtil {
             return;
         }
         final WeakReference<Activity> reference = new WeakReference<>(activity);
-        PgyUpdateManager.register(activity, FILE_PROVIDER, new UpdateManagerListener() {
+        PgyUpdateManager.register(activity, "", new UpdateManagerListener() {
             @Override public void onUpdateAvailable(final String result) {
                 final Activity act = reference.get();
                 if (null == act) {
                     return;
                 }
                 final AppBean appBean = getAppBeanFromString(result);
+                final String apkName = appBean.getVersionName() + Consts.APK;
+                final File file = new File(SDCardUtil.getApkDirPath(), apkName);
+                if (file.exists()) {
+                    IntentUtil.installApp(act.getApplicationContext(), file.getPath(),
+                                          act.getPackageName() + Consts.AUTHORITIES_SUFFIX);
+                    return;
+                }
 
                 new MaterialDialog.Builder(act).title(R.string.update_dialog_title)
                                                .titleColorRes(R.color.primary_text)
@@ -68,8 +76,10 @@ public final class PgyUtil {
                                                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                                                                startDownloadTask(act, appBean.getDownloadURL());
                                                            } else {
-                                                               download(act.getApplicationContext(),
-                                                                        appBean.getDownloadURL());
+                                                               ((MainActivity)act).registerAppUpdateReceiver(
+                                                                       download(act.getApplicationContext(),
+                                                                                appBean.getDownloadURL(), apkName),
+                                                                       file.getPath());
                                                            }
                                                        }
                                                    }
@@ -118,13 +128,14 @@ public final class PgyUtil {
         }
     }
 
-    private static long download(Context context, String url) {
+    private static long download(Context context, String url, String fileName) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle(context.getString(R.string.update_dialog_title));
+        request.setTitle(context.getString(R.string.app_name));
+        request.setDescription(context.getString(R.string.update_dialog_title));
         request.setMimeType(MIME.APK);
-        request.setDestinationInExternalPublicDir(SDCardUtil.getApkDirPath(), Consts.APK_NAME);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Consts.DIR_NAME+File.separator+SDCardUtil.APK_DIR, fileName);
+        // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         return downloadManager.enqueue(request);
     }
 

@@ -85,8 +85,10 @@ import rx.functions.Func1;
     private IChartDisplay  mPieChartDisplay;
     private IChartDisplay  mLineChartDisplay;
 
-    private long mStartTime;
-    private long mEndTime;
+    private long       mStartTime;
+    private long       mEndTime;
+    private int        mCurrentYear;
+    private YearsPopup mYearsPopup;
 
     public static ChartFragment newInstance() {
         return new ChartFragment();
@@ -118,8 +120,18 @@ import rx.functions.Func1;
         return super.onOptionsItemSelected(item);
     }
 
-    private YearsPopup mYearsPopup;
-    private int mCurrentYear;
+    @Override public void onFragmentShow() {
+        super.onFragmentShow();
+        setHasOptionsMenu(true);
+        mActivity.setTitle(getString(R.string.consumer_title, mCurrentYear));
+    }
+
+    @Override public void onFragmentHide() {
+        super.onFragmentHide();
+        setHasOptionsMenu(false);
+        mActivity.setTitle(R.string.app_name);
+    }
+
     private void showYears() {
         if (null == mYearsPopup) {
             mYearsPopup = new YearsPopup.Builder()
@@ -146,18 +158,6 @@ import rx.functions.Func1;
         }
     }
 
-    @Override public void onFragmentShow() {
-        super.onFragmentShow();
-        setHasOptionsMenu(true);
-        mActivity.setTitle(getString(R.string.consumer_title, mCurrentYear));
-    }
-
-    @Override public void onFragmentHide() {
-        super.onFragmentHide();
-        setHasOptionsMenu(false);
-        mActivity.setTitle(R.string.app_name);
-    }
-
     @SuppressWarnings("unchecked") private void initChart() {
         mBarChartDisplay = new BarChartDisplayImpl();
         mPieChartDisplay = new PieChartDisplayImpl();
@@ -173,9 +173,6 @@ import rx.functions.Func1;
         mFuelLineChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.LINE_CHART));
     }
 
-    private void startChartActivity(@ChartType int type) {
-        ChartActivity.start(mActivity, type, mStartTime, mEndTime);
-    }
     private final class ChartValueSelectedListener implements OnChartValueSelectedListener {
         private @ChartType int type;
 
@@ -207,7 +204,6 @@ import rx.functions.Func1;
                            .flatMap(new Func1<List<ConsumerDetail>, Observable<Object>>() {
                                @Override public Observable<Object> call(List<ConsumerDetail> consumerDetails) {
                                    if (DataUtil.isEmpty(consumerDetails)) { return Observable.just(null); }
-                                   // XLog.d("ChartFragment - 查询到消费信息数量："+consumerDetails.size());
                                    return Observable.just(mBarChartDisplay.convert(consumerDetails),
                                                           mPieChartDisplay.convert(consumerDetails));
                                }

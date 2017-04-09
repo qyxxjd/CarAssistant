@@ -39,18 +39,6 @@ public class ConsumerDao {
         return mDatabase.insert(ConsumerTable.NAME, convert(detail, true));
     }
 
-    public void insert(List<ConsumerDetail> list){
-        BriteDatabase.Transaction transaction = mDatabase.newTransaction();
-        try {
-            for (ConsumerDetail item : list) {
-                insert(item);
-            }
-            transaction.markSuccessful();
-        } finally {
-            transaction.end();
-        }
-    }
-
     public int update(ConsumerDetail detail){
         return mDatabase.update(ConsumerTable.NAME, convert(detail, false), ConsumerTable.COLUMN_ID + " = ? ",
                 String.valueOf(detail.getId()));

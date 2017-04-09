@@ -11,8 +11,8 @@ ext {
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 25,
-            versionCode      : 8,
-            versionName      : "0.8"
+            versionCode      : 10,
+            versionName      : "1.0"
     ]
 
     //官方库
@@ -52,7 +52,7 @@ ext {
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
     materialDialog = "com.afollestad.material-dialogs:core:0.9.4.2"
-    bottomBar = "com.roughike:bottom-bar:2.2.0"
+    bottomBar = "com.roughike:bottom-bar:2.3.0"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"
 

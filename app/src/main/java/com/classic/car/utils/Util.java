@@ -1,14 +1,13 @@
 package com.classic.car.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.widget.EditText;
+
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
+
 import java.util.Locale;
 
 /**
@@ -162,30 +161,6 @@ public final class Util {
     public static int dp2px(@NonNull Context context, float dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
                                                context.getResources().getDisplayMetrics());
-    }
-
-    /**
-     * 文件选择
-     *
-     * @param activity
-     * @param mimeType mime类型
-     * @param title 文件选择标题
-     * @param fileChooserCode startActivityForResult requestCode
-     * @param activityNotFoundHint 未找到系统默认文件选择错误提示
-     */
-    public static void showFileChooser(@NonNull Fragment activity, String mimeType,
-                                            @StringRes int title, int fileChooserCode,
-                                            @StringRes int  activityNotFoundHint) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(mimeType);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-            activity.startActivityForResult(Intent.createChooser(intent, activity.getResources()
-                                                                                 .getString(title)),
-                    fileChooserCode);
-        } catch (android.content.ActivityNotFoundException ex) {
-            ToastUtil.showToast(activity.getContext(), activityNotFoundHint);
-        }
     }
 
     // public static int getRandom(int maxValue){

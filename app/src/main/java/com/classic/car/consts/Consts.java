@@ -14,7 +14,7 @@ import java.util.Calendar;
 public final class Consts {
 
     public static final String DIR_NAME           = "CarAssistant";
-    public static final String APK_NAME           = "last.apk";
+    public static final String APK                = ".apk";
     public static final String AUTHORITIES_SUFFIX = ".provider";
 
     /** 防止误点击时间间隔 */

@@ -94,10 +94,6 @@ public class MainFragment extends AppBaseFragment
     //    super.onMultiWindowModeChanged(isInMultiWindowMode);
     //    Logger.d("onMultiWindowModeChanged: " + isInMultiWindowMode);
     //}
-    //@Override public void onStart() {
-    //    super.onStart();
-    //    new DataManager().importByAssets(mAppContext, mConsumerDao, "new_data.txt");
-    //}
 
     private Subscription loadData(){
         return mConsumerDao.queryAll()
@@ -107,7 +103,6 @@ public class MainFragment extends AppBaseFragment
 
     @OnClick(R.id.main_fab) public void onFabClick() {
         AddConsumerActivity.start(mActivity, AddConsumerActivity.TYPE_ADD, null);
-        // new DataManager().importByAssets(mAppContext, mConsumerDao, "data.txt");
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
