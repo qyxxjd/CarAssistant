@@ -1,6 +1,6 @@
 <p>
   <a href="https://developer.android.com/reference/android/os/Build.VERSION_CODES.html#ICE_CREAM_SANDWICH"><img src="https://img.shields.io/badge/API-14%2B-blue.svg?style=flat" alt="API" /></a>
-  <a href="https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.7_beta.apk?raw=true"><img src="https://img.shields.io/badge/Download-3.5M  v0.7-brightgreen.svg" alt="APK Download" /></a>
+  <a href="https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v1.0_preview.apk?raw=true"><img src="https://img.shields.io/badge/Download-3.2M  v1.0-brightgreen.svg" alt="APK Download" /></a>
 </p>
 
 ## 汽车助手
@@ -10,7 +10,8 @@
 - 消费百分比统计表
 - 百公里油耗曲线图,最低油耗/最高油耗信息
 
-[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.7_beta.apk?raw=true)
+
+[apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v1.0_preview.apk?raw=true)
 
 ## 截图
 
