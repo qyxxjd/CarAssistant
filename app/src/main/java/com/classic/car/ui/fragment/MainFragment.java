@@ -109,21 +109,23 @@ public class MainFragment extends AppBaseFragment
         AddConsumerActivity.start(mActivity, AddConsumerActivity.TYPE_MODIFY, mAdapter.getItem(position));
     }
 
-    @Override public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
+    @Override public boolean onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
         new MaterialDialog.Builder(mActivity).backgroundColorRes(R.color.white)
-                                            .content(R.string.delete_dialog_content)
-                                            .contentColorRes(R.color.primary_light)
-                                            .positiveText(R.string.confirm)
-                                            .negativeText(R.string.cancel)
-                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                    int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
-                                                    ToastUtil.showToast(mAppContext,
-                                                            rows > 0 ? R.string.delete_success : R.string.delete_fail);
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                            .show();
+                                             .content(R.string.delete_dialog_content)
+                                             .contentColorRes(R.color.primary_light)
+                                             .positiveText(R.string.confirm)
+                                             .negativeText(R.string.cancel)
+                                             .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                 @Override
+                                                 public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                     int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
+                                                     ToastUtil.showToast(mAppContext,
+                                                                         rows > 0 ? R.string.delete_success :
+                                                                                 R.string.delete_fail);
+                                                     dialog.dismiss();
+                                                 }
+                                             })
+                                             .show();
+        return true;
     }
 }

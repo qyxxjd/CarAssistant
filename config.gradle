@@ -46,13 +46,13 @@ ext {
     //数据库
     sqlbrite = "com.squareup.sqlbrite:sqlbrite:1.1.1"
     //通用适配器
-    commonAdapter = "com.classic.adapter:commonadapter:1.6"
+    commonAdapter = "com.classic.adapter:commonadapter:1.8.1"
     //图表控件
     mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.2"
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
-    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.2"
-    bottomBar = "com.roughike:bottom-bar:2.3.0"
+    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.3"
+    bottomBar = "com.roughike:bottom-bar:2.3.1"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"
 

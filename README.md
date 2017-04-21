@@ -10,23 +10,7 @@
 - 消费百分比统计表
 - 百公里油耗曲线图,最低油耗/最高油耗信息
 
-
 [apk下载](https://github.com/qyxxjd/CarAssistant/blob/master/apk/CarAssistant_v0.7_beta.apk?raw=true)
-
-#### 注意事项
-
-运行项目前，需要在`local.properties`文件里添加两个变量
-```
-PGYER_APPID=fce67a1c46ac92a1d22d58c0fdf94811  //蒲公英测试APPID
-UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
-```
-
-## 更新历史
-#### v0.7
-1. 修复图表页面数据不同步
-2. 非法值校验
-3. 修复部分机型崩溃
-4. 误点击处理
 
 ## 截图
 
@@ -45,25 +29,30 @@ UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 ## 感谢
 
 感谢以下开源库和作者，排名不分先后：
-```xml
-RxJava 
-RxAndroid
-RxBinding
-Sqlbrite
-Logger
-Dagger2
-BottomBar
-LeakCanary
-BlockCanary
-Butterknife
-SublimePicker
-MPAndroidChart
-EasyPermissions
-CircleImageView
-MaterialDialog 
-MaterialSpinner 
-MaterialEditText 
-FloatingActionButton 
+
+- [XLog](https://github.com/elvishew/xLog)
+- [Glide](https://github.com/bumptech/glide)
+- [RxJava](https://github.com/ReactiveX/RxJava)
+- [Dagger2](https://github.com/google/dagger)
+- [SqlBrite](https://github.com/square/sqlbrite)
+- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+- [RxBinding](https://github.com/JakeWharton/RxBinding)
+- [BottomBar](https://github.com/roughike/BottomBar)
+- [ButterKnife](https://github.com/JakeWharton/butterknife)
+- [SublimePicker](https://github.com/vikramkakkar/SublimePicker)
+- [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+- [MaterialDialog](https://github.com/afollestad/material-dialogs)
+- [EasyPermissions](https://github.com/googlesamples/easypermissions)
+- [CircleImageView](https://github.com/hdodenhof/CircleImageView)
+- [MaterialSpinner](https://github.com/jaredrummler/Material-Spinner)
+- [MaterialEditText](https://github.com/rengwuxian/MaterialEditText)
+
+#### 注意事项
+
+运行项目前，需要在`local.properties`文件里添加两个变量
+```
+PGYER_APPID=fce67a1c46ac92a1d22d58c0fdf94811  //蒲公英测试APPID
+UMENG_APPKEY=4f83c5d852701564c0000011  //友盟测试APPKEY
 ```
 
 ## 关于
