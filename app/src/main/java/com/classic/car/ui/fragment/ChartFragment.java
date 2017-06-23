@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.consts.Consts;
@@ -27,7 +28,6 @@ import com.classic.car.ui.widget.RelativePopupWindow;
 import com.classic.car.ui.widget.YearsPopup;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.DateUtil;
-import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
 import com.github.mikephil.charting.charts.BarChart;
@@ -38,7 +38,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,10 +50,12 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * 应用名称: CarAssistant
@@ -99,7 +101,7 @@ import rx.functions.Func1;
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mAppContext).getDbComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         setHasOptionsMenu(true);
         mCurrentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -165,9 +167,9 @@ import rx.functions.Func1;
         mBarChartDisplay.init(mConsumerBarChart, true);
         mPieChartDisplay.init(mPercentagePieChart, true);
         mLineChartDisplay.init(mFuelLineChart, true);
-        addSubscription(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
-        addSubscription(processAccidentalClick(mSaveFuel, mFuelLineChart));
-        addSubscription(processAccidentalClick(mSavePercentage, mPercentagePieChart));
+        recycle(processAccidentalClick(mSaveConsumer, mConsumerBarChart));
+        recycle(processAccidentalClick(mSaveFuel, mFuelLineChart));
+        recycle(processAccidentalClick(mSavePercentage, mPercentagePieChart));
         mConsumerBarChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.BAR_CHART));
         mPercentagePieChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.PIE_CHART));
         mFuelLineChart.setOnChartValueSelectedListener(new ChartValueSelectedListener(ChartType.LINE_CHART));
@@ -193,23 +195,25 @@ import rx.functions.Func1;
         mActivity.setTitle(getString(R.string.consumer_title, mCurrentYear));
         mStartTime = DateUtil.getTime(year);
         mEndTime = DateUtil.getTime(year + 1) - 1;
-        addSubscription(loadConsumerDetail(mStartTime, mEndTime));
-        addSubscription(loadFuelConsumption(mStartTime, mEndTime));
+        recycle(loadConsumerDetail(mStartTime, mEndTime));
+        recycle(loadFuelConsumption(mStartTime, mEndTime));
     }
 
     /** 加载消费信息 */
-    private Subscription loadConsumerDetail(long startTime, long endTime) {
+    private Disposable loadConsumerDetail(long startTime, long endTime) {
+        // TODO 检查空数据
         return mConsumerDao.queryBetween(startTime, endTime)
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                           .flatMap(new Func1<List<ConsumerDetail>, Observable<Object>>() {
-                               @Override public Observable<Object> call(List<ConsumerDetail> consumerDetails) {
+                           .flatMap(new Function<List<ConsumerDetail>, ObservableSource<?>>() {
+                               @Override public ObservableSource<?> apply(@NonNull List<ConsumerDetail> consumerDetails)
+                                       throws Exception {
                                    if (DataUtil.isEmpty(consumerDetails)) { return Observable.just(null); }
                                    return Observable.just(mBarChartDisplay.convert(consumerDetails),
                                                           mPieChartDisplay.convert(consumerDetails));
                                }
                            })
-                           .subscribe(new Action1<Object>() {
-                               @Override public void call(Object data) {
+                           .subscribe(new Consumer<Object>() {
+                               @Override public void accept(@NonNull Object data) throws Exception {
                                    if (null == data) {
                                        mConsumerBarChart.clear();
                                        mPercentagePieChart.clear();
@@ -229,27 +233,30 @@ import rx.functions.Func1;
     }
 
     /** 加载油耗信息 */
-    private Subscription loadFuelConsumption(long startTime, long endTime) {
+    private Disposable loadFuelConsumption(long startTime, long endTime) {
+        // TODO 检查空数据
         return mConsumerDao.query(Consts.TYPE_FUEL, startTime, endTime, false, true)
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                           .map(new Func1<List<ConsumerDetail>, LineChartDisplayImpl.LineChartData>() {
-                               @Override public LineChartDisplayImpl.LineChartData call(List<ConsumerDetail> list) {
+                           .map(new Function<List<ConsumerDetail>, LineChartDisplayImpl.LineChartData>() {
+                               @Override public LineChartDisplayImpl.LineChartData apply(
+                                       @NonNull List<ConsumerDetail> list) throws Exception {
                                    return (LineChartDisplayImpl.LineChartData)mLineChartDisplay.convert(list);
                                }
                            })
-                           .subscribe(new Action1<LineChartDisplayImpl.LineChartData>() {
-                               @Override public void call(LineChartDisplayImpl.LineChartData lineChartData) {
+                           .subscribe(new Consumer<LineChartDisplayImpl.LineChartData>() {
+                               @Override public void accept(@NonNull LineChartDisplayImpl.LineChartData lineChartData)
+                                       throws Exception {
                                    mLineChartDisplay.animationDisplay(mFuelLineChart, lineChartData, ANIMATE_DURATION);
                                    refreshOilMessView(lineChartData);
                                }
-                           }, RxUtil.ERROR_ACTION);
+                           }, Util.ERROR);
     }
 
-    private Subscription processAccidentalClick(TextView view, final Chart chart){
+    private Disposable processAccidentalClick(TextView view, final Chart chart){
         return RxView.clicks(view)
                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-                     .subscribe(new Action1<Void>() {
-                         @Override public void call(Void aVoid) {
+                     .subscribe(new Consumer<Object>() {
+                         @Override public void accept(@NonNull Object o) throws Exception {
                              ToastUtil.showToast(mAppContext, chart.saveToGallery(Util.createImageName(),
                                                                                   IChartDisplay.QUALITY)
                                                               ? R.string.chart_save_success

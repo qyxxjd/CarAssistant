@@ -1,6 +1,6 @@
 package com.classic.car.di.components;
 
-import com.classic.car.di.modules.AppModule;
+import com.classic.car.di.modules.DbModule;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.ui.fragment.AboutFragment;
@@ -20,7 +20,7 @@ import dagger.Component;
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
  */
-@Singleton @Component(modules = {AppModule.class}) public interface AppComponent {
+@Singleton @Component(modules = {DbModule.class}) public interface DbComponent {
     void inject(AddConsumerActivity activity);
 
     void inject(ChartActivity activity);

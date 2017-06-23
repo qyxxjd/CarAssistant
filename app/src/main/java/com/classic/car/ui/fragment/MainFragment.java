@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
@@ -21,8 +22,8 @@ import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.activity.MainActivity;
 import com.classic.car.ui.adapter.ConsumerDetailAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
-import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
+import com.classic.car.utils.Util;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 应用名称: CarAssistant
@@ -60,7 +61,7 @@ public class MainFragment extends AppBaseFragment
 
     @TargetApi(Build.VERSION_CODES.DONUT) @Override
     public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mAppContext).getDbComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
         mAdapter = new ConsumerDetailAdapter(mAppContext, R.layout.item_consumer_detail);
@@ -81,7 +82,7 @@ public class MainFragment extends AppBaseFragment
                 ((MainActivity)mActivity).onHide();
             }
         });
-        addSubscription(loadData());
+        recycle(loadData());
     }
 
     //@Override public void onConfigurationChanged(Configuration newConfig) {
@@ -95,10 +96,11 @@ public class MainFragment extends AppBaseFragment
     //    Logger.d("onMultiWindowModeChanged: " + isInMultiWindowMode);
     //}
 
-    private Subscription loadData(){
+    private Disposable loadData(){
+        // TODO 检查空数据
         return mConsumerDao.queryAll()
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                           .subscribe(mAdapter, RxUtil.ERROR_ACTION);
+                           .subscribe(mAdapter, Util.ERROR);
     }
 
     @OnClick(R.id.main_fab) public void onFabClick() {

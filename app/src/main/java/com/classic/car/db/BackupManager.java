@@ -2,13 +2,15 @@ package com.classic.car.db;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.classic.car.consts.Consts;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
-import com.squareup.sqlbrite.BriteDatabase;
+import com.squareup.sqlbrite2.BriteDatabase;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

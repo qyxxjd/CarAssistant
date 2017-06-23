@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.rx.RxUtil;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
@@ -26,10 +27,9 @@ import com.classic.car.ui.base.AppBaseFragment;
 import com.classic.car.ui.widget.AuthorDialog;
 import com.classic.car.utils.IntentUtil;
 import com.classic.car.utils.PgyUtil;
-import com.classic.car.utils.RxUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.UriUtil;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -42,8 +42,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 应用名称: CarAssistant
@@ -78,16 +78,16 @@ public class AboutFragment extends AppBaseFragment {
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-        ((CarApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mAppContext).getDbComponent().inject(this);
         mVersion.setText(getString(R.string.about_version, getVersionName(mAppContext)));
         PgyUtil.setDialogStyle("#3F51B5", "#FFFFFF");
-        addSubscription(RxView.clicks(mUpdate)
-                              .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-                              .subscribe(new Action1<Void>() {
-                                  @Override public void call(Void aVoid) {
-                                      PgyUtil.checkUpdate(mActivity, true);
-                                  }
-                              }));
+        recycle(RxView.clicks(mUpdate)
+                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                      .subscribe(new Consumer<Object>() {
+                          @Override public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
+                              PgyUtil.checkUpdate(mActivity, true);
+                          }
+                      }));
     }
 
     @OnClick({R.id.about_feedback, R.id.about_author, R.id.about_thanks, R.id.about_share, R.id.about_backup,
@@ -134,37 +134,41 @@ public class AboutFragment extends AppBaseFragment {
     }
 
     private void restore(@NonNull String path) {
-        addSubscription(Observable.just(mBackupManager.restore(mConsumerDao, path))
-                                  .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                                  .subscribe(new Action1<Boolean>() {
-                                      @Override public void call(Boolean result) {
-                                          ToastUtil.showToast(mAppContext, result ? R.string.restore_success :
-                                                  R.string.restore_failure);
-                                      }
-                                  }, new Action1<Throwable>() {
-                                      @Override public void call(Throwable throwable) {
-                                          ToastUtil.showToast(mAppContext, R.string.restore_failure);
-                                      }
-                                  }));
+        recycle(Observable.just(mBackupManager.restore(mConsumerDao, path))
+                          .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                          .subscribe(new Consumer<Boolean>() {
+                              @Override public void accept(@io.reactivex.annotations.NonNull Boolean result)
+                                      throws Exception {
+                                  ToastUtil.showToast(mAppContext, result ? R.string.restore_success :
+                                          R.string.restore_failure);
+                              }
+                          }, new Consumer<Throwable>() {
+                              @Override public void accept(@io.reactivex.annotations.NonNull Throwable throwable)
+                                      throws Exception {
+                                  ToastUtil.showToast(mAppContext, R.string.restore_failure);
+                              }
+                          }));
     }
 
     private void backup(final String filePath) {
-        addSubscription(Observable.just(mBackupManager.backup(mConsumerDao, filePath))
-                                  .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                                  .subscribe(new Action1<Integer>() {
-                                      @Override public void call(Integer integer) {
-                                          if (integer == 0) {
-                                              ToastUtil.showToast(mAppContext, R.string.backup_empty);
-                                          } else {
-                                              ToastUtil.showToast(mAppContext, String.format(Locale.CHINA,
-                                                                                             getString(R.string.backup_success), filePath));
-                                          }
-                                      }
-                                  }, new Action1<Throwable>() {
-                                      @Override public void call(Throwable throwable) {
-                                          ToastUtil.showToast(mAppContext, R.string.backup_success);
-                                      }
-                                  }));
+        recycle(Observable.just(mBackupManager.backup(mConsumerDao, filePath))
+                          .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                          .subscribe(new Consumer<Integer>() {
+                              @Override public void accept(@io.reactivex.annotations.NonNull Integer integer)
+                                      throws Exception {
+                                  if (integer == 0) {
+                                      ToastUtil.showToast(mAppContext, R.string.backup_empty);
+                                  } else {
+                                      ToastUtil.showToast(mAppContext, String.format(Locale.CHINA,
+                                                                                     getString(R.string.backup_success), filePath));
+                                  }
+                              }
+                          }, new Consumer<Throwable>() {
+                              @Override public void accept(@io.reactivex.annotations.NonNull Throwable throwable)
+                                      throws Exception {
+                                  ToastUtil.showToast(mAppContext, R.string.backup_success);
+                              }
+                          }));
 
     }
 

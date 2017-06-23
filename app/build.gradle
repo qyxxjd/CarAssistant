@@ -45,7 +45,8 @@ configurations.all {
     }
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':sqlbrite')
+    // compile rootProject.ext.sqlbrite
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportDesign
     compile rootProject.ext.supportCardView
@@ -61,7 +62,6 @@ dependencies {
     compile rootProject.ext.mpAndroidChart
     compile rootProject.ext.glide
 
-    compile rootProject.ext.sqlbrite
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
     compile rootProject.ext.rxBinding
@@ -73,4 +73,9 @@ dependencies {
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
+
+    debugCompile rootProject.ext.leakCanaryDebug
+    releaseCompile rootProject.ext.leakCanaryRelease
+    debugCompile rootProject.ext.blockCanaryDebug
+    releaseCompile rootProject.ext.blockCanaryRelease
 }

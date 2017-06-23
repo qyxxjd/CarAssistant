@@ -1,22 +1,19 @@
 package com.classic.car.ui.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import com.classic.android.base.BaseActivity;
+
+import com.classic.android.base.RxActivity;
 import com.classic.car.R;
 import com.umeng.analytics.MobclickAgent;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
-public abstract class AppBaseActivity extends BaseActivity {
-    @BindView(R.id.toolbar) Toolbar               mToolbar;
-    protected               Context               mAppContext;
-    private                 CompositeSubscription mCompositeSubscription;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public abstract class AppBaseActivity extends RxActivity {
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     public Toolbar getToolbar() {
         return mToolbar;
@@ -24,7 +21,6 @@ public abstract class AppBaseActivity extends BaseActivity {
 
     @Override public void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
-        mAppContext = getApplicationContext();
         if (mToolbar == null) {
             throw new IllegalStateException("No Toolbar");
         }
@@ -48,19 +44,6 @@ public abstract class AppBaseActivity extends BaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override public void unRegister() {
-        if (null != mCompositeSubscription) {
-            mCompositeSubscription.unsubscribe();
-        }
-    }
-
-    protected void addSubscription(Subscription subscription) {
-        if (null == mCompositeSubscription) {
-            mCompositeSubscription = new CompositeSubscription();
-        }
-        mCompositeSubscription.add(subscription);
     }
 
     @Override protected void onResume() {

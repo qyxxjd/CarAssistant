@@ -1,7 +1,9 @@
 def supportVersion = "25.3.1"
-def butterKnifeVersion = "8.5.1"
-def dagger2Version = "2.10"
-def rxBindingVersion = "1.0.1"
+def butterKnifeVersion = "8.6.0"
+def dagger2Version = "2.11"
+def rxBindingVersion = "2.0.0"
+def leakCanaryVersion = "1.5.1"
+def blockCanaryVersion = "1.5.0"
 
 ext {
 
@@ -21,9 +23,10 @@ ext {
     supportDesign = "com.android.support:design:${supportVersion}"
     supportCardView = "com.android.support:cardview-v7:${supportVersion}"
     supportRecyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
+    supportAnnotations = "com.android.support:support-annotations:${supportVersion}"
 
     //基础项目
-    basicProject = "com.classic.android:core:1.0"
+    basicProject = "com.classic.android:rxjava:1.9"
 
     //https://github.com/google/dagger
     dagger2 = "com.google.dagger:dagger:${dagger2Version}"
@@ -32,16 +35,16 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.2.9"
-    rxAndroid = "io.reactivex:rxandroid:1.2.1"
-    rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
-    rxBindingSupportV4 = "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
-    rxBindingSupportAppcompatV7 = "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
-    rxBindingSupportDesign = "com.jakewharton.rxbinding:rxbinding-design:${rxBindingVersion}"
-    rxBindingSupportRecyclerView = "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:${rxBindingVersion}"
-    rxBindingLeanbackV17 = "com.jakewharton.rxbinding:rxbinding-leanback-v17:${rxBindingVersion}"
+    rxJava = "io.reactivex.rxjava2:rxjava:2.1.1"
+    rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.1"
+    rxBinding = "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}"
+    rxBindingSupportV4 = "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}"
+    rxBindingSupportAppcompatV7 = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingVersion}"
+    rxBindingSupportDesign = "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}"
+    rxBindingSupportRecyclerView = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}"
+    rxBindingLeanbackV17 = "com.jakewharton.rxbinding2:rxbinding-leanback-v17:${rxBindingVersion}"
 
-    glide = "com.github.bumptech.glide:glide:3.7.0"
+    glide = "com.github.bumptech.glide:glide:3.8.0"
 
     //数据库
     sqlbrite = "com.squareup.sqlbrite:sqlbrite:1.1.1"
@@ -58,4 +61,15 @@ ext {
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
     pgyer = "com.pgyersdk:sdk:2.5.6"
+
+    //检测内存泄漏
+    leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+    leakCanaryRelease = "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
+    //检测UI卡顿
+    blockCanaryDebug = "com.github.markzhai:blockcanary-android:${blockCanaryVersion}"
+    blockCanaryRelease = "com.github.markzhai:blockcanary-no-op:${blockCanaryVersion}"
+
+    supportTestRunner = "com.android.support.test:runner:0.5"
+    junit = "junit:junit:4.12"
+    truth = "com.google.truth:truth:0.30"
 }

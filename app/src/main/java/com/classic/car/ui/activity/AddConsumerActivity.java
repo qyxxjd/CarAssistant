@@ -21,7 +21,7 @@ import com.classic.car.ui.fragment.DatePickerFragment;
 import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -31,7 +31,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 应用名称: CarAssistant
@@ -88,7 +89,7 @@ public class AddConsumerActivity extends AppBaseActivity
     }
 
     @Override public void initView(Bundle savedInstanceState) {
-        ((CarApplication)getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mAppContext).getDbComponent().inject(this);
         super.initView(savedInstanceState);
 
         if(getIntent().hasExtra(PARAMS_TYPE)){
@@ -107,15 +108,13 @@ public class AddConsumerActivity extends AppBaseActivity
         mSpinner.setItems(Consts.TYPE_MENUS);
         mFuelSpinner.setItems(Consts.FUEL_MENUS);
         mSpinner.setOnItemSelectedListener(this);
-        addSubscription(
-                RxView.clicks(mConsumerTime)
+        recycle(RxView.clicks(mConsumerTime)
                       .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
-                      .subscribe(new Action1<Void>() {
-                          @Override public void call(Void aVoid) {
+                      .subscribe(new Consumer<Object>() {
+                          @Override public void accept(@NonNull Object o) throws Exception {
                               showDatePickerFragment();
                           }
-                      })
-        );
+                      }));
         initValues();
     }
 

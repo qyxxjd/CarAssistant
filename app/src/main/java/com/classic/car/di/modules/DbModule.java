@@ -22,14 +22,14 @@ import com.classic.car.BuildConfig;
 import com.classic.car.db.DbOpenHelper;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.utils.LogUtil;
-import com.squareup.sqlbrite.BriteDatabase;
-import com.squareup.sqlbrite.SqlBrite;
+import com.squareup.sqlbrite2.BriteDatabase;
+import com.squareup.sqlbrite2.SqlBrite;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import rx.schedulers.Schedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 应用名称: CarAssistant
@@ -39,13 +39,19 @@ import rx.schedulers.Schedulers;
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
  */
-@Module public final class DbModule {
+@SuppressWarnings({"SpellCheckingInspection", "unused"}) @Module public final class DbModule {
 
-    @Provides @Singleton SQLiteOpenHelper provideOpenHelper(Application application) {
-        return new DbOpenHelper(application);
+    private final Application mApplication;
+
+    public DbModule(Application application) {
+        this.mApplication = application;
     }
 
-    @SuppressWarnings("SpellCheckingInspection") @Provides @Singleton SqlBrite provideSqlBrite() {
+    @Provides @Singleton SQLiteOpenHelper provideOpenHelper() {
+        return new DbOpenHelper(mApplication);
+    }
+
+    @Provides @Singleton SqlBrite provideSqlBrite() {
         final SqlBrite.Builder builder = new SqlBrite.Builder();
         if (BuildConfig.DEBUG) {
             //noinspection CheckResult

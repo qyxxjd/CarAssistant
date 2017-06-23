@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import butterknife.BindView;
+
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
@@ -13,10 +14,14 @@ import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.activity.MainActivity;
 import com.classic.car.ui.adapter.TimelineAdapter;
 import com.classic.car.ui.base.AppBaseFragment;
-import com.classic.car.utils.RxUtil;
+import com.classic.car.utils.Util;
+
 import java.util.List;
+
 import javax.inject.Inject;
-import rx.Subscription;
+
+import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 应用名称: CarAssistant
@@ -41,7 +46,7 @@ public class TimelineFragment extends AppBaseFragment {
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
-        ((CarApplication)mActivity.getApplicationContext()).getAppComponent().inject(this);
+        ((CarApplication) mAppContext).getDbComponent().inject(this);
         super.initView(parentView, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
         mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
@@ -56,12 +61,13 @@ public class TimelineFragment extends AppBaseFragment {
         mAdapter = new TimelineAdapter(mAppContext, R.layout.item_timeline);
         mRecyclerView.setAdapter(mAdapter);
 
-        addSubscription(loadData());
+        recycle(loadData());
     }
 
-    private Subscription loadData(){
+    private Disposable loadData(){
+        // TODO 检查空数据
         return mConsumerDao.queryAll()
                            .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                           .subscribe(mAdapter, RxUtil.ERROR_ACTION);
+                           .subscribe(mAdapter, Util.ERROR);
     }
 }

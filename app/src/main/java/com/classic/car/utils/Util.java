@@ -2,6 +2,7 @@ package com.classic.car.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.EditText;
 
@@ -9,6 +10,8 @@ import com.classic.car.R;
 import com.classic.car.consts.Consts;
 
 import java.util.Locale;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * 应用名称: CarAssistant
@@ -19,6 +22,13 @@ import java.util.Locale;
  * 创建时间：16/6/4 下午8:51
  */
 public final class Util {
+    public static final Consumer<Throwable> ERROR = new Consumer<Throwable>() {
+        @Override public void accept(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception {
+            if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
+                throwable.printStackTrace();
+            }
+        }
+    };
 
     public static int getColorByType(int type){
         switch (type){

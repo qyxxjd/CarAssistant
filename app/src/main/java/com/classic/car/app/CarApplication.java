@@ -1,10 +1,15 @@
 package com.classic.car.app;
 
 import android.app.Application;
-import com.classic.car.di.components.AppComponent;
-import com.classic.car.di.components.DaggerAppComponent;
-import com.classic.car.di.modules.AppModule;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
+import com.classic.car.di.components.DaggerDbComponent;
+import com.classic.car.di.components.DbComponent;
 import com.classic.car.di.modules.DbModule;
+import com.github.moduth.blockcanary.BlockCanary;
+import com.github.moduth.blockcanary.BlockCanaryContext;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * 应用名称: CarAssistant
@@ -15,17 +20,45 @@ import com.classic.car.di.modules.DbModule;
  * 创建时间：16/5/29 下午1:53
  */
 public class CarApplication extends Application {
-    private AppComponent mAppComponent;
+    private DbComponent mDbComponent;
 
     @Override public void onCreate() {
         super.onCreate();
-        mAppComponent = DaggerAppComponent.builder()
-                                          .appModule(new AppModule(this))
-                                          .dbModule(new DbModule())
-                                          .build();
+        mDbComponent = DaggerDbComponent.builder().dbModule(new DbModule(this)).build();
+        if (!LeakCanary.isInAnalyzerProcess(this)) {
+            LeakCanary.install(this);
+        }
+        BlockCanary.install(this, new BlockContext()).start();
     }
 
-    public AppComponent getAppComponent() {
-        return mAppComponent;
+    public DbComponent getDbComponent() {
+        return mDbComponent;
+    }
+
+    private final class BlockContext extends BlockCanaryContext {
+
+        @SuppressWarnings("WrongConstant") public String provideUid() {
+            String uid;
+            try {
+                ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(),
+                                                                            PackageManager.GET_ACTIVITIES);
+                uid = Integer.toString(ai.uid, 10);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                uid = String.valueOf(android.os.Process.myUid());
+            }
+            return uid;
+        }
+
+        public int provideBlockThreshold() {
+            return 500;
+        }
+        public boolean displayNotification() {
+            return true;
+        }
+        // 2G, 3G, 4G, wifi, etc
+        public String provideNetworkType() {
+            return "wifi";
+        }
     }
 }

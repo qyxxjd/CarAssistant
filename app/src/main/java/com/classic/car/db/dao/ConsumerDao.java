@@ -4,17 +4,21 @@ import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Build;
+
 import com.classic.car.db.table.ConsumerTable;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.CursorUtil;
 import com.classic.car.utils.DataUtil;
-import com.squareup.sqlbrite.BriteDatabase;
-import com.squareup.sqlbrite.SqlBrite;
+import com.squareup.sqlbrite2.BriteDatabase;
+import com.squareup.sqlbrite2.SqlBrite;
+
 import java.util.ArrayList;
 import java.util.List;
-import rx.Observable;
-import rx.functions.Func1;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * 应用名称: CarAssistant
@@ -99,8 +103,9 @@ public class ConsumerDao {
 
     private Observable<List<ConsumerDetail>> queryBySql(String sql){
         return mDatabase.createQuery(ConsumerTable.NAME, sql)
-                        .map(new Func1<SqlBrite.Query, List<ConsumerDetail>>() {
-                            @Override public List<ConsumerDetail> call(SqlBrite.Query query) {
+                        .map(new Function<SqlBrite.Query, List<ConsumerDetail>>() {
+                            @Override public List<ConsumerDetail> apply(@NonNull SqlBrite.Query query)
+                                    throws Exception {
                                 return convert(query.run());
                             }
                         });
