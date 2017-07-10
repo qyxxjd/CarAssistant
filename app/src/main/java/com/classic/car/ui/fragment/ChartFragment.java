@@ -26,7 +26,6 @@ import com.classic.car.ui.chart.LineChartDisplayImpl;
 import com.classic.car.ui.chart.PieChartDisplayImpl;
 import com.classic.car.ui.widget.RelativePopupWindow;
 import com.classic.car.ui.widget.YearsPopup;
-import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.ToastUtil;
 import com.classic.car.utils.Util;
@@ -207,26 +206,35 @@ import io.reactivex.functions.Function;
                            .flatMap(new Function<List<ConsumerDetail>, ObservableSource<?>>() {
                                @Override public ObservableSource<?> apply(@NonNull List<ConsumerDetail> consumerDetails)
                                        throws Exception {
-                                   if (DataUtil.isEmpty(consumerDetails)) { return Observable.just(null); }
+                                   // if (DataUtil.isEmpty(consumerDetails)) { return Observable.just(null); }
                                    return Observable.just(mBarChartDisplay.convert(consumerDetails),
                                                           mPieChartDisplay.convert(consumerDetails));
                                }
                            })
                            .subscribe(new Consumer<Object>() {
                                @Override public void accept(@NonNull Object data) throws Exception {
-                                   if (null == data) {
-                                       mConsumerBarChart.clear();
-                                       mPercentagePieChart.clear();
-                                       refreshConsumerView(null);
-                                       refreshPercentageView(null);
-                                       return;
-                                   }
+                                   // if (null == data) {
+                                   //     mConsumerBarChart.clear();
+                                   //     mPercentagePieChart.clear();
+                                   //     refreshConsumerView(null);
+                                   //     refreshPercentageView(null);
+                                   //     return;
+                                   // }
                                    if (data instanceof BarData) {
                                        mBarChartDisplay.animationDisplay(mConsumerBarChart, data, ANIMATE_DURATION);
                                        refreshConsumerView((BarData)data);
                                    } else if (data instanceof PieChartDisplayImpl.PieChartData) {
                                        mPieChartDisplay.animationDisplay(mPercentagePieChart, data, ANIMATE_DURATION);
                                        refreshPercentageView((PieChartDisplayImpl.PieChartData)data);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override public void accept(@NonNull Throwable throwable) throws Exception {
+                                   if (throwable instanceof NullPointerException) {
+                                       mConsumerBarChart.clear();
+                                       mPercentagePieChart.clear();
+                                       refreshConsumerView(null);
+                                       refreshPercentageView(null);
                                    }
                                }
                            });

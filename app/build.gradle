@@ -20,8 +20,6 @@ android {
                                 UMENG_APPKEY : properties.getProperty("UMENG_APPKEY"),
                                 UMENG_CHANNEL: "pgyer",
                                 APPLICATION_ID: rootProject.ext.android.applicationId]
-
-        //vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -45,13 +43,12 @@ configurations.all {
     }
 }
 dependencies {
-    compile project(':sqlbrite')
-    // compile rootProject.ext.sqlbrite
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportDesign
     compile rootProject.ext.supportCardView
     compile rootProject.ext.supportRecyclerView
 
+    compile rootProject.ext.sqlbrite
     compile rootProject.ext.basicProject
     compile rootProject.ext.bottomBar
     compile rootProject.ext.commonAdapter
@@ -60,16 +57,17 @@ dependencies {
     compile rootProject.ext.materialSpinner
     compile rootProject.ext.sublimePicker
     compile rootProject.ext.mpAndroidChart
-    compile rootProject.ext.glide
 
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
     compile rootProject.ext.rxBinding
 
+    compile rootProject.ext.glide
     compile rootProject.ext.butterknife
     compile rootProject.ext.dagger2
     annotationProcessor rootProject.ext.butterknifeCompiler
     annotationProcessor rootProject.ext.dagger2Compiler
+    annotationProcessor rootProject.ext.glideCompiler
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer

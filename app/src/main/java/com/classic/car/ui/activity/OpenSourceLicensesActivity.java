@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.adapter.interfaces.ImageLoad;
@@ -35,7 +37,7 @@ import butterknife.BindView;
  * 创建时间: 2016/10/26 18:40
  */
 
-public class OpenSourceLicensesActivity extends AppBaseActivity implements CommonRecyclerAdapter.OnItemClickListener{
+@SuppressWarnings("SpellCheckingInspection") public class OpenSourceLicensesActivity extends AppBaseActivity implements CommonRecyclerAdapter.OnItemClickListener{
 
     @BindView(R.id.licenses_recycler_view) RecyclerView mRecyclerView;
 
@@ -86,13 +88,13 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
 
     private static final ImageLoad GLIDE_IMAGE_LOAD = new ImageLoad() {
         @Override public void load(@NonNull Context context, @NonNull ImageView imageView, @NonNull String imageUrl) {
-            Glide.with(context)
-                 .load(imageUrl)
-                 .placeholder(R.drawable.ic_github)
-                 .error(R.drawable.ic_github)
-                 .crossFade()
-                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                 .into(imageView);
+            RequestOptions options = new RequestOptions().centerInside()
+                                                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                                         .skipMemoryCache(true) // 跳过内存缓存
+                                                         .priority(Priority.HIGH)
+                                                         .placeholder(R.drawable.ic_github)
+                                                         .error(R.drawable.ic_github);
+            Glide.with(context).load(imageUrl).apply(options).into(imageView);
         }
     };
 
@@ -134,7 +136,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
                                           "https://avatars1.githubusercontent.com/u/66577?v=3&s=466",
                                           "https://github.com/JakeWharton/butterknife"));
         LICENSE_ARRAY.add(new LicenseItem("SQLBrite", "Square", LICENSE_TYPE_APACHE,
-                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Square.png?raw=true",
                                           "https://github.com/square/sqlbrite"));
         LICENSE_ARRAY.add(new LicenseItem("Dagger 2", "Google", LICENSE_TYPE_APACHE,
                                           "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
@@ -143,7 +145,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
                                           "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
                                           "https://github.com/googlesamples/easypermissions"));
         LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
-                                          "https://avatars3.githubusercontent.com/u/423539?v=3&s=200",
+                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Glide.png?raw=true",
                                           "https://github.com/bumptech/glide"));
         LICENSE_ARRAY.add(new LicenseItem("CircleImageView", "Henning Dodenhof", LICENSE_TYPE_APACHE,
                                           "https://avatars3.githubusercontent.com/u/1824223?v=3&s=466",

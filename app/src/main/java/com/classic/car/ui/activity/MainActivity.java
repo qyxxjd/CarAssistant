@@ -18,6 +18,7 @@ import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.AppSettingsDialog;
 import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.rx.RxUtil;
 import com.classic.android.utils.DoubleClickExitHelper;
 import com.classic.car.BuildConfig;
 import com.classic.car.R;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.functions.Action;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.main_bottombar) BottomBar mBottomBar;
@@ -64,8 +66,13 @@ public class MainActivity extends AppBaseActivity {
 
         checkStoragePermissions();
         initBottomBar();
-        PgyUtil.register(mAppContext);
-        PgyUtil.checkUpdate(mActivity, false);
+
+        recycle(RxUtil.run(new Action() {
+            @Override public void run() throws Exception {
+                PgyUtil.register(mAppContext);
+                PgyUtil.checkUpdate(mActivity, false);
+            }
+        }));
     }
 
     private static final int REQUEST_CODE_STORAGE  = 101;

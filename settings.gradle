@@ -1,1 +1,1 @@
-include ':app', ':sqlbrite'
+include ':app'
