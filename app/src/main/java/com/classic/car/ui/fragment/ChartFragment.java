@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.classic.android.rx.RxTransformer;
 import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
@@ -202,7 +203,7 @@ import io.reactivex.functions.Function;
     private Disposable loadConsumerDetail(long startTime, long endTime) {
         // TODO 检查空数据
         return mConsumerDao.queryBetween(startTime, endTime)
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                           .compose(RxTransformer.<List<ConsumerDetail>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                            .flatMap(new Function<List<ConsumerDetail>, ObservableSource<?>>() {
                                @Override public ObservableSource<?> apply(@NonNull List<ConsumerDetail> consumerDetails)
                                        throws Exception {
@@ -244,7 +245,7 @@ import io.reactivex.functions.Function;
     private Disposable loadFuelConsumption(long startTime, long endTime) {
         // TODO 检查空数据
         return mConsumerDao.query(Consts.TYPE_FUEL, startTime, endTime, false, true)
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                           .compose(RxTransformer.<List<ConsumerDetail>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                            .map(new Function<List<ConsumerDetail>, LineChartDisplayImpl.LineChartData>() {
                                @Override public LineChartDisplayImpl.LineChartData apply(
                                        @NonNull List<ConsumerDetail> list) throws Exception {

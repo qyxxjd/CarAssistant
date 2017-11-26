@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.classic.android.base.RxActivity;
+import com.classic.android.rx.RxTransformer;
 import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
@@ -118,7 +119,7 @@ import io.reactivex.functions.Function;
     private Disposable loadData() {
         // TODO 检查空数据
         return mConsumerDao.query(mDataType, mStartTime, mEndTime, false, isAsc)
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                           .compose(RxTransformer.<List<ConsumerDetail>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                            .map(new Function<List<ConsumerDetail>, Object>() {
                                @Override public Object apply(
                                        @io.reactivex.annotations.NonNull List<ConsumerDetail> list) throws Exception {
@@ -149,7 +150,7 @@ import io.reactivex.functions.Function;
             }
         };
         recycle(io.reactivex.Observable.create(subscribe)
-                                       .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                                       .compose(RxTransformer.<Boolean>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                                        .subscribe(new Consumer<Boolean>() {
                                            @Override public void accept(
                                                    @io.reactivex.annotations.NonNull Boolean result)

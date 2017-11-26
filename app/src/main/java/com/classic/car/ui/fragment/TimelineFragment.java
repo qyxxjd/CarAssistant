@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.android.rx.RxTransformer;
 import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
@@ -67,7 +68,7 @@ public class TimelineFragment extends AppBaseFragment {
     private Disposable loadData(){
         // TODO 检查空数据
         return mConsumerDao.queryAll()
-                           .compose(RxUtil.<List<ConsumerDetail>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                           .compose(RxTransformer.<List<ConsumerDetail>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                            .subscribe(mAdapter, Util.ERROR);
     }
 }

@@ -102,10 +102,11 @@ public class MainActivity extends AppBaseActivity {
     @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
         super.onPermissionsDenied(requestCode, perms);
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this, Consts.STORAGE_PERMISSIONS_DESCRIBE)
+            new AppSettingsDialog.Builder(this)
                     .setTitle("权限申请")
                     .setPositiveButton("设置")
-                    .setNegativeButton("取消", null)
+                    .setNegativeButton("取消")
+                    .setRationale(Consts.STORAGE_PERMISSIONS_DESCRIBE)
                     .setRequestCode(REQUEST_CODE_SETTINGS)
                     .build()
                     .show();

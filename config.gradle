@@ -1,16 +1,16 @@
-def supportVersion = "25.3.1"
-def butterKnifeVersion = "8.7.0"
-def dagger2Version = "2.11"
+def supportVersion = "27.0.1"
+def butterKnifeVersion = "8.8.1"
+def dagger2Version = "2.13"
 def rxBindingVersion = "2.0.0"
-def leakCanaryVersion = "1.5.1"
+def leakCanaryVersion = "1.5.4"
 def blockCanaryVersion = "1.5.0"
-def glideVersion = "4.0.0-RC1"
+def glideVersion = "4.3.0"
 
 ext {
 
     android = [
-            compileSdkVersion: 25,
-            buildToolsVersion: "25.0.3",
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.1",
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 25,
@@ -27,7 +27,7 @@ ext {
     supportAnnotations = "com.android.support:support-annotations:${supportVersion}"
 
     //基础项目
-    basicProject = "com.classic.android:rxjava:1.9"
+    basicProject = "com.classic.android:rxjava:2.0"
 
     //https://github.com/google/dagger
     dagger2 = "com.google.dagger:dagger:${dagger2Version}"
@@ -36,7 +36,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex.rxjava2:rxjava:2.1.1"
+    rxJava = "io.reactivex.rxjava2:rxjava:2.1.6"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.1"
     rxBinding = "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}"
     rxBindingSupportV4 = "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}"
@@ -51,12 +51,12 @@ ext {
     //数据库
     sqlbrite = "com.squareup.sqlbrite2:sqlbrite:2.0.0"
     //通用适配器
-    commonAdapter = "com.classic.adapter:commonadapter:1.8.1"
+    commonAdapter = "com.classic.adapter:commonadapter:1.9"
     //图表控件
     mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.2"
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
-    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.3"
+    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.5"
     bottomBar = "com.roughike:bottom-bar:2.3.1"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"

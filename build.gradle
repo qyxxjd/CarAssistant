@@ -3,19 +3,19 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
+        google()
     }
 }
 

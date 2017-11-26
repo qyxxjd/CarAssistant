@@ -7,7 +7,6 @@ import android.view.MenuItem;
 
 import com.classic.android.base.RxActivity;
 import com.classic.car.R;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,15 +43,5 @@ public abstract class AppBaseActivity extends RxActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
     }
 }

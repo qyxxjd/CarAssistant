@@ -52,15 +52,13 @@ import io.reactivex.schedulers.Schedulers;
     }
 
     @Provides @Singleton SqlBrite provideSqlBrite() {
-        final SqlBrite.Builder builder = new SqlBrite.Builder();
-        if (BuildConfig.DEBUG) {
-            //noinspection CheckResult
-            builder.logger(new SqlBrite.Logger() {
-                @Override public void log(String message) {
-                    LogUtil.d(message);
-                }
-            });
-        }
+        final SqlBrite.Builder builder = new SqlBrite.Builder()
+                .logger(new SqlBrite.Logger() {
+                    @Override
+                    public void log(String message) {
+                        LogUtil.d(message);
+                    }
+                });
         return builder.build();
     }
 

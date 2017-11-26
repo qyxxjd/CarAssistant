@@ -6,26 +6,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
 import com.classic.car.consts.Consts;
-import com.classic.car.ui.activity.MainActivity;
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyFeedback;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
-import com.pgyersdk.views.PgyerDialog;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 
 /**
  * 应用名称: CarAssistant
@@ -44,88 +32,88 @@ public final class PgyUtil {
             }
             return;
         }
-        final WeakReference<Activity> reference = new WeakReference<>(activity);
-        PgyUpdateManager.register(activity, "", new UpdateManagerListener() {
-            @Override public void onUpdateAvailable(final String result) {
-                final Activity act = reference.get();
-                if (null == act) {
-                    return;
-                }
-                final AppBean appBean = getAppBeanFromString(result);
-                final String apkName = appBean.getVersionName() + Consts.APK;
-                final File file = new File(SDCardUtil.getApkDirPath(), apkName);
-                if (file.exists()) {
-                    IntentUtil.installApp(act.getApplicationContext(), file.getPath(),
-                                          act.getPackageName() + Consts.AUTHORITIES_SUFFIX);
-                    return;
-                }
-
-                new MaterialDialog.Builder(act).title(R.string.update_dialog_title)
-                                               .titleColorRes(R.color.primary_text)
-                                               .backgroundColorRes(R.color.white)
-                                               .content(appBean.getReleaseNote())
-                                               .contentColorRes(R.color.primary_light)
-                                               .positiveText(R.string.update)
-                                               .negativeText(R.string.cancel)
-                                               .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                   @Override
-                                                   public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                       final Activity act = reference.get();
-                                                       if (null != act) {
-                                                           //蒲公英SDK在Android N上崩溃，需要处理
-                                                           if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                                               startDownloadTask(act, appBean.getDownloadURL());
-                                                           } else {
-                                                               ((MainActivity)act).registerAppUpdateReceiver(
-                                                                       download(act.getApplicationContext(),
-                                                                                appBean.getDownloadURL(), apkName),
-                                                                       file.getPath());
-                                                           }
-                                                       }
-                                                   }
-                                               })
-                                               .show();
-            }
-
-            @Override public void onNoUpdateAvailable() {
-                final Activity act = reference.get();
-                if (null != act && showHint) {
-                    ToastUtil.showToast(act.getApplicationContext(), R.string.no_update);
-                }
-            }
-        });
+//        final WeakReference<Activity> reference = new WeakReference<>(activity);
+//        PgyUpdateManager.register(activity, "", new UpdateManagerListener() {
+//            @Override public void onUpdateAvailable(final String result) {
+//                final Activity act = reference.get();
+//                if (null == act) {
+//                    return;
+//                }
+//                final AppBean appBean = getAppBeanFromString(result);
+//                final String apkName = appBean.getVersionName() + Consts.APK;
+//                final File file = new File(SDCardUtil.getApkDirPath(), apkName);
+//                if (file.exists()) {
+//                    IntentUtil.installApp(act.getApplicationContext(), file.getPath(),
+//                                          act.getPackageName() + Consts.AUTHORITIES_SUFFIX);
+//                    return;
+//                }
+//
+//                new MaterialDialog.Builder(act).title(R.string.update_dialog_title)
+//                                               .titleColorRes(R.color.primary_text)
+//                                               .backgroundColorRes(R.color.white)
+//                                               .content(appBean.getReleaseNote())
+//                                               .contentColorRes(R.color.primary_light)
+//                                               .positiveText(R.string.update)
+//                                               .negativeText(R.string.cancel)
+//                                               .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                                                   @Override
+//                                                   public void onClick(MaterialDialog dialog, DialogAction which) {
+//                                                       final Activity act = reference.get();
+//                                                       if (null != act) {
+//                                                           //蒲公英SDK在Android N上崩溃，需要处理
+//                                                           if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                                                               startDownloadTask(act, appBean.getDownloadURL());
+//                                                           } else {
+//                                                               ((MainActivity)act).registerAppUpdateReceiver(
+//                                                                       download(act.getApplicationContext(),
+//                                                                                appBean.getDownloadURL(), apkName),
+//                                                                       file.getPath());
+//                                                           }
+//                                                       }
+//                                                   }
+//                                               })
+//                                               .show();
+//            }
+//
+//            @Override public void onNoUpdateAvailable() {
+//                final Activity act = reference.get();
+//                if (null != act && showHint) {
+//                    ToastUtil.showToast(act.getApplicationContext(), R.string.no_update);
+//                }
+//            }
+//        });
     }
 
     public static void setDialogStyle(@NonNull String backgroundColor, @NonNull String textColor) {
-        PgyerDialog.setDialogTitleBackgroundColor(backgroundColor);
-        PgyerDialog.setDialogTitleTextColor(textColor);
+//        PgyerDialog.setDialogTitleBackgroundColor(backgroundColor);
+//        PgyerDialog.setDialogTitleTextColor(textColor);
     }
 
     public static void feedback(Activity activity) {
-        WeakReference<Activity> reference = new WeakReference<>(activity);
-        Activity act = reference.get();
-        try {
-            if (null != act) {
-                PgyFeedback.getInstance().showDialog(act);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        WeakReference<Activity> reference = new WeakReference<>(activity);
+//        Activity act = reference.get();
+//        try {
+//            if (null != act) {
+//                PgyFeedback.getInstance().showDialog(act);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void register(Context context) {
-        PgyCrashManager.register(context);
+//        PgyCrashManager.register(context);
     }
 
     public static void destroy() {
-        //noinspection EmptyCatchBlock
-        try {
-            PgyUpdateManager.unregister();
-            PgyCrashManager.unregister();
-            PgyFeedbackShakeManager.unregister();
-            PgyFeedback.getInstance().destroy();
-        } catch (Exception e) {
-        }
+//        //noinspection EmptyCatchBlock
+//        try {
+//            PgyUpdateManager.unregister();
+//            PgyCrashManager.unregister();
+//            PgyFeedbackShakeManager.unregister();
+//            PgyFeedback.getInstance().destroy();
+//        } catch (Exception e) {
+//        }
     }
 
     private static long download(Context context, String url, String fileName) {

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
@@ -135,7 +135,7 @@ public class AboutFragment extends AppBaseFragment {
 
     private void restore(@NonNull String path) {
         recycle(Observable.just(mBackupManager.restore(mConsumerDao, path))
-                          .compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                          .compose(RxTransformer.<Boolean>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                           .subscribe(new Consumer<Boolean>() {
                               @Override public void accept(@io.reactivex.annotations.NonNull Boolean result)
                                       throws Exception {
@@ -152,7 +152,7 @@ public class AboutFragment extends AppBaseFragment {
 
     private void backup(final String filePath) {
         recycle(Observable.just(mBackupManager.backup(mConsumerDao, filePath))
-                          .compose(RxUtil.<Integer>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                          .compose(RxTransformer.<Integer>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                           .subscribe(new Consumer<Integer>() {
                               @Override public void accept(@io.reactivex.annotations.NonNull Integer integer)
                                       throws Exception {
