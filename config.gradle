@@ -1,4 +1,4 @@
-def supportVersion = "27.0.1"
+def supportVersion = "27.0.2"
 def butterKnifeVersion = "8.8.1"
 def dagger2Version = "2.13"
 def rxBindingVersion = "2.0.0"
@@ -10,7 +10,7 @@ ext {
 
     android = [
             compileSdkVersion: 27,
-            buildToolsVersion: "27.0.1",
+            buildToolsVersion: "27.0.2",
             applicationId    : "com.classic.car",
             minSdkVersion    : 14,
             targetSdkVersion : 25,
@@ -36,7 +36,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex.rxjava2:rxjava:2.1.6"
+    rxJava = "io.reactivex.rxjava2:rxjava:2.1.7"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.1"
     rxBinding = "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}"
     rxBindingSupportV4 = "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}"
@@ -56,7 +56,7 @@ ext {
     mpAndroidChart = "com.github.PhilJay:MPAndroidChart:v3.0.2"
 
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
-    materialDialog = "com.afollestad.material-dialogs:core:0.9.4.5"
+    materialDialog = "com.afollestad.material-dialogs:core:0.9.6.0"
     bottomBar = "com.roughike:bottom-bar:2.3.1"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"
