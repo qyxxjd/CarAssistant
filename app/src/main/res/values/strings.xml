@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">汽车助手</string>
 
+    <string name="tab.list">列表</string>
+    <string name="tab.chart">统计</string>
+    <string name="tab.timeline">时光轴</string>
+    <string name="tab.about">关于</string>
+
     <string name="network.error">网络异常,请检查网络连接</string>
 
     <string name="add">添加</string>

@@ -11,10 +11,9 @@ import android.widget.ImageButton;
 
 import com.classic.android.base.RxActivity;
 import com.classic.android.rx.RxTransformer;
-import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ChartType;
 import com.classic.car.entity.ConsumerDetail;
@@ -111,7 +110,7 @@ import io.reactivex.functions.Function;
         mStartTime = getIntent().getLongExtra(PARAMS_START_TIME, 0);
         mEndTime = getIntent().getLongExtra(PARAMS_END_TIME, 0);
         if (mChartType == ChartType.LINE_CHART) {
-            mDataType = Consts.TYPE_FUEL;
+            mDataType = Const.TYPE_FUEL;
             isAsc = true;
         }
     }

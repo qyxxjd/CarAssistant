@@ -3,13 +3,13 @@ package com.classic.car.db;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
-import com.squareup.sqlbrite2.BriteDatabase;
+import com.squareup.sqlbrite3.BriteDatabase;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -88,7 +88,7 @@ public final class BackupManager {
         }
         String[] dataItem = data.split(SEPARATOR);
         int type = Integer.valueOf(dataItem[0]);
-        if (type != Consts.TYPE_FUEL) {
+        if (type != Const.TYPE_FUEL) {
             String note = dataItem.length == 6 ?
                     (dataItem[5].contains(REPLACE_STRING) ? dataItem[5].replace(REPLACE_STRING, SEPARATOR) :
                             dataItem[5]) : EMPTY;
@@ -117,7 +117,7 @@ public final class BackupManager {
                                               .append(detail.getConsumptionTime())
                                               .append(SEPARATOR)
                                               .append(detail.getCreateTime());
-        if (detail.getType() == Consts.TYPE_FUEL) {
+        if (detail.getType() == Const.TYPE_FUEL) {
             sb.append(SEPARATOR)
               .append(detail.getOilType())
               .append(SEPARATOR)

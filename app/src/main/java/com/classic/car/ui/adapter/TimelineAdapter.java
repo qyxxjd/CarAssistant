@@ -6,7 +6,7 @@ import android.support.v4.graphics.ColorUtils;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.car.R;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.DateUtil;
 import com.classic.car.utils.Util;
@@ -48,7 +48,7 @@ public class TimelineAdapter extends CommonRecyclerAdapter<ConsumerDetail> imple
                        DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getConsumptionTime()) + "\n" +
                        DateUtil.formatDate(DateUtil.FORMAT_TIME, item.getConsumptionTime()))
               .setImageResource(R.id.item_timeline_icon, Util.getIconByType(item.getType()))
-              .setText(R.id.item_timeline_content, Consts.TYPE_MENUS[item.getType()])
+              .setText(R.id.item_timeline_content, Const.TYPE_MENUS[item.getType()])
               .setText(R.id.item_timeline_money, Util.formatMoney(item.getMoney()))
               .setTextColorRes(R.id.item_timeline_content, Util.getColorByType(item.getType()))
               .setTextColorRes(R.id.item_timeline_money, Util.getColorByType(item.getType()));

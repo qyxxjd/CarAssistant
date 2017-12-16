@@ -1,8 +1,10 @@
 package com.classic.car.db.dao;
 
 import android.annotation.TargetApi;
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 
 import com.classic.car.db.table.ConsumerTable;
@@ -10,8 +12,8 @@ import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.CloseUtil;
 import com.classic.car.utils.CursorUtil;
 import com.classic.car.utils.DataUtil;
-import com.squareup.sqlbrite2.BriteDatabase;
-import com.squareup.sqlbrite2.SqlBrite;
+import com.squareup.sqlbrite3.BriteDatabase;
+import com.squareup.sqlbrite3.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,8 @@ import io.reactivex.functions.Function;
  * 创建时间：16/5/29 上午10:26
  */
 public class ConsumerDao {
+    private static final int DEFAULT_CONFLICT = SQLiteDatabase.CONFLICT_ABORT;
+
     private BriteDatabase mDatabase;
 
     public ConsumerDao(BriteDatabase database) {
@@ -40,11 +44,12 @@ public class ConsumerDao {
     }
 
     public long insert(ConsumerDetail detail){
-        return mDatabase.insert(ConsumerTable.NAME, convert(detail, true));
+        return mDatabase.insert(ConsumerTable.NAME, DEFAULT_CONFLICT, convert(detail, true));
     }
 
     public int update(ConsumerDetail detail){
-        return mDatabase.update(ConsumerTable.NAME, convert(detail, false), ConsumerTable.COLUMN_ID + " = ? ",
+        return mDatabase.update(ConsumerTable.NAME, DEFAULT_CONFLICT, convert(detail, false),
+                ConsumerTable.COLUMN_ID + " = ? ",
                 String.valueOf(detail.getId()));
     }
 

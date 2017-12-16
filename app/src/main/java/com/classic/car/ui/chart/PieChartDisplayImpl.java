@@ -3,7 +3,7 @@ package com.classic.car.ui.chart;
 import android.graphics.Color;
 import android.util.SparseArray;
 import com.classic.car.R;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.utils.DataUtil;
 import com.classic.car.utils.MoneyUtil;
@@ -81,7 +81,7 @@ public class PieChartDisplayImpl extends BaseChartDisplayImpl<PieChart,
                                                          .divide(pieChartData.totalMoney, 4)
                                                          .create()
                                                          .floatValue(),
-                                        Consts.TYPE_MENUS[pieChartData.groupMoney.keyAt(i)]));
+                                        Const.TYPE_MENUS[pieChartData.groupMoney.keyAt(i)]));
         }
         PieDataSet dataSet = new PieDataSet(pieEntries, EMPTY_LABEL);
         // 环形之间的间隔

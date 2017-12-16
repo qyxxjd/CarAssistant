@@ -9,10 +9,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-/**
- *
- */
-
 @SuppressWarnings("WeakerAccess") public final class UriUtil {
 
     private UriUtil() {
@@ -21,11 +17,7 @@ import android.provider.MediaStore;
 
     /**
      * 根据Uri获取绝对路径
-     * @see {http://blog.csdn.net/q445697127/article/details/40537945}
-     *
-     * @param context
-     * @param uri
-     * @return
+     * @see <a href="http://blog.csdn.net/q445697127/article/details/40537945">url</a>
      */
     @TargetApi(19) public static String toAbsolutePath(Context context, Uri uri) {
         if (context == null || uri == null) return null;
@@ -94,6 +86,7 @@ import android.provider.MediaStore;
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
     public static boolean isExternalStorageDocument(Uri uri) {
+        //noinspection SpellCheckingInspection
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 

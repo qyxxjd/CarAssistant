@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include layout="@layout/toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/main_fragment_layout"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
 
-    <include layout="@layout/toolbar" />
-
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/main_bottombar"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_bnv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottombar_height"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:bb_tabXmlResource="@xml/bottombar_tabs"
-        app:bb_behavior="shifting" />
+        app:menu="@menu/main_navigation"
+        app:itemIconTint="@color/bnv_item_selector_list"
+        app:itemTextColor="@color/bnv_item_selector_list"/>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

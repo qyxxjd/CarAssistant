@@ -1,6 +1,6 @@
-package com.classic.car.di.components;
+package com.classic.car.db;
 
-import com.classic.car.di.modules.DbModule;
+import com.classic.car.db.DbModule;
 import com.classic.car.ui.activity.AddConsumerActivity;
 import com.classic.car.ui.activity.ChartActivity;
 import com.classic.car.ui.fragment.AboutFragment;

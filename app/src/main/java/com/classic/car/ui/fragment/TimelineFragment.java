@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.android.rx.RxTransformer;
-import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;

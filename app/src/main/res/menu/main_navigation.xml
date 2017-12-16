@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_list"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="@string/tab.list"/>
+
+    <item
+        android:id="@+id/navigation_chart"
+        android:icon="@drawable/ic_chart_black_24dp"
+        android:title="@string/tab.chart"/>
+
+    <item
+        android:id="@+id/navigation_timeline"
+        android:icon="@drawable/ic_timeline_black_24dp"
+        android:title="@string/tab.timeline"/>
+    <item
+        android:id="@+id/navigation_about"
+        android:icon="@drawable/ic_about_black_24dp"
+        android:title="@string/tab.about"/>
+</menu>

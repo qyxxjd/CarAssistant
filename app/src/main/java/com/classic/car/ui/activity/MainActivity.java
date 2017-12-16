@@ -1,16 +1,14 @@
 package com.classic.car.ui.activity;
 
 import android.Manifest;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.annotation.IdRes;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
@@ -22,26 +20,31 @@ import com.classic.android.rx.RxUtil;
 import com.classic.android.utils.DoubleClickExitHelper;
 import com.classic.car.BuildConfig;
 import com.classic.car.R;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.ui.base.AppBaseActivity;
 import com.classic.car.ui.fragment.AboutFragment;
 import com.classic.car.ui.fragment.ChartFragment;
 import com.classic.car.ui.fragment.MainFragment;
 import com.classic.car.ui.fragment.TimelineFragment;
-import com.classic.car.utils.IntentUtil;
 import com.classic.car.utils.PgyUtil;
 import com.elvishew.xlog.LogLevel;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
-import java.io.File;
 import java.util.List;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import io.reactivex.functions.Action;
 
 public class MainActivity extends AppBaseActivity {
-    @BindView(R.id.main_bottombar) BottomBar mBottomBar;
+    @BindView(R.id.main_bnv) BottomNavigationView mBottomBar;
+    @BindColor(R.color.colorPrimary) int mListNavigationColor;
+    @BindColor(R.color.colorAccent) int mChartNavigationColor;
+    @BindColor(R.color.material_blue) int mTimelineNavigationColor;
+    @BindColor(R.color.orange) int mAboutNavigationColor;
+    @BindColor(R.color.bnv_item_selector_list) ColorStateList mListSecondaryColor;
+    @BindColor(R.color.bnv_item_selector_chart) ColorStateList mChartSecondaryColor;
+    @BindColor(R.color.bnv_item_selector_timeline) ColorStateList mTimelineSecondaryColor;
+    @BindColor(R.color.bnv_item_selector_about) ColorStateList mAboutSecondaryColor;
 
     private MainFragment     mMainFragment;
     private ChartFragment    mChartFragment;
@@ -49,7 +52,7 @@ public class MainActivity extends AppBaseActivity {
     private AboutFragment    mAboutFragment;
 
     private DoubleClickExitHelper mDoubleClickExitHelper;
-    private AppUpdateReceiver     mAppUpdateReceiver;
+//    private AppUpdateReceiver     mAppUpdateReceiver;
 
     @Override public int getLayoutResId() {
         return R.layout.activity_main;
@@ -65,7 +68,7 @@ public class MainActivity extends AppBaseActivity {
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
 
         checkStoragePermissions();
-        initBottomBar();
+        initBottomBar(savedInstanceState);
 
         recycle(RxUtil.run(new Action() {
             @Override public void run() throws Exception {
@@ -87,7 +90,7 @@ public class MainActivity extends AppBaseActivity {
         if (EasyPermissions.hasPermissions(this, STORAGE_PERMISSIONS)) {
             init();
         } else {
-            EasyPermissions.requestPermissions(this, Consts.STORAGE_PERMISSIONS_DESCRIBE,
+            EasyPermissions.requestPermissions(this, Const.STORAGE_PERMISSIONS_DESCRIBE,
                                                REQUEST_CODE_STORAGE, STORAGE_PERMISSIONS);
         }
     }
@@ -106,7 +109,7 @@ public class MainActivity extends AppBaseActivity {
                     .setTitle("权限申请")
                     .setPositiveButton("设置")
                     .setNegativeButton("取消")
-                    .setRationale(Consts.STORAGE_PERMISSIONS_DESCRIBE)
+                    .setRationale(Const.STORAGE_PERMISSIONS_DESCRIBE)
                     .setRequestCode(REQUEST_CODE_SETTINGS)
                     .build()
                     .show();
@@ -115,53 +118,78 @@ public class MainActivity extends AppBaseActivity {
 
     private void init() {
         BasicProject.config(new BasicProject.Builder().setDebug(BuildConfig.DEBUG)
-                                                      .setRootDirectoryName(Consts.DIR_NAME)
+                                                      .setRootDirectoryName(Const.DIR_NAME)
                                                       .setExceptionHandler(mAppContext)
                                                       .setLog(BuildConfig.DEBUG
                                                               ? LogLevel.ALL
                                                               : LogLevel.NONE));
     }
-
-    private void initBottomBar(){
-        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+//    private final ColorStateList m1 = getResources().getColorStateList(R.color.bnv_item_selector_list);
+//    private final ColorStateList m2 = getResources().getColorStateList(R.color.bnv_item_selector_chart);
+//    private final ColorStateList m3 = getResources().getColorStateList(R.color.bnv_item_selector_timeline);
+//    private final ColorStateList m4 = getResources().getColorStateList(R.color.bnv_item_selector_about);
+    private void initBottomBar(Bundle savedInstanceState){
+//        final ColorStateList m1 = getResources().getColorStateList(R.color.bnv_item_selector_list);
+//        final ColorStateList m2 = getResources().getColorStateList(R.color.bnv_item_selector_chart);
+//        final ColorStateList m3 = getResources().getColorStateList(R.color.bnv_item_selector_timeline);
+//        final ColorStateList m4 = getResources().getColorStateList(R.color.bnv_item_selector_about);
+        mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    case R.id.tab_main:
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_list:
+                        mBottomBar.setBackgroundColor(mListNavigationColor);
+                        mBottomBar.setItemIconTintList(mListSecondaryColor);
+                        mBottomBar.setItemTextColor(mListSecondaryColor);
                         if (null == mMainFragment) {
                             mMainFragment = MainFragment.newInstance();
                         }
-                        changeFragment(R.id.main_fragment_layout, mMainFragment);
+                        changeFragment(R.id.main_content, mMainFragment);
                         break;
-                    case R.id.tab_chart:
+                    case R.id.navigation_chart:
+                        mBottomBar.setBackgroundColor(mChartNavigationColor);
+                        mBottomBar.setItemIconTintList(mChartSecondaryColor);
+                        mBottomBar.setItemTextColor(mChartSecondaryColor);
                         if (null == mChartFragment) {
                             mChartFragment = ChartFragment.newInstance();
                         }
-                        changeFragment(R.id.main_fragment_layout, mChartFragment);
+                        changeFragment(R.id.main_content, mChartFragment);
                         break;
-                    case R.id.tab_timeline:
+                    case R.id.navigation_timeline:
+                        mBottomBar.setBackgroundColor(mTimelineNavigationColor);
+                        mBottomBar.setItemIconTintList(mTimelineSecondaryColor);
+                        mBottomBar.setItemTextColor(mTimelineSecondaryColor);
                         if (null == mTimelineFragment) {
                             mTimelineFragment = TimelineFragment.newInstance();
                         }
-                        changeFragment(R.id.main_fragment_layout, mTimelineFragment);
+                        changeFragment(R.id.main_content, mTimelineFragment);
                         break;
-                    case R.id.tab_about:
+                    case R.id.navigation_about:
+                        mBottomBar.setBackgroundColor(mAboutNavigationColor);
+                        mBottomBar.setItemIconTintList(mAboutSecondaryColor);
+                        mBottomBar.setItemTextColor(mAboutSecondaryColor);
                         if (null == mAboutFragment) {
                             mAboutFragment = AboutFragment.newInstance();
                         }
-                        changeFragment(R.id.main_fragment_layout, mAboutFragment);
+                        changeFragment(R.id.main_content, mAboutFragment);
                         break;
+                    default:
+                        return false;
                 }
+                return true;
             }
         });
+        if (null == savedInstanceState) {
+            mBottomBar.setSelectedItemId(R.id.navigation_list);
+        }
     }
 
     @Override public void unRegister() {
         super.unRegister();
-        if (null != mAppUpdateReceiver) {
-            unregisterReceiver(mAppUpdateReceiver);
-            mAppUpdateReceiver = null;
-        }
+//        if (null != mAppUpdateReceiver) {
+//            unregisterReceiver(mAppUpdateReceiver);
+//            mAppUpdateReceiver = null;
+//        }
         PgyUtil.destroy();
     }
 
@@ -183,27 +211,27 @@ public class MainActivity extends AppBaseActivity {
         mBottomBar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
-    public void registerAppUpdateReceiver(long downloadId, String apkPath) {
-        mAppUpdateReceiver = new AppUpdateReceiver(downloadId, apkPath);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        registerReceiver(mAppUpdateReceiver, filter);
-    }
+//    public void registerAppUpdateReceiver(long downloadId, String apkPath) {
+//        mAppUpdateReceiver = new AppUpdateReceiver(downloadId, apkPath);
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+//        registerReceiver(mAppUpdateReceiver, filter);
+//    }
 
-    private final class AppUpdateReceiver extends BroadcastReceiver {
-        private long downloadId;
-        private String apkPath;
-
-        public AppUpdateReceiver(long downloadId, String apkPath) {
-            this.downloadId = downloadId;
-            this.apkPath = apkPath;
-        }
-
-        @Override public void onReceive(Context context, Intent intent) {
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            if (id == downloadId && !TextUtils.isEmpty(apkPath) && new File(apkPath).exists()) {
-                IntentUtil.installApp(mAppContext, apkPath, getPackageName() + Consts.AUTHORITIES_SUFFIX);
-            }
-        }
-    }
+//    private final class AppUpdateReceiver extends BroadcastReceiver {
+//        private long downloadId;
+//        private String apkPath;
+//
+//        public AppUpdateReceiver(long downloadId, String apkPath) {
+//            this.downloadId = downloadId;
+//            this.apkPath = apkPath;
+//        }
+//
+//        @Override public void onReceive(Context context, Intent intent) {
+//            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+//            if (id == downloadId && !TextUtils.isEmpty(apkPath) && new File(apkPath).exists()) {
+//                IntentUtil.installApp(mAppContext, apkPath, getPackageName() + Const.AUTHORITIES_SUFFIX);
+//            }
+//        }
+//    }
 }

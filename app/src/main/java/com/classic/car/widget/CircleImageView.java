@@ -40,6 +40,7 @@ import com.classic.car.R;
 
 /**
  * @see 'https://github.com/hdodenhof/CircleImageView'
+ *
  */
 @SuppressLint("AppCompatCustomView") public class CircleImageView extends ImageView {
 

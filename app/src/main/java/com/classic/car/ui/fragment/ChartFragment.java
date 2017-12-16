@@ -11,10 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.classic.android.rx.RxTransformer;
-import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ChartType;
 import com.classic.car.entity.ConsumerDetail;
@@ -138,7 +137,7 @@ import io.reactivex.functions.Function;
         if (null == mYearsPopup) {
             mYearsPopup = new YearsPopup.Builder()
                     .context(mActivity)
-                    .years(Consts.YEARS)
+                    .years(Const.YEARS)
                     .fitInScreen(true)
                     .horizontalPosition(RelativePopupWindow.HorizontalPosition.RIGHT)
                     .verticalPosition(RelativePopupWindow.VerticalPosition.BELOW)
@@ -244,7 +243,7 @@ import io.reactivex.functions.Function;
     /** 加载油耗信息 */
     private Disposable loadFuelConsumption(long startTime, long endTime) {
         // TODO 检查空数据
-        return mConsumerDao.query(Consts.TYPE_FUEL, startTime, endTime, false, true)
+        return mConsumerDao.query(Const.TYPE_FUEL, startTime, endTime, false, true)
                            .compose(RxTransformer.<List<ConsumerDetail>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                            .map(new Function<List<ConsumerDetail>, LineChartDisplayImpl.LineChartData>() {
                                @Override public LineChartDisplayImpl.LineChartData apply(
@@ -263,7 +262,7 @@ import io.reactivex.functions.Function;
 
     private Disposable processAccidentalClick(TextView view, final Chart chart){
         return RxView.clicks(view)
-                     .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                     .throttleFirst(Const.SHIELD_TIME, TimeUnit.SECONDS)
                      .subscribe(new Consumer<Object>() {
                          @Override public void accept(@NonNull Object o) throws Exception {
                              ToastUtil.showToast(mAppContext, chart.saveToGallery(Util.createImageName(),
@@ -309,7 +308,7 @@ import io.reactivex.functions.Function;
             int key = pieChartData.groupMoney.keyAt(pieChartData.groupMoney.indexOfValue(item));
             @SuppressLint("InflateParams")
             View itemView = mLayoutInflater.inflate(R.layout.item_table, null);
-            ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Consts.TYPE_MENUS[key]);
+            ((TextView) itemView.findViewById(R.id.item_table_lable)).setText(Const.TYPE_MENUS[key]);
             ((TextView) itemView.findViewById(R.id.item_table_total_money)).setText(
                     Util.formatRMB(item));
             ((TextView) itemView.findViewById(R.id.item_table_percentage)).setText(

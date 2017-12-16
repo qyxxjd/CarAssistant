@@ -3,6 +3,7 @@ package com.classic.car.ui.fragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.android.rx.RxTransformer;
-import com.classic.android.rx.RxUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
 import com.classic.car.db.dao.ConsumerDao;
@@ -120,7 +120,8 @@ public class MainFragment extends AppBaseFragment
                                              .negativeText(R.string.cancel)
                                              .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                  @Override
-                                                 public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                 public void onClick(@NonNull MaterialDialog dialog,
+                                                                     @NonNull DialogAction which) {
                                                      int rows = mConsumerDao.delete(mAdapter.getItem(position).getId());
                                                      ToastUtil.showToast(mAppContext,
                                                                          rows > 0 ? R.string.delete_success :

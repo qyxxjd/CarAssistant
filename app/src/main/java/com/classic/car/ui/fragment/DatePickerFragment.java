@@ -1,6 +1,7 @@
 package com.classic.car.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,7 @@ public class DatePickerFragment extends DialogFragment {
     }
 
     @Nullable @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mSublimePicker = (SublimePicker) inflater.inflate(com.appeaser.sublimepickerlibrary.R.layout.sublime_picker,
                 container, false);
         initSublimePicker();

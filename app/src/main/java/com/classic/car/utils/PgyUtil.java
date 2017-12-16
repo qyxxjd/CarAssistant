@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import com.classic.android.consts.MIME;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 
 import java.io.File;
 
@@ -40,11 +40,11 @@ public final class PgyUtil {
 //                    return;
 //                }
 //                final AppBean appBean = getAppBeanFromString(result);
-//                final String apkName = appBean.getVersionName() + Consts.APK;
+//                final String apkName = appBean.getVersionName() + Const.APK;
 //                final File file = new File(SDCardUtil.getApkDirPath(), apkName);
 //                if (file.exists()) {
 //                    IntentUtil.installApp(act.getApplicationContext(), file.getPath(),
-//                                          act.getPackageName() + Consts.AUTHORITIES_SUFFIX);
+//                                          act.getPackageName() + Const.AUTHORITIES_SUFFIX);
 //                    return;
 //                }
 //
@@ -122,7 +122,7 @@ public final class PgyUtil {
         request.setTitle(context.getString(R.string.app_name));
         request.setDescription(context.getString(R.string.update_dialog_title));
         request.setMimeType(MIME.APK);
-        request.setDestinationInExternalPublicDir(Consts.DIR_NAME+File.separator+SDCardUtil.APK_DIR, fileName);
+        request.setDestinationInExternalPublicDir(Const.DIR_NAME+File.separator+SDCardUtil.APK_DIR, fileName);
         // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         return downloadManager.enqueue(request);
     }

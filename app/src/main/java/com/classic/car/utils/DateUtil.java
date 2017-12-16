@@ -22,6 +22,7 @@ public final class DateUtil {
     /**
      * 时间格式化
      */
+    @SuppressWarnings("WeakerAccess")
     public static String formatDate(SimpleDateFormat format, Long time) {
         if (null == time || time <= 0) { return ""; }
         return format.format(new Date(String.valueOf(time).length() == 13 ? time : time * 1000));

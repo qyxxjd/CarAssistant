@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.entity.ConsumerDetail;
 import com.classic.car.ui.base.AppBaseActivity;
@@ -105,11 +105,11 @@ public class AddConsumerActivity extends AppBaseActivity
 
         getToolbar().setOnMenuItemClickListener(this);
         setTitle(mType == TYPE_ADD ? R.string.add_consumer_title : R.string.modify_consumer_title);
-        mSpinner.setItems(Consts.TYPE_MENUS);
-        mFuelSpinner.setItems(Consts.FUEL_MENUS);
+        mSpinner.setItems(Const.TYPE_MENUS);
+        mFuelSpinner.setItems(Const.FUEL_MENUS);
         mSpinner.setOnItemSelectedListener(this);
         recycle(RxView.clicks(mConsumerTime)
-                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                      .throttleFirst(Const.SHIELD_TIME, TimeUnit.SECONDS)
                       .subscribe(new Consumer<Object>() {
                           @Override public void accept(@NonNull Object o) throws Exception {
                               showDatePickerFragment();
@@ -120,8 +120,8 @@ public class AddConsumerActivity extends AppBaseActivity
 
     private void initValues(){
         if(mType == TYPE_ADD){
-            mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
-            mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_92);
+            mSpinner.setSelectedIndex(Const.TYPE_FUEL);
+            mFuelSpinner.setSelectedIndex(Const.FUEL_GASOLINE_92);
         }else if(mType == TYPE_MODIFY){
             mSelectCalendar = Calendar.getInstance();
             mSelectCalendar.setTimeInMillis(mConsumerDetail.getConsumptionTime());
@@ -129,8 +129,8 @@ public class AddConsumerActivity extends AppBaseActivity
             mConsumerTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, mConsumerDetail.getConsumptionTime()));
             Util.setText(mAddConsumerMoney, mConsumerDetail.getMoney());
             mAddConsumerNotes.setText(TextUtils.isEmpty(mConsumerDetail.getNotes()) ? EMPTY : mConsumerDetail.getNotes());
-            setFuelViews(mConsumerDetail.getType() == Consts.TYPE_FUEL ? View.VISIBLE : View.GONE);
-            if(mConsumerDetail.getType() == Consts.TYPE_FUEL){
+            setFuelViews(mConsumerDetail.getType() == Const.TYPE_FUEL ? View.VISIBLE : View.GONE);
+            if(mConsumerDetail.getType() == Const.TYPE_FUEL){
                 mFuelSpinner.setSelectedIndex(mConsumerDetail.getOilType());
                 Util.setText(mAddConsumerUnitPrice, mConsumerDetail.getUnitPrice());
                 Util.setText(mAddConsumerCurrentMileage, mConsumerDetail.getCurrentMileage());
@@ -158,7 +158,7 @@ public class AddConsumerActivity extends AppBaseActivity
             return false;
         }
         mConsumerDetail.setConsumptionTime(mSelectCalendar.getTimeInMillis());
-        if (mSpinner.getSelectedIndex() == Consts.TYPE_FUEL) {
+        if (mSpinner.getSelectedIndex() == Const.TYPE_FUEL) {
             final String unitPrice = mAddConsumerUnitPrice.getText().toString().trim();
             if (TextUtils.isEmpty(unitPrice)){
                 ToastUtil.showToast(mAppContext, R.string.consumer_unit_price_hint);
@@ -228,7 +228,7 @@ public class AddConsumerActivity extends AppBaseActivity
     }
 
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-        final int visibility = position == Consts.TYPE_FUEL ? View.VISIBLE : View.GONE;
+        final int visibility = position == Const.TYPE_FUEL ? View.VISIBLE : View.GONE;
         setFuelViews(visibility);
     }
     private void setFuelViews(int visibility){
@@ -238,8 +238,8 @@ public class AddConsumerActivity extends AppBaseActivity
     }
 
     private void reset() {
-        mSpinner.setSelectedIndex(Consts.TYPE_FUEL);
-        mFuelSpinner.setSelectedIndex(Consts.FUEL_GASOLINE_92);
+        mSpinner.setSelectedIndex(Const.TYPE_FUEL);
+        mFuelSpinner.setSelectedIndex(Const.FUEL_GASOLINE_92);
         mAddConsumerMoney.setText(EMPTY);
         mAddConsumerUnitPrice.setText(EMPTY);
         mAddConsumerCurrentMileage.setText(EMPTY);

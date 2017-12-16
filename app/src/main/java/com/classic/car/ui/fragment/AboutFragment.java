@@ -19,7 +19,7 @@ import com.classic.android.rx.RxTransformer;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.car.R;
 import com.classic.car.app.CarApplication;
-import com.classic.car.consts.Consts;
+import com.classic.car.consts.Const;
 import com.classic.car.db.BackupManager;
 import com.classic.car.db.dao.ConsumerDao;
 import com.classic.car.ui.activity.OpenSourceLicensesActivity;
@@ -82,7 +82,7 @@ public class AboutFragment extends AppBaseFragment {
         mVersion.setText(getString(R.string.about_version, getVersionName(mAppContext)));
         PgyUtil.setDialogStyle("#3F51B5", "#FFFFFF");
         recycle(RxView.clicks(mUpdate)
-                      .throttleFirst(Consts.SHIELD_TIME, TimeUnit.SECONDS)
+                      .throttleFirst(Const.SHIELD_TIME, TimeUnit.SECONDS)
                       .subscribe(new Consumer<Object>() {
                           @Override public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
                               PgyUtil.checkUpdate(mActivity, true);
@@ -122,7 +122,7 @@ public class AboutFragment extends AppBaseFragment {
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == Activity.RESULT_OK && requestCode == FILE_CHOOSER_CODE) {
             String path = UriUtil.toAbsolutePath(mAppContext, data.getData());
-            if(!TextUtils.isEmpty(path) && path.endsWith(Consts.BACKUP_SUFFIX)) {
+            if(!TextUtils.isEmpty(path) && path.endsWith(Const.BACKUP_SUFFIX)) {
                 //ToastUtil.showToast(mAppContext, "select file："+path);
                 restore(path);
             } else {
@@ -176,9 +176,9 @@ public class AboutFragment extends AppBaseFragment {
         //noinspection StringBufferReplaceableByString
         return new StringBuilder(SDCardUtil.getFileDirPath())
                 .append(File.separator)
-                .append(Consts.BACKUP_PREFIX)
+                .append(Const.BACKUP_PREFIX)
                 .append(mDateFormat.format(new Date(System.currentTimeMillis())))
-                .append(Consts.BACKUP_SUFFIX)
+                .append(Const.BACKUP_SUFFIX)
                 .toString();
     }
 
@@ -193,7 +193,7 @@ public class AboutFragment extends AppBaseFragment {
         if (EasyPermissions.hasPermissions(mAppContext, FEEDBACK_PERMISSION)) {
             PgyUtil.feedback(mActivity);
         } else {
-            EasyPermissions.requestPermissions(this, Consts.FEEDBACK_PERMISSIONS_DESCRIBE, REQUEST_CODE_FEEDBACK,
+            EasyPermissions.requestPermissions(this, Const.FEEDBACK_PERMISSIONS_DESCRIBE, REQUEST_CODE_FEEDBACK,
                                                FEEDBACK_PERMISSION);
         }
     }

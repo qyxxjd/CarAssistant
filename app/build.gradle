@@ -39,15 +39,18 @@ dependencies {
     implementation rootProject.ext.supportCardView
     implementation rootProject.ext.supportRecyclerView
 
-    implementation rootProject.ext.sqlbrite
+    implementation rootProject.ext.supportSqlite
+    implementation rootProject.ext.supportSqliteFramework
+    implementation rootProject.ext.sqlbrite3
+
     implementation rootProject.ext.basicProject
-    implementation rootProject.ext.bottomBar
     implementation rootProject.ext.commonAdapter
     implementation rootProject.ext.materialEditText
     implementation rootProject.ext.materialDialog
     implementation rootProject.ext.materialSpinner
     implementation rootProject.ext.sublimePicker
     implementation rootProject.ext.mpAndroidChart
+    implementation rootProject.ext.bugly
 
     implementation rootProject.ext.rxJava
     implementation rootProject.ext.rxAndroid

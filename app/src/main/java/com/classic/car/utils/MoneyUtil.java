@@ -115,7 +115,7 @@ import java.math.BigDecimal;
      *
      * @param scale 精确到小数点后几位数
      */
-    public MoneyUtil divide(@NonNull Object number, int scale) {
+    public MoneyUtil divide(@NonNull Object number, @SuppressWarnings("SameParameterValue") int scale) {
         return divide(number, scale, DEFAULT_ROUNDING_MODE);
     }
 

@@ -11,7 +11,11 @@ import java.util.Calendar;
  * 创 建 人：续写经典
  * 创建时间：16/5/29 上午10:58
  */
-public final class Consts {
+@SuppressWarnings("unused")
+public final class Const {
+
+    public static final String DB_NAME    = "CarAssistant.db";
+    public static final int    DB_VERSION = 2;
 
     public static final String DIR_NAME           = "CarAssistant";
     public static final String APK                = ".apk";

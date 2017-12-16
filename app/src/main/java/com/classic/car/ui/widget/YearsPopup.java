@@ -66,7 +66,7 @@ public class YearsPopup extends RelativePopupWindow implements AdapterView.OnIte
         setOutsideTouchable(true);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        ListView lv = (ListView)view.findViewById(R.id.popup_lv);
+        ListView lv = view.findViewById(R.id.popup_lv);
         lv.setOnItemClickListener(this);
         lv.setAdapter(new CommonAdapter<Integer>(mContext.get(), R.layout.popup_years_item, mYears) {
             @Override public void onUpdate(BaseAdapterHelper helper, Integer item, int position) {
@@ -106,6 +106,7 @@ public class YearsPopup extends RelativePopupWindow implements AdapterView.OnIte
             return this;
         }
 
+        @SuppressWarnings("SameParameterValue")
         public Builder fitInScreen(boolean fitInScreen) {
             this.fitInScreen = fitInScreen;
             return this;

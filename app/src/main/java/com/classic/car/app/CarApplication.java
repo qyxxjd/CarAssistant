@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-import com.classic.car.di.components.DaggerDbComponent;
-import com.classic.car.di.components.DbComponent;
-import com.classic.car.di.modules.DbModule;
+import com.classic.car.db.DaggerDbComponent;
+import com.classic.car.db.DbComponent;
+import com.classic.car.db.DbModule;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.squareup.leakcanary.LeakCanary;
@@ -51,7 +51,7 @@ public class CarApplication extends Application {
         }
 
         public int provideBlockThreshold() {
-            return 500;
+            return 300;
         }
         public boolean displayNotification() {
             return true;

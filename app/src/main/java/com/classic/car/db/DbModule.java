@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.classic.car.di.modules;
+package com.classic.car.db;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.arch.persistence.db.SupportSQLiteOpenHelper;
+import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory;
 
 import com.classic.car.BuildConfig;
-import com.classic.car.db.DbOpenHelper;
+import com.classic.car.consts.Const;
 import com.classic.car.db.dao.ConsumerDao;
-import com.classic.car.utils.LogUtil;
-import com.squareup.sqlbrite2.BriteDatabase;
-import com.squareup.sqlbrite2.SqlBrite;
+import com.squareup.sqlbrite3.BriteDatabase;
+import com.squareup.sqlbrite3.SqlBrite;
 
 import javax.inject.Singleton;
 
@@ -47,22 +47,21 @@ import io.reactivex.schedulers.Schedulers;
         this.mApplication = application;
     }
 
-    @Provides @Singleton SQLiteOpenHelper provideOpenHelper() {
-        return new DbOpenHelper(mApplication);
-    }
+//    @Provides @Singleton SQLiteOpenHelper provideOpenHelper() {
+//        return new DbOpenHelper(mApplication);
+//    }
 
     @Provides @Singleton SqlBrite provideSqlBrite() {
-        final SqlBrite.Builder builder = new SqlBrite.Builder()
-                .logger(new SqlBrite.Logger() {
-                    @Override
-                    public void log(String message) {
-                        LogUtil.d(message);
-                    }
-                });
-        return builder.build();
+        return new SqlBrite.Builder().build();
     }
 
-    @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite, SQLiteOpenHelper helper) {
+    @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite) {
+        SupportSQLiteOpenHelper.Configuration configuration =
+                SupportSQLiteOpenHelper.Configuration.builder(mApplication)
+                .name(Const.DB_NAME)
+                .callback(new DbCallback())
+                .build();
+        SupportSQLiteOpenHelper helper = new FrameworkSQLiteOpenHelperFactory().create(configuration);
         BriteDatabase db = sqlBrite.wrapDatabaseHelper(helper, Schedulers.io());
         db.setLoggingEnabled(BuildConfig.DEBUG);
         return db;

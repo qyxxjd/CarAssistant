@@ -32,9 +32,10 @@
 
     <color name="material_red">#ffF44336</color>
     <color name="material_green">#ff4CAF50</color>
-    <color name="material_blue">#ff03A9F4</color>
     <color name="material_yellow">#ffFFEB3B</color>
     <color name="material_orange">#ffEF6C00</color>
+    <color name="material_blue">#ff03A9F4</color>
+    <color name="material_blue_2">#ff9adefe</color>
 
     <color name="white" >#FFFFFF</color>
     <color name="gray_light">#DBDBDB</color>
@@ -43,4 +44,20 @@
     <color name="black" >#323232</color>
 
     <color name="timeline_blue">#ff90ebfe</color>
+
+    <color name="tab_list_secondary80">#b4bbe4</color>
+    <color name="tab_list_secondary70">#8e99d7</color>
+    <color name="tab_list_secondary">#8e99d7</color>
+    <color name="tab_chart_secondary80">#ff99bb</color>
+    <color name="tab_chart_secondary70">#ff6699</color>
+    <color name="tab_chart_secondary">#ff99bb</color>
+    <color name="tab_timeline_secondary80">#9adefe</color>
+    <color name="tab_timeline_secondary75">#81d6fe</color>
+    <color name="tab_timeline_secondary70">#68cefd</color>
+    <color name="tab_timeline_secondary">#81d6fe</color>
+    <color name="tab_about_secondary80">#ffcf99</color>
+    <color name="tab_about_secondary75">#ffc380</color>
+    <color name="tab_about_secondary70">#ffb866</color>
+    <color name="tab_about_secondary">#ffcf99</color>
+
 </resources>
