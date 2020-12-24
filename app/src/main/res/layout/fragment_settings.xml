@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.classic.assistant.car.ui.settings.SettingsViewModel" />
+    </data>
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.classic.assistant.car.ui.settings.SettingsFragment"
+        android:scrollbars="none">
+
+        <LinearLayout
+            style="@style/Setting.Layout"
+            android:padding="@dimen/margin_normal">
+
+            <LinearLayout
+                style="@style/Setting.Layout"
+                android:background="@drawable/common_shape_white_radius">
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.backup(view)}"
+                    android:text="@string/setting_backup" />
+
+                <View style="@style/Divider" />
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.openRestore(view)}"
+                    android:text="@string/setting_restore" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Setting.Layout"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/common_shape_white_radius">
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.checkUpgrade(view)}"
+                    android:text="@string/setting_update" />
+
+                <View style="@style/Divider" />
+
+                <!--<TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.openPublicAccount(view)}"
+                    android:text="@string/setting_feedback" />
+
+                <View style="@style/Divider" />-->
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.showAuthorDialog(view)}"
+                    android:text="@string/setting_author" />
+
+                <View style="@style/Divider" />
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.openDonation(view)}"
+                    android:text="@string/setting_donation" />
+
+                <View style="@style/Divider" />
+
+                <TextView
+                    style="@style/Setting.ItemMenu.Ripple"
+                    android:onClick="@{(view) -> model.openLicenses(view)}"
+                    android:text="@string/setting_licenses" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

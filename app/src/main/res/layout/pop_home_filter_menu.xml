@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_normal"
+    android:paddingRight="@dimen/margin_normal"
+    android:background="@drawable/white_radius_bg">
+
+  <TextView style="@style/FilterMenuText"
+      android:id="@+id/filter_year"
+      tools:drawableStart="@drawable/ic_choose"
+      android:drawablePadding="@dimen/margin_normal"
+      android:text="@string/filter_year"/>
+
+  <View style="@style/Divider" />
+
+  <TextView style="@style/FilterMenuText"
+      android:id="@+id/filter_month"
+      android:drawablePadding="@dimen/margin_normal"
+      android:text="@string/filter_month"/>
+
+  <View style="@style/Divider" />
+
+  <TextView style="@style/FilterMenuText"
+      android:id="@+id/filter_type"
+      android:drawablePadding="@dimen/margin_normal"
+      android:text="@string/filter_type"/>
+
+</LinearLayout>

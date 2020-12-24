@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="model"
+            type="com.classic.assistant.car.ui.list.ListItemViewModel"/>
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large"
+        tools:ignore="ContentDescription">
+
+        <TextView
+            android:id="@+id/item_list_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:gravity="end"
+            android:text="@{model.time}"
+            android:textColor="@color/divider_dark"
+            tools:text="2015-06-08\n09:56" />
+
+        <FrameLayout
+            android:id="@+id/item_list_icon_layout"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_toEndOf="@id/item_list_time">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/item_list_icon_bg"
+                android:layout_width="@dimen/icon_normal"
+                android:layout_height="@dimen/icon_normal"
+                android:src="@drawable/transparent"
+                app:civ_border_width="4dp"
+                app:civ_border_color="@{model.borderColor}"
+                app:civ_circle_background_color="@{model.fillColor}"
+                tools:background="@color/blue_light" />
+
+            <ImageView
+                android:id="@+id/item_list_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@{model.icon}"
+                tools:src="@drawable/ic_type_road_toll" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/item_list_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/item_list_icon_layout"
+            android:text="@{model.type}"
+            android:textColor="@{model.typeColor}"
+            android:textSize="16sp"
+            tools:text="汽车保养" />
+
+        <View
+            android:id="@+id/item_list_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_below="@id/item_list_icon_layout"
+            android:layout_alignStart="@id/item_list_icon_layout"
+            android:layout_marginStart="23dp"
+            android:background="@{model.getBorderAlphaColor()}" />
+
+        <TextView
+            android:id="@+id/item_list_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_list_type"
+            android:layout_alignStart="@id/item_list_type"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@{model.amount}"
+            android:textColor="@{model.amountColor}"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="￥300" />
+    </RelativeLayout>
+</layout>

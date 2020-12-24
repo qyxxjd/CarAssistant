@@ -1,79 +1,90 @@
 <resources>
     <string name="app_name">汽车助手</string>
 
-    <string name="network.error">网络异常,请检查网络连接</string>
-
+    <string name="confirm">确认</string>
     <string name="add">添加</string>
-    <string name="update">更新</string>
-    <string name="update.dialog.title">版本更新</string>
-    <string name="no.update">当前已是最新版本</string>
+    <string name="location">定位</string>
     <string name="modify">修改</string>
     <string name="delete">删除</string>
-    <string name="delete.success">删除成功</string>
-    <string name="delete.fail">删除失败</string>
-    <string name="confirm">确认</string>
-    <string name="delete.dialog.title">友情提示</string>
-    <string name="delete.dialog.content">是否删除本条数据?</string>
-    <string name="no.data.hint">暂无数据!</string>
-    <string name="add.consumer.title">添加消费信息</string>
-    <string name="add.consumer.success">添加成功</string>
-    <string name="add.consumer.fail">添加失败</string>
-    <string name="modify.consumer.title">修改消费信息</string>
-    <string name="modify.consumer.success">修改成功</string>
-    <string name="modify.consumer.fail">修改失败</string>
+    <string name="cancel">取消</string>
+    <string name="settings">设置</string>
+    <string name="save">保存</string>
+    <string name="year">年份</string>
+    <string name="total_money">总金额</string>
+    <string name="manual_selection">手动选择</string>
 
-    <string name="total.money">总金额</string>
+    <string name="filter">筛选</string>
+    <string name="filter_hint">筛选类型</string>
+    <string name="filter_year">按年份筛选</string>
+    <string name="filter_month">按月份筛选</string>
+    <string name="filter_type">按类型筛选</string>
 
-    <string name="consumer.title">%s年份消费统计图</string>
-    <string name="consumer.money">消费金额(元)</string>
-    <string name="consumer.money.hint">请输入消费金额</string>
-    <string name="consumer.unit.price">单价(元/升)</string>
-    <string name="consumer.unit.price.hint">请输入单价</string>
-    <string name="consumer.current.mileage">当前里程(公里)</string>
-    <string name="consumer.current.mileage.hint">请输入当前里程</string>
-    <string name="consumer.notes.hint">备注信息</string>
-    <string name="consumer.type.hint">消费类型:</string>
-    <string name="consumer.fuel.type.hint">加油类型:</string>
-    <string name="consumer.time.hint">消费时间:</string>
-    <string name="consumer.select.time.hint">点击选择消费时间</string>
+    <string name="title_home">首页</string>
+    <string name="title_chart">图表</string>
+    <string name="title_list">时光轴</string>
+    <string name="title_settings">设置</string>
 
-    <string name="chart.menu.date">日期查询</string>
-    <string name="chart.consumer.title">消费统计图</string>
-    <string name="chart.percentage.title">消费百分比</string>
-    <string name="chart.fuel.title">油耗曲线图</string>
-    <string name="chart.fuel.min.label">最低油耗</string>
-    <string name="chart.fuel.max.label">最高油耗</string>
-    <string name="chart.save">保存图表</string>
-    <string name="chart.save.success">图表保存成功</string>
-    <string name="chart.save.fail">图表保存失败</string>
-    <string name="chart.unit.money">单位:元</string>
-    <string name="chart.fuel.consumption">百公里耗油曲线(升)</string>
-    <string name="chart.fuel.consumption.money">百公里消费金额曲线(元)</string>
+    <string name="chart_menu_date">日期查询</string>
+    <string name="chart_consumer_title">消费统计图</string>
+    <string name="chart_percentage_title">消费百分比</string>
+    <string name="chart_fuel_title">油耗曲线图</string>
+    <string name="chart_fuel_min_label">最低油耗</string>
+    <string name="chart_fuel_max_label">最高油耗</string>
+    <string name="chart_save">保存图表</string>
+    <string name="chart_save_success">图表保存成功</string>
+    <string name="chart_save_fail">图表保存失败</string>
+    <string name="chart_unit_money">单位:元</string>
+    <string name="chart_fuel_consumption">百公里耗油曲线(升)</string>
+    <string name="chart_fuel_consumption_money">百公里消费金额曲线(元)</string>
 
-    <string name="about.update">检查更新</string>
-    <string name="about.feedback">问题反馈</string>
-    <string name="about.author">联系作者</string>
-    <string name="about.share">应用分享</string>
-    <string name="about.thanks">Open source licenses</string>
-    <string name="about.backup">备份数据</string>
-    <string name="about.restore">恢复数据</string>
-    <string name="backup.empty">暂无数据</string>
-    <string name="backup.success">备份数据成功,路径:%s</string>
-    <string name="backup.failure">数据备份失败</string>
-    <string name="restore.success">数据恢复成功</string>
-    <string name="restore.failure">数据恢复失败</string>
-    <string name="select.backup.file.hint">选择备份文件</string>
-    <string name="not.found.file.manager.hint">没有找到文件管理器</string>
-    <string name="invalid.backup.file">无效的备份文件格式!</string>
+    <string name="setting_update">检查更新</string>
+    <string name="setting_feedback">问题反馈</string>
+    <string name="setting_author">联系作者</string>
+    <string name="setting_donation">自由捐赠</string>
+    <string name="setting_backup">备份数据</string>
+    <string name="setting_restore">恢复数据</string>
+    <string name="setting_licenses">Open Source Licenses</string>
 
-    <string name="storage.permissions.describe">应用需要访问你的存储空间,进行日志存储</string>
-    <string name="feedback.permissions.describe">问题反馈支持语音反馈，是否允许语音录制</string>
+    <string name="hint_add_consumption_type">消费类型</string>
+    <string name="hint_add_consumption_time">消费时间</string>
+    <string name="hint_add_consumption_amount">消费金额</string>
+    <string name="hint_add_consumption_location">位置信息</string>
+    <string name="hint_add_consumption_remark">备注信息</string>
+    <string name="hint_add_consumption_mileage">当前里程</string>
+    <string name="hint_add_consumption_oil_type">燃油类型</string>
+    <string name="hint_add_consumption_oil_price">燃油单价</string>
+    <string name="hint_tag_premium">保险公司名称</string>
+    <string name="hint_tag_accessories">汽车配件名称</string>
+    <string name="hint_tag_car_purchase">汽车品牌型号</string>
+    <string name="hint_tag_decoration">装潢饰品名称</string>
+    <string name="hint_tag_installment">当前第几期/分期总数</string>
+    <string name="hint_chart_empty">暂无数据!</string>
 
-    <string name="share.title">应用分享</string>
-    <string name="share.subject">汽车助手</string>
-    <string name="share.content">汽车助手,您的生活好帮手。下载地址：https://www.pgyer.com/classic_car</string>
+    <string name="hint_empty_suffix">不能为空</string>
+    <string name="hint_add_success">添加成功</string>
+    <string name="hint_modify_success">修改成功</string>
+    <string name="hint_add_failure">添加失败</string>
+    <string name="hint_modify_failure">修改失败</string>
+    <string name="hint_delete_item">是否删除本条数据？</string>
 
-    <string name="about.version">v %s</string>
-    <string name="author.qq">QQ:630404403</string>
-    <string name="author.wx">微信:630404403</string>
+    <string name="hint_location_success">定位成功</string>
+
+    <string name="hint_backup">正在备份数据…</string>
+    <string name="hint_restore">正在恢复数据…</string>
+    <string name="hint_data_restore_list">已搜索到的本地备份文件列表, 点击文件开始恢复数据</string>
+    <string name="hint_select_backup_file">选择备份文件</string>
+
+    <string name="format_fuel_consumption">%s升</string>
+    <string name="format_top">TOP%d</string>
+    <string name="format_amount">%s元</string>
+    <string name="format_backup_success">备份数据%d条</string>
+
+    <string name="permissions_title">权限申请</string>
+    <string name="permissions_storage_describe">应用需要访问你的存储空间，进行数据备份</string>
+
+    <string name="data_backup_empty_hint">暂无数据可以备份</string>
+    <string name="data_restore_success">恢复数据成功!</string>
+    <string name="data_restore_failure">恢复数据失败!</string>
+    <string name="choose_correct_backup_file">请选择正确的备份数据文件!</string>
+    <string name="title_activity_main2">MainActivity</string>
 </resources>

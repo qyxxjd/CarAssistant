@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.AddConsumerActivity">
+
+    <item android:id="@+id/action_manual_selection"
+        android:title="@string/manual_selection"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom" />
+
+</menu>

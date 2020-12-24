@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_add">
+
+    <FrameLayout
+        android:id="@+id/add_consumption_time_layout"
+        style="@style/Add.DateLayout">
+        <TextView
+            android:id="@+id/add_consumption_time"
+            style="@style/Add.DateValue"
+            tools:text="2019-06-30 12:59:59" />
+        <TextView style="@style/Add.DateHint" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/add_consumption_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_normal"
+        android:layout_marginTop="@dimen/margin_small">
+        <TextView style="@style/Text"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/font_normal"
+            android:layout_marginStart="@dimen/margin_small"
+            android:text="@string/hint_add_consumption_type" />
+        <TextView style="@style/Text.Highlight"
+            android:id="@+id/add_consumption_type_value"
+            android:layout_gravity="end|center_vertical"
+            android:textSize="@dimen/font_large"
+            tools:text="加油费" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText.NumberDecimal"
+        android:id="@+id/add_consumption_amount"
+        android:hint="@string/hint_add_consumption_amount"/>
+
+    <!--
+        动态信息设置:
+        汽车保险、汽车配件、汽车购买、装潢饰品
+    -->
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText"
+        android:id="@+id/add_consumption_tag"
+        android:visibility="gone"
+        tools:hint="标签"/>
+
+    <!--<include
+        android:id="@+id/include_oil_content"
+        layout="@layout/content_oil"/>-->
+
+    <LinearLayout android:id="@+id/content_oil_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/content_oil_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_normal"
+            android:layout_marginTop="@dimen/margin_small">
+            <TextView style="@style/Text"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/font_normal"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/hint_add_consumption_oil_type" />
+            <TextView style="@style/Text.Highlight"
+                android:id="@+id/content_oil_type_value"
+                android:layout_gravity="end|center_vertical"
+                android:textSize="@dimen/font_large"
+                tools:text="92#汽油" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/CommonInputEditText.NumberDecimal"
+            android:id="@+id/content_oil_price"
+            android:hint="@string/hint_add_consumption_oil_price"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText.Number"
+        android:id="@+id/add_consumption_mileage"
+        android:layout_marginTop="@dimen/margin_small"
+        android:visibility="gone"
+        android:hint="@string/hint_add_consumption_mileage"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText"
+        android:id="@+id/add_consumption_location"
+        android:layout_marginTop="@dimen/margin_small"
+        android:hint="@string/hint_add_consumption_location"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText"
+        android:id="@+id/add_consumption_remark"
+        android:layout_marginTop="@dimen/margin_small"
+        android:hint="@string/hint_add_consumption_remark"/>
+</LinearLayout>

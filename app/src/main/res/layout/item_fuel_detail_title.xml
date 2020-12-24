@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText" >
+
+    <View
+        style="@style/Chart.HorizontalDivider"
+        android:id="@+id/item_table_top_divider"/>
+
+    <LinearLayout style="@style/Chart.ItemLayout">
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="日期"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="行驶\n天数"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="行驶\n里程"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="每天\n里程"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="当前\n油耗"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="百公里\n油耗"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="消费\n金额"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:text="百公里\n消费"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+    </LinearLayout>
+</LinearLayout>

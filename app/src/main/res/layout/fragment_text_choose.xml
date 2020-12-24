@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_large"
+    android:layout_marginEnd="@dimen/margin_large"
+    android:background="@drawable/shape_radius_white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/Ripple.Foreground"
+        android:id="@+id/text_choose_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:visibility="gone">
+        <TextView
+            style="@style/Text"
+            android:id="@+id/text_choose_title"
+            android:textSize="@dimen/font_normal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_large"
+            tools:text="这里是标题标题标题"/>
+        <TextView
+            style="@style/Text.Secondary"
+            android:id="@+id/text_choose_hint"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:visibility="gone"
+            android:textSize="@dimen/font_very_small"
+            tools:text="这里是提示内容提示内容提示内容"/>
+        <View style="@style/Divider"
+            android:layout_gravity="bottom"/>
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/text_choose_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

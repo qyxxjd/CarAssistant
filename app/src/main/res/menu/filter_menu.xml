@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item android:id="@+id/action_filter_hint"
+        android:title="@string/filter_hint"
+        app:showAsAction="ifRoom" />-->
+
+    <item android:id="@+id/action_filter_menu"
+        android:title="@string/filter"
+        app:showAsAction="ifRoom" />
+
+    <!--<item android:id="@+id/action_filter_year"
+        android:title="@string/filter_year"
+        android:icon="@drawable/ic_menu_year"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_filter_month"
+        android:title="@string/filter_month"
+        android:icon="@drawable/ic_menu_month"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_filter_type"
+        android:title="@string/filter_type"
+        android:icon="@drawable/ic_menu_type"
+        app:showAsAction="never" />-->
+</menu>

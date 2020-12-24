@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="longClickListener"
+            type="android.view.View.OnLongClickListener"/>
+        <variable
+            name="model"
+            type="com.classic.assistant.car.ui.home.HomeItemViewModel"/>
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:onClick="@{clickListener}"
+        android:onLongClick="@{longClickListener}"
+        android:orientation="vertical">
+
+        <FrameLayout
+            style="@style/ItemHome.TopLayout"
+            android:background="@{model.topBackground}"
+            tools:background="@drawable/shape_type_accessories">
+            <ImageView
+                style="@style/ItemHome.Icon"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@null"
+                android:layout_marginStart="@dimen/margin_large"
+                android:src="@{model.icon}"
+                tools:src="@drawable/ic_type_car"/>
+            <TextView
+                style="@style/ItemHome.Amount"
+                android:id="@+id/item_home_amount"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:text="@{model.amount}"
+                tools:text="￥999999.99"/>
+            <com.classic.assistant.car.ui.widget.CouponView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@android:color/transparent"
+                android:layout_marginBottom="-1dp"
+                app:cv_semicircle_color="@color/white"
+                app:cv_semicircle_gap="1dp"
+                app:cv_semicircle_radius="4dp"
+                app:cv_is_semicircle_top="false"/>
+        </FrameLayout>
+
+        <LinearLayout style="@style/ItemHome.BottomLayout">
+            <TextView
+                style="@style/ItemHome.Text"
+                android:drawableStart="@drawable/ic_info_type"
+                android:text="@{model.type}"
+                android:textColor="@{model.typeColor}"
+                android:textStyle="bold"
+                tools:text="加油费"/>
+
+            <TextView
+                style="@style/ItemHome.Text"
+                android:drawableStart="@drawable/ic_info_tag"
+                android:layout_marginTop="@dimen/margin_very_small"
+                android:text="@{model.tag}"
+                android:visibility="@{model.tagVisibility}"
+                tools:text="92# 汽油"/>
+
+            <TextView
+                style="@style/ItemHome.Text"
+                android:drawableStart="@drawable/ic_info_mileage"
+                android:layout_marginTop="@dimen/margin_very_small"
+                android:text="@{model.mileage}"
+                android:visibility="@{model.mileageVisibility}"
+                tools:text="246825 km"/>
+
+            <TextView
+                style="@style/ItemHome.Text"
+                android:drawableStart="@drawable/ic_info_time"
+                android:layout_marginTop="@dimen/margin_very_small"
+                android:text="@{model.time}"
+                tools:text="2019-12-26 23:59:59"/>
+
+            <TextView
+                style="@style/ItemHome.MarqueeText"
+                android:drawableStart="@drawable/ic_info_location"
+                android:layout_marginTop="@dimen/margin_very_small"
+                android:text="@{model.location}"
+                android:visibility="@{model.locationVisibility}"
+                tools:text="杭州市西湖科技园中国石化加油站"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{model.remarkVisibility}"
+                android:layout_marginTop="@dimen/margin_very_small">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_info_remark"/>
+                <TextView
+                    style="@style/ItemHome.Remark"
+                    android:text="@{model.remark}"
+                    android:layout_marginStart="@dimen/margin_larger"
+                    tools:text="讲述了在一座极北的边陲小镇，一伙穷凶极恶、作案手法老到的悍匪为抢夺黄金，打劫运金车，并借助大雪掩盖了所有犯罪痕迹。为了探求真相，警察王康浩暗地里搜集证据，熟悉地形，终于在一场灾难级的暴雪降临时，与谋财害命的悍匪发生了惊心动魄的正面对决……"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

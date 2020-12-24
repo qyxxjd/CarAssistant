@@ -3,10 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.AddConsumerActivity">
 
+    <item android:id="@+id/action_location"
+        android:title="@string/location"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_menu_location"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/action_modify"
         android:title="@string/modify"
         android:orderInCategory="80"
-        android:icon="@drawable/ic_save"
+        android:icon="@drawable/ic_menu_modify"
         app:showAsAction="ifRoom" />
 
 </menu>

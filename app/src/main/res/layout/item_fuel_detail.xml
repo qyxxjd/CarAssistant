@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        style="@style/Chart.HorizontalDivider"
+        android:id="@+id/item_table_top_divider"/>
+
+    <LinearLayout style="@style/Chart.ItemLayout">
+        <!-- 日期-天数-里程-每天里程-油耗-每天油耗-公里油耗 -->
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_date"
+            tools:text="07-01"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_days"
+            tools:text="30"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_mileage"
+            tools:text="789"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_day_mileage"
+            tools:text="100"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_consumption"
+            tools:text="100"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelValue"
+            android:id="@+id/item_fuel_km_consumption"
+            tools:text="100"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:id="@+id/item_fuel_amount"
+            tools:text="100"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+        <TextView style="@style/Chart.FuelLabel"
+            android:id="@+id/item_fuel_km_amount"
+            tools:text="100"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+    </LinearLayout>
+
+    <View
+        style="@style/Chart.HorizontalDivider"
+        android:visibility="gone"
+        android:id="@+id/item_table_bottom_divider"/>
+</LinearLayout>

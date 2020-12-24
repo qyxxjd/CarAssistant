@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!--<variable
+            name="model"
+            type="com.classic.assistant.car.ui.timeline.TimelineViewModel"/>-->
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+            android:id="@+id/fast_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:fastScrollPopupBgColor="@color/colorPrimary"
+            app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+            app:fastScrollThumbColor="@color/colorPrimary"/>
+
+        <!--<FrameLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.classic.assistant.car.ui.list.ListFragment">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:listitem="@layout/item_list"/>
+        </FrameLayout>-->
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

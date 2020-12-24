@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_oil_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/content_add">
+
+    <FrameLayout
+        android:id="@+id/content_oil_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_normal"
+        android:layout_marginTop="@dimen/margin_small">
+        <TextView style="@style/Text"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/font_normal"
+            android:layout_marginStart="@dimen/margin_small"
+            android:text="@string/hint_add_consumption_oil_type" />
+        <TextView style="@style/Text.Highlight"
+            android:id="@+id/content_oil_type_value"
+            android:layout_gravity="end|center_vertical"
+            android:textSize="@dimen/font_large"
+            tools:text="92#汽油" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/CommonInputEditText.NumberDecimal"
+        android:id="@+id/content_oil_price"
+        android:hint="@string/hint_add_consumption_oil_price"/>
+</LinearLayout>

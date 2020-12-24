@@ -3,5 +3,5 @@
     <!-- files-path:代表Environment.getFilesDir() -->
     <!-- cache-path:代表Environment.getCacheDir() -->
     <!-- external-path:代表Environment.getExternalStorageDirectory() -->
-    <external-path path="CarAssistant" name="apk"/>
+    <external-path path="." name="CarAssistant" />
 </paths>

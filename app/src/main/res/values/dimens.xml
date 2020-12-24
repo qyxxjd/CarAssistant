@@ -1,62 +1,39 @@
 <resources>
     <dimen name="toolbar_elevation">1dp</dimen>
-    <dimen name="bottombar_height">56dp</dimen>
-
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="bottom_bar_elevation">8dp</dimen>
-
-    <!-- font sizes -->
-    <dimen name="font_larger">22sp</dimen>
-    <dimen name="font_large">18sp</dimen>
-    <dimen name="font_normal">15sp</dimen>
-    <dimen name="font_small">12sp</dimen>
 
     <dimen name="margin_larger">24dp</dimen>
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_normal">8dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_very_small">2dp</dimen>
+    <dimen name="margin">12dp</dimen>
 
-    <dimen name="radius_large">8dp</dimen>
     <dimen name="radius_normal">4dp</dimen>
     <dimen name="radius_small">2dp</dimen>
 
-    <!-- typical spacing between two views -->
-    <dimen name="spacing_huge">40dp</dimen>
-    <dimen name="spacing_large">24dp</dimen>
-    <dimen name="spacing_normal">16dp</dimen>
-    <dimen name="spacing_small">8dp</dimen>
-    <dimen name="spacing_tiny">4dp</dimen>
-
-    <dimen name="font_item_money">40sp</dimen>
-    <dimen name="layout_height_larger">72dp</dimen>
-    <dimen name="layout_height_large">64dp</dimen>
-    <dimen name="layout_height_normal">56dp</dimen>
-    <dimen name="layout_height_small">48dp</dimen>
-
-    <dimen name="icon_larger">48dp</dimen>
-    <dimen name="icon_large">40dp</dimen>
-    <dimen name="icon_normal">32dp</dimen>
+    <dimen name="icon_normal">48dp</dimen>
     <dimen name="icon_small">24dp</dimen>
 
-    <dimen name="border_small">2dp</dimen>
-    <dimen name="border_normal">4dp</dimen>
+    <dimen name="layout_large">56dp</dimen>
+    <dimen name="layout_normal">48dp</dimen>
+
+    <dimen name="font_larger">22sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_very_small">10sp</dimen>
+    <dimen name="font_min_small">8sp</dimen>
+
+    <dimen name="item_home_top_layout_height">72dp</dimen>
+
+    <dimen name="divider">0.5dp</dimen>
+
+    <dimen name="temp_top">1dp</dimen>
+
+    <dimen name="home_item_icon_size">40dp</dimen>
+    <dimen name="home_item_margin">12dp</dimen>
+
 
     <dimen name="chart_height">200dp</dimen>
 
-    <dimen name="qrcode_width">140dp</dimen>
-
-    <dimen name="consumer_detail_top_layout_height">80dp</dimen>
-
-    <dimen name="multi_window_height">500dp</dimen>
-    <dimen name="multi_window_width">500dp</dimen>
-    <dimen name="multi_window_min_height">300dp</dimen>
-    <dimen name="multi_window_min_width">300dp</dimen>
-
-    <dimen name="licenses_item_height">120dp</dimen>
-    <dimen name="licenses_logo_height">56dp</dimen>
-    <dimen name="licenses_divider_margin">27dp</dimen>
-    <dimen name="licenses_title_font">20sp</dimen>
 </resources>

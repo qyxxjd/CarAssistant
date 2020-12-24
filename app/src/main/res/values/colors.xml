@@ -1,23 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <drawable name="transparent">@android:color/transparent</drawable>
+
+    <color name="purple_200">#2196F3</color>
+    <color name="purple_500">#2196F3</color>
+    <color name="purple_700">#1976D2</color>
+    <color name="teal_200">#FFFF4081</color>
+    <color name="teal_700">#FFFF4081</color>
+
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="windowBackground">#EDEDED</color>
+    <color name="windowBackground">#F7F7F7</color>
     <color name="primary_text">#212121</color>
     <color name="primary_light">#727272</color>
     <color name="secondary_text">#9E9E9E</color>
+    <color name="line">#EAEAEA</color>
     <color name="divider">#E6E6E6</color>
     <color name="divider_dark">#B6B6B6</color>
+    <color name="gray_light">#DBDBDB</color>
+    <color name="gray" >#939393</color>
+    <color name="gray_dark" >#5F5F5F</color>
+    <color name="black" >#323232</color>
+    <color name="white">@android:color/white</color>
+    <color name="transparent">@android:color/transparent</color>
 
-    <drawable name="transparent">@android:color/transparent</drawable>
+    <color name="inputHint">#00BCD4</color>
+    <color name="inputError">#F96937</color>
 
-    <!-- basic colors -->
-    <color name="green">#27D34D</color>
-    <color name="blue">#2A91BD</color>
-    <color name="orange">#FF9D2F</color>
-    <color name="red">#FF432F</color>
-    <color name="purple">#7B1FA2</color>
+    <color name="icon_white">@color/white</color>
+    <color name="icon_gray">@color/secondary_text</color>
+
+    <color name="timeline_blue">#ff90ebfe</color>
+
+    <color name="type_fuel">@color/blue_light</color>
+    <color name="type_parking">@color/saffron_light</color>
+    <color name="type_road_toll">@color/sienna_light</color>
+    <color name="type_repair">@color/pink_light</color>
+    <color name="type_working_hours">@color/c5</color>
+    <color name="type_formalities">@color/orange_light</color>
+    <color name="type_service">@color/c14</color>
+    <color name="type_license_plate">@color/blue_light</color>
+    <color name="type_premium">@color/c3</color>
+    <color name="type_maintenance">@color/purple_light</color>
+    <color name="type_examination">@color/c6</color>
+    <color name="type_accessories">@color/c8</color>
+    <color name="type_car_purchase">@color/a4</color>
+    <color name="type_decoration">@color/mediumorchid_light</color>
+    <color name="type_traffic_violation">@color/c1</color>
+    <color name="type_indemnify">@color/c2</color>
+    <color name="type_tax">@color/green_light</color>
+    <color name="type_wash_car">@color/a3</color>
+    <color name="type_installment">@color/pale_red</color>
+    <color name="type_other">@color/a2</color>
 
     <color name="chartreuse_light">#2ECC71</color>
     <color name="saffron_light">#F4B63E</color>
@@ -30,17 +65,71 @@
     <color name="pink_light">#FF4284</color>
     <color name="mediumorchid_light">#A976B9</color>
 
-    <color name="material_red">#ffF44336</color>
-    <color name="material_green">#ff4CAF50</color>
-    <color name="material_blue">#ff03A9F4</color>
-    <color name="material_yellow">#ffFFEB3B</color>
-    <color name="material_orange">#ffEF6C00</color>
+    <color name="c1">#E07798</color>
+    <color name="c2">#933AED</color>
+    <color name="c3">#5B16E6</color>
+    <color name="c4">#5643AA</color>
+    <color name="c5">#FC6301</color>
+    <color name="c6">#3876FF</color>
+    <color name="c7">#E298DC</color>
+    <color name="c8">#66F2B5</color>
+    <color name="c9">#FC97A0</color>
+    <color name="c10">#725CAC</color>
+    <color name="c11">#27A235</color>
+    <color name="c12">#43C2C7</color>
+    <color name="c13">#8E71DA</color>
+    <color name="c14">#FA6504</color>
+    <color name="c15">#F79A0D</color>
+    <color name="c16">#32AAEA</color>
+    <color name="c17">#FEA31D</color>
+    <color name="c18">#FB5023</color>
+    <color name="c19">#FF271D</color>
+    <color name="a1">#6F9FE2</color>
+    <color name="a11">#519BF9</color>
+    <color name="a2">#EB6960</color>
+    <color name="a22">#F75754</color>
+    <color name="a3">#6DCB62</color>
+    <color name="a33">#4CB83F</color>
+    <color name="a4">#C67BF7</color>
+    <color name="a44">#B460F6</color>
 
-    <color name="white" >#FFFFFF</color>
-    <color name="gray_light">#DBDBDB</color>
-    <color name="gray" >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black" >#323232</color>
+    <color name="green">#27D34D</color>
+    <color name="blue">#2A91BD</color>
+    <color name="orange">#FF9D2F</color>
+    <color name="red">#FF432F</color>
+    <color name="purple">#7B1FA2</color>
 
-    <color name="timeline_blue">#ff90ebfe</color>
+    <!-- Material Colors -->
+    <color name="red_500">#E51C23</color>
+    <color name="red_a200">#FF5177</color>
+    <color name="pink_500">#E91E63</color>
+    <color name="pink_a200">#FF4081</color>
+    <!--<color name="purple_500">#9C27B0</color>-->
+    <color name="purple_a200">#E040FB</color>
+    <color name="deep_purple_500">#673AB7</color>
+    <color name="deep_purple_a200">#7C4DFF</color>
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_a200">#536DFE</color>
+    <color name="blue_500">#5677FC</color>
+    <color name="blue_a200">#6889FF</color>
+    <color name="light_blue_500">#03A9F4</color>
+    <color name="light_blue_a200">#40C4FF</color>
+    <color name="cyan_500">#00BCD4</color>
+    <color name="cyan_a200">#18FFFF</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_a200">#64FFDA</color>
+    <color name="green_500">#259B24</color>
+    <color name="green_a200">#5AF158</color>
+    <color name="light_green_500">#8BC34A</color>
+    <color name="light_green_a200">#B2FF59</color>
+    <color name="lime_500">#CDDC39</color>
+    <color name="lime_a200">#EEFF41</color>
+    <color name="yellow_500">#FFEB3B</color>
+    <color name="yellow_a200">#FFFF00</color>
+    <color name="amber_500">#FFC107</color>
+    <color name="amber_a200">#FFD740</color>
+    <color name="orange_500">#FF9800</color>
+    <color name="orange_a200">#FFAB40</color>
+    <color name="deep_orange_500">#FF5722</color>
+    <color name="deep_orange_a200">#FF6E40</color>
 </resources>

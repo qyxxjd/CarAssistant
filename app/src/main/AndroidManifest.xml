@@ -1,89 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.classic.car">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.classic.assistant.car" >
     <!-- 网络 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- 存储卡 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- 录制音频 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于调用A-GPS模块，提高定位速度 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
         android:name=".app.CarApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/CarTheme">
+        android:theme="@style/Theme.NewCarAssistant"
+        tools:ignore="GoogleAppIndexingWarning" >
         <activity
-            android:name=".ui.activity.MainActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:launchMode="singleTask"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme">
+            android:name=".ui.main.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <layout
-                android:defaultHeight="@dimen/multi_window_height"
-                android:defaultWidth="@dimen/multi_window_width"
-                android:gravity="top|end"
-                android:minHeight="@dimen/multi_window_min_height"
-                android:minWidth="@dimen/multi_window_min_width"/>
         </activity>
-        <activity
-            android:name=".ui.activity.AddConsumerActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <layout
-                android:defaultHeight="@dimen/multi_window_height"
-                android:defaultWidth="@dimen/multi_window_width"
-                android:gravity="top|end"
-                android:minHeight="@dimen/multi_window_min_height"
-                android:minWidth="@dimen/multi_window_min_width"/>
-        </activity>
-        <activity
-            android:name=".ui.activity.OpenSourceLicensesActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:launchMode="singleTop"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme">
-            <layout
-                android:defaultHeight="@dimen/multi_window_height"
-                android:defaultWidth="@dimen/multi_window_width"
-                android:gravity="top|end"
-                android:minHeight="@dimen/multi_window_min_height"
-                android:minWidth="@dimen/multi_window_min_width"/>
-        </activity>
-        <activity
-            android:name=".ui.activity.ChartActivity"
-            android:screenOrientation="landscape"/>
+        <activity android:name=".ui.add.AddActivity" />
+        <activity android:name=".ui.settings.options.RestoreActivity" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${APPLICATION_ID}.provider"
-            android:grantUriPermissions="true"
-            android:exported="false" >
+            android:name=".app.CarFileProvider"
+            android:authorities="com.classic.assistant.car.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
+        </provider> <!-- 定位需要的服务 适配Android Q需要加上android:foregroundServiceType="location" -->
+<!--         android:foregroundServiceType="location" -->
+        <service
+            android:name="com.amap.api.location.APSService"
+            android:foregroundServiceType="location" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="xxx" />
 
         <meta-data
             android:name="PGYER_APPID"
-            android:value="${PGYER_APPID}"/>
+            android:value="xxx" />
         <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}"/>
+            android:name="PGYER_API_KEY"
+            android:value="xxx"/>
         <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL}"/>
+            android:name="PGYER_FRONTJS_KEY"
+            android:value="xxx"/>
+        <!--添加新版本检测-->
+        <meta-data
+            android:name="PGYER_FEATURE_CHECK_UNPDATE"
+            android:value="true"/>
     </application>
+
 </manifest>

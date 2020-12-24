@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        style="@style/Chart.HorizontalDivider"
+        android:id="@+id/item_table_top_divider"/>
+
+    <LinearLayout style="@style/Chart.ItemLayout">
+
+        <View style="@style/Chart.VerticalDivider"/>
+
+        <TextView
+            style="@style/Chart.ItemLabel"
+            android:id="@+id/item_top_index"
+            tools:text="TOP1"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+
+        <TextView
+            style="@style/Chart.ItemLabel.Value"
+            android:id="@+id/item_top_title"
+            android:gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_large"
+            tools:text="消费类型"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+
+        <TextView
+            style="@style/Chart.ItemLabel.Value"
+            android:id="@+id/item_top_value"
+            android:gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/margin_large"
+            tools:text="123456.78元"/>
+
+        <View style="@style/Chart.VerticalDivider"/>
+    </LinearLayout>
+
+    <View
+        style="@style/Chart.HorizontalDivider"
+        android:visibility="gone"
+        android:id="@+id/item_top_bottom_divider"/>
+</LinearLayout>

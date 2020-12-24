@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="model"
+            type="com.classic.assistant.car.ui.settings.options.RestoreItemViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/Ripple.Foreground"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:onClick="@{clickListener}"
+        app:cardCornerRadius="@dimen/radius_normal"
+        app:cardElevation="0dp">
+
+        <TextView
+            style="@style/Text"
+            android:id="@+id/item_restore_time"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:textSize="@dimen/font_normal"
+            android:text="@{model.date}"
+            tools:text="2015-06-08 09:56:56" />
+
+        <TextView
+            style="@style/Text"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/colorPrimary"
+            android:text="@{model.label}"/>
+
+        <TextView
+            style="@style/Text.Secondary"
+            android:id="@+id/item_restore_size"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_gravity="end"
+            android:text="@{model.size}"
+            tools:text="22.55KB" />
+
+        <TextView
+            style="@style/Text.Secondary"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_gravity="bottom|end"
+            android:textSize="@dimen/font_min_small"
+            android:text="@{model.rows}"
+            tools:text="共999条数据" />
+
+        <TextView
+            style="@style/Text.Secondary"
+            android:layout_margin="@dimen/margin_normal"
+            android:layout_gravity="bottom"
+            android:textSize="@dimen/font_min_small"
+            android:text="@{model.path}"
+            tools:text="/sdcard/WagesRecords/data/Wages_20190101185621_1_66.db"/>
+    </androidx.cardview.widget.CardView>
+
+</layout>

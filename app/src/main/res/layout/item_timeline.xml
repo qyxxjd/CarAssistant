@@ -1,87 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="ContentDescription"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:paddingTop="@dimen/margin_normal"
+    android:layout_height="96dp"
     android:paddingLeft="@dimen/margin_large"
-    android:paddingRight="@dimen/margin_large">
+    android:paddingRight="@dimen/margin_large"
+    tools:ignore="ContentDescription">
 
     <TextView
-        tools:text="2015-06-08\n09:56"
         android:id="@+id/item_timeline_time"
-        android:layout_width="72dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:layout_marginTop="18dp"
         android:gravity="end"
-        style="@style/ItemText.Gray.Small"
-        />
+        android:textSize="@dimen/font_small"
+        android:textColor="@color/divider_dark"
+        tools:text="2015-06-08\n09:56" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/item_timeline_icon_layout"
-        android:layout_width="@dimen/icon_larger"
-        android:layout_height="@dimen/icon_larger"
-        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_width="@dimen/icon_normal"
+        android:layout_height="@dimen/icon_normal"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_normal"
-        android:layout_toRightOf="@id/item_timeline_time"
-        android:layout_toEndOf="@id/item_timeline_time"
-        >
+        android:layout_toEndOf="@id/item_timeline_time">
 
-        <com.classic.car.widget.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/item_timeline_icon_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/icon_normal"
+            android:layout_height="@dimen/icon_normal"
             android:src="@drawable/transparent"
-            app:civ_border_width="@dimen/border_normal"
-            />
+            app:civ_border_width="4dp"
+            app:civ_border_color="@color/blue_a200"
+            app:civ_circle_background_color="@color/blue_500"/>
 
         <ImageView
             android:id="@+id/item_timeline_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_gravity="center"
             android:scaleType="fitXY"
-            android:layout_centerInParent="true"
-            tools:src="@drawable/ic_road_toll"
-            />
+            tools:src="@drawable/ic_type_road_toll" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
-        tools:text="汽车保养"
-        android:id="@+id/item_timeline_content"
+        android:id="@+id/item_timeline_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@id/item_timeline_icon_layout"
+        android:layout_marginTop="12dp"
         android:layout_toEndOf="@id/item_timeline_icon_layout"
-        android:textSize="@dimen/font_normal"
-        />
-    <TextView
-        tools:text="￥300"
-        android:id="@+id/item_timeline_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:layout_below="@id/item_timeline_content"
-        android:layout_toRightOf="@id/item_timeline_icon_layout"
-        android:layout_toEndOf="@id/item_timeline_icon_layout"
-        android:textSize="@dimen/font_larger"
-        />
+        android:textSize="16sp"
+        tools:text="汽车保养" />
 
     <View
-        android:layout_width="@dimen/border_small"
+        android:id="@+id/item_timeline_line"
+        android:layout_width="2dp"
         android:layout_height="match_parent"
         android:layout_below="@id/item_timeline_icon_layout"
-        android:layout_alignLeft="@id/item_timeline_icon_layout"
         android:layout_alignStart="@id/item_timeline_icon_layout"
-        android:layout_marginLeft="23dp"
         android:layout_marginStart="23dp"
-        android:background="@color/timeline_blue"
-        />
+        tools:background="@color/timeline_blue" />
 
+    <TextView
+        android:id="@+id/item_timeline_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_timeline_type"
+        android:layout_alignStart="@id/item_timeline_type"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        tools:text="99999.99" />
 </RelativeLayout>
